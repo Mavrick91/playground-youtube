@@ -15,6 +15,7 @@ import Alert, { AlertType } from '~/components/shared/Alert';
 import { InputText } from '~/components/shared/input/InputText';
 import { useState } from 'react';
 import Button from '../shared/Button';
+import useOnClickOutside from '~/hooks/useOnClickOutside';
 
 type FormValues = {
   email: string;
@@ -32,7 +33,6 @@ const schema = yup.object().shape({
 });
 
 export default function SignUpModal() {
-  const { openModal } = useModal();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{
     type: AlertType | '';
@@ -41,6 +41,9 @@ export default function SignUpModal() {
     type: '',
     message: '',
   });
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const { openModal, closeModal } = useModal();
+  useOnClickOutside(modalRef, closeModal);
 
   const {
     register,
@@ -90,12 +93,15 @@ export default function SignUpModal() {
   };
 
   return (
-    <section className="bg-gray-50/20 dark:bg-gray-900/20 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
+    <section className="bg-gray-50/50 dark:bg-gray-900/50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         {message.type && (
           <Alert type={message.type} message={message.message} timeout={5000} />
         )}
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div
+          ref={modalRef}
+          className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        >
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create and account
