@@ -31,7 +31,7 @@ export default function Button({
   type = 'button',
 }: ButtonProps) {
   const baseClass =
-    'text-white font-medium text-center focus:outline-none focus:ring-4 flex gap-2 items-center w-full justify-center';
+    'text-white font-medium text-center focus:outline-none focus:ring-4 flex gap-2 items-center w-full justify-center whitespace-nowrap';
   const disabledClass = disabled ? ' cursor-not-allowed' : '';
   const roundedClass = roundedFull ? ' rounded-full' : ' rounded-lg';
   const sizeClasses = {
