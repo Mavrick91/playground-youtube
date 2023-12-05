@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useModal } from '~/providers/ModalProvider';
+import Button from '../shared/Button';
 
 export default function Header() {
   const { openModal, modalState } = useModal();
@@ -23,19 +24,11 @@ export default function Header() {
               VidVenture
             </span>
           </a>
-          <div className="flex items-center lg:order-2">
-            <a
-              href="#"
-              className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 lg:px-5 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Login
-            </a>
-            <button
-              className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 lg:px-5 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-              onClick={() => openModal('signup')}
-            >
+          <div className="flex items-center gap-2 lg:order-2">
+            <Button onClick={() => openModal('signin')}>Login</Button>
+            <Button onClick={() => openModal('signup')} roundedFull>
               Sign up
-            </button>
+            </Button>
           </div>
         </div>
       </nav>

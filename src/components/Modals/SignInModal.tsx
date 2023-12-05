@@ -1,45 +1,116 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { InputText } from '../shared/input/InputText';
+import { useModal } from '~/providers/ModalProvider';
+import useOnClickOutside from '~/hooks/useOnClickOutside';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import Alert, { AlertType } from '../shared/Alert';
+import Button from '../shared/Button';
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(8).required(),
+});
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 export default function SignInModal() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{
+    type: AlertType | '';
+    message: string;
+  }>({
+    type: '',
+    message: '',
+  });
+
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const { closeModal, openModal } = useModal();
+  useOnClickOutside(modalRef, closeModal);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: FormValues) => {
+    setIsLoading(true);
+    setMessage({ type: '', message: '' });
+
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        setMessage({
+          type: 'danger',
+          message: 'Please verify your email address',
+        });
+
+        return;
+      }
+    } catch (error: any) {
+      const errorsCase: { [key: string]: string } = {
+        'auth/invalid-credential': 'Password or email is incorrect',
+      };
+
+      setMessage({
+        type: 'danger',
+        message: errorsCase[error.code] || error.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <section className="bg-gray-50/20 dark:bg-gray-900/20 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
+    <section className="bg-gray-50/50 dark:bg-gray-900/50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        {message.type && (
+          <Alert type={message.type} message={message.message} />
+        )}
+        <div
+          ref={modalRef}
+          className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        >
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 md:space-y-6"
+            >
+              <InputText
+                name="email"
+                type="text"
+                register={register}
+                label="Your email"
+                error={errors.email}
+              />
+              <InputText
+                name="password"
+                type="password"
+                register={register}
+                label="Password"
+                error={errors.password}
+              />
+
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
@@ -66,20 +137,17 @@ export default function SignInModal() {
                   Forgot password?
                 </a>
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
+              <Button type="submit" isLoading={isLoading}>
                 Sign in
-              </button>
+              </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{' '}
-                <a
-                  href="#"
+                <button
+                  onClick={() => openModal('signup')}
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
-                </a>
+                </button>
               </p>
             </form>
           </div>
