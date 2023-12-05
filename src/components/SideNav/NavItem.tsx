@@ -25,6 +25,7 @@ export const NavItem = ({ text, icon, href, onClick }: NavItemProps) => {
           }
         )}
         onClick={onClick}
+        data-testid={`nav-item-${text}`}
       >
         {icon}
         <span className="ml-3">{text}</span>
