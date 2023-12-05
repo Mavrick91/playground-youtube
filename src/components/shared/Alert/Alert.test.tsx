@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import Alert from './index';
 
 describe('Alert', () => {
@@ -32,6 +32,16 @@ describe('Alert', () => {
     rerender(<Alert type="dark" message="Test message" />);
     expect(screen.getByRole('alert')).toHaveClass(
       'text-gray-800 bg-gray-50 dark:bg-gray-800 dark:text-gray-300'
+    );
+  });
+
+  it('disappears after the specified timeout', async () => {
+    render(<Alert type="info" message="Test message" timeout={500} />);
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+
+    await waitFor(
+      () => expect(screen.queryByRole('alert')).not.toBeInTheDocument(),
+      { timeout: 600 }
     );
   });
 });
