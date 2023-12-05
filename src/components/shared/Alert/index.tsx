@@ -1,9 +1,11 @@
 import React from 'react';
 
-interface AlertProps {
-  type: 'info' | 'danger' | 'success' | 'warning' | 'dark';
+export type AlertType = 'info' | 'danger' | 'success' | 'warning' | 'dark';
+
+type AlertProps = {
+  type: AlertType;
   message: string;
-}
+};
 
 const Alert: React.FC<AlertProps> = ({ type, message }) => {
   const alertColors = {
@@ -20,7 +22,7 @@ const Alert: React.FC<AlertProps> = ({ type, message }) => {
       className={`p-4 mb-4 text-sm rounded-lg ${alertColors[type]}`}
       role="alert"
     >
-      <span className="font-medium">Alert!</span> {message}
+      {message}
     </div>
   );
 };

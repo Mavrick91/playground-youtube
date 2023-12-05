@@ -5,7 +5,6 @@ import Alert from './index';
 describe('Alert', () => {
   it('renders without crashing', () => {
     render(<Alert type="info" message="Test message" />);
-    expect(screen.getByText('Alert!')).toBeInTheDocument();
     expect(screen.getByText('Test message')).toBeInTheDocument();
   });
 
