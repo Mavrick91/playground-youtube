@@ -4,9 +4,17 @@ import React from 'react';
 import Image from 'next/image';
 import { useModal } from '~/providers/ModalProvider';
 import Button from '../shared/Button';
+import { useUser } from '~/providers/UserProvider';
+import { getAuth, signOut } from 'firebase/auth';
 
 export default function Header() {
   const { openModal, modalState } = useModal();
+  const user = useUser();
+
+  const handleClickSignOut = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+  };
 
   return (
     <header>
@@ -25,10 +33,16 @@ export default function Header() {
             </span>
           </a>
           <div className="flex items-center gap-2 lg:order-2">
-            <Button onClick={() => openModal('signin')}>Login</Button>
-            <Button onClick={() => openModal('signup')} roundedFull>
-              Sign up
-            </Button>
+            {user ? (
+              <Button onClick={handleClickSignOut}>Logout</Button>
+            ) : (
+              <>
+                <Button onClick={() => openModal('signin')}>Login</Button>
+                <Button onClick={() => openModal('signup')} roundedFull>
+                  Sign up
+                </Button>
+              </>
+            )}{' '}
           </div>
         </div>
       </nav>
