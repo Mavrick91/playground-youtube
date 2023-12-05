@@ -1,11 +1,20 @@
 'use client';
 
 import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
-import { InputText } from '../shared/input/InputText';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
+} from 'firebase/auth';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { useModal } from '~/providers/ModalProvider';
+import { app } from '~/services/firebase';
+import Alert, { AlertType } from '~/components/shared/Alert';
+import { InputText } from '~/components/shared/input/InputText';
+import { useState } from 'react';
+import Button from '../shared/Button';
 
 type FormValues = {
   email: string;
@@ -24,6 +33,14 @@ const schema = yup.object().shape({
 
 export default function SignUpModal() {
   const { openModal } = useModal();
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{
+    type: AlertType | '';
+    message: string;
+  }>({
+    type: '',
+    message: '',
+  });
 
   const {
     register,
@@ -38,11 +55,46 @@ export default function SignUpModal() {
     },
   });
 
-  const onSubmit = (data: FieldValues) => console.log(data);
+  const onSubmit = async (data: FormValues) => {
+    const auth = getAuth(app);
+    setIsLoading(true);
+    setMessage({ type: '', message: '' });
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      if (userCredential.user) {
+        await sendEmailVerification(userCredential.user);
+
+        setMessage({
+          type: 'success',
+          message: 'Verification email sent',
+        });
+      }
+    } catch (error: any) {
+      const errorsCase: { [key: string]: string } = {
+        'auth/email-already-in-use': 'Email already in use',
+        'auth/invalid-email': 'Invalid email',
+      };
+
+      setMessage({
+        type: 'danger',
+        message: errorsCase[error.code],
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className="bg-gray-50/20 dark:bg-gray-900/20 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        {message.type && (
+          <Alert type={message.type} message={message.message} timeout={5000} />
+        )}
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -76,12 +128,9 @@ export default function SignUpModal() {
                 register={register}
                 error={errors?.confirmPassword}
               />
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
+              <Button type="submit" isLoading={isLoading}>
                 Create an account
-              </button>
+              </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{' '}
                 <button
