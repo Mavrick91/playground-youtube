@@ -1,9 +1,14 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '~/test-utils';
 import { act } from 'react-dom/test-utils';
 import SignUpModal from './SignUpModal';
+import * as ModalModule from '../../providers/ModalProvider';
 
 describe('SignUpModal', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     render(<SignUpModal />);
     expect(screen.getByText('Create and account')).toBeInTheDocument();
@@ -48,5 +53,26 @@ describe('SignUpModal', () => {
     expect(
       screen.getByText('Password confirmation is required')
     ).toBeInTheDocument();
+  });
+
+  it('opens the sign in modal when the login here button is clicked', async () => {
+    const openModal = jest.fn();
+    const modalState = {
+      isOpen: false,
+      modalType: () => null as unknown as JSX.Element,
+    };
+    const closeModal = jest.fn();
+    jest
+      .spyOn(ModalModule, 'useModal')
+      .mockReturnValue({ openModal, modalState, closeModal });
+
+    render(<SignUpModal />);
+    const loginButton = screen.getByText('Login here');
+
+    await act(async () => {
+      fireEvent.click(loginButton);
+    });
+
+    expect(openModal).toHaveBeenCalledWith('signin');
   });
 });

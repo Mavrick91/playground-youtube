@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { InputText } from '../shared/input/InputText';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useModal } from '~/providers/ModalProvider';
 
 type FormValues = {
   email: string;
@@ -22,6 +23,8 @@ const schema = yup.object().shape({
 });
 
 export default function SignUpModal() {
+  const { openModal } = useModal();
+
   const {
     register,
     formState: { errors },
@@ -81,7 +84,10 @@ export default function SignUpModal() {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{' '}
-                <button className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                <button
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick={() => openModal('signin')}
+                >
                   Login here
                 </button>
               </p>
