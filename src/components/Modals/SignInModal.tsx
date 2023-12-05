@@ -56,14 +56,16 @@ export default function SignInModal() {
       );
       const user = userCredential.user;
 
-      if (!user.emailVerified) {
-        setMessage({
-          type: 'danger',
-          message: 'Please verify your email address',
-        });
+      //   if (!user.emailVerified) {
+      //     setMessage({
+      //       type: 'danger',
+      //       message: 'Please verify your email address',
+      //     });
 
-        return;
-      }
+      //     return;
+      //   }
+
+      closeModal();
     } catch (error: any) {
       const errorsCase: { [key: string]: string } = {
         'auth/invalid-credential': 'Password or email is incorrect',

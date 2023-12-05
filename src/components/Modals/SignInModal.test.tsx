@@ -73,6 +73,16 @@ describe('SignInModal', () => {
       >;
     mockSignInWithEmailAndPassword.mockResolvedValueOnce(mockResponseSignIn);
 
+    const closeModal = jest.fn();
+    jest.spyOn(ModalModule, 'useModal').mockReturnValue({
+      openModal: jest.fn(),
+      modalState: {
+        isOpen: false,
+        modalType: () => null as unknown as JSX.Element,
+      },
+      closeModal,
+    });
+
     render(<SignInModal />);
     const emailInput = screen.getByLabelText('Your email');
     const passwordInput = screen.getByLabelText('Password');
@@ -90,6 +100,7 @@ describe('SignInModal', () => {
       'test@test.com',
       'password'
     );
+    expect(closeModal).toHaveBeenCalled();
   });
 
   it('shows an error message when the email is not verified', async () => {
