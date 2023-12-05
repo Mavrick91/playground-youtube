@@ -4,7 +4,7 @@ import { FieldError, UseFormRegister } from 'react-hook-form';
 interface InputTextProps {
   name: string;
   type: string;
-  placeholder: string;
+  placeholder?: string;
   label: string;
   register: UseFormRegister<any>;
   error?: FieldError;
