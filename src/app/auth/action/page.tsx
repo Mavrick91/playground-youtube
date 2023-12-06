@@ -15,7 +15,7 @@ import {
 export default function ValidateEmailPage() {
   const user = useUser();
   const router = useRouter();
-  const { openModal } = useModal();
+  const { openModal, modalState, closeModal } = useModal();
   const [popupContent, setPopupContent] = useState({
     title: 'Please wait, your email address is being verified...',
     message:
@@ -82,9 +82,10 @@ export default function ValidateEmailPage() {
       openModal('signin');
     } else if (user.emailVerified) {
       router.push('/');
-      return;
+    } else if (user && modalState.isOpen) {
+      closeModal();
     }
-  }, [openModal, router, user]);
+  }, [closeModal, modalState.isOpen, openModal, router, user]);
 
   useEffect(() => {
     if (mode === 'verifyEmail' && oobCode && user?.emailVerified === false) {
@@ -94,7 +95,7 @@ export default function ValidateEmailPage() {
     }
   }, [mode, oobCode, user, verifyEmail]);
 
-  if (!user) {
+  if (!user || user.emailVerified) {
     return null;
   }
 
