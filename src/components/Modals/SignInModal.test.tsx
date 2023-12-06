@@ -71,7 +71,10 @@ describe('SignInModal', () => {
       signInWithEmailAndPassword as jest.MockedFunction<
         typeof signInWithEmailAndPassword
       >;
-    mockSignInWithEmailAndPassword.mockResolvedValueOnce(mockResponseSignIn);
+    mockSignInWithEmailAndPassword.mockResolvedValueOnce({
+      ...mockResponseSignIn,
+      user: { ...mockResponseSignIn.user, emailVerified: true },
+    });
 
     const closeModal = jest.fn();
     jest.spyOn(ModalModule, 'useModal').mockReturnValue({
