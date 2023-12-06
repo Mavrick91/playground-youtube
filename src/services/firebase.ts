@@ -1,5 +1,14 @@
 import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, sendEmailVerification, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  applyActionCode,
+  signOut,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  createUserWithEmailAndPassword,
+  User
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,9 +23,20 @@ const firebaseConfig = {
 let app: FirebaseApp | null = null;
 
 if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
 }
 
 const auth = getAuth(app!);
 
-export { app, auth, onAuthStateChanged, signOut, signInWithEmailAndPassword, sendEmailVerification, createUserWithEmailAndPassword };
+export type { User };
+
+export {
+  app,
+  auth,
+  applyActionCode,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  createUserWithEmailAndPassword,
+};
