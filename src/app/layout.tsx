@@ -25,8 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <UserProvider>
           <ModalProvider>
-            <Header />
-            {children}
+            <div className="flex flex-col">
+              <Header />
+              {children}
+            </div>
           </ModalProvider>
         </UserProvider>
       </body>
