@@ -1,12 +1,7 @@
 'use client';
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { auth, onAuthStateChanged } from '~/services/firebase';
-
-interface User {
-  email: string;
-  signIn: boolean;
-}
+import { auth, onAuthStateChanged, User } from '~/services/firebase';
 
 const UserContext = createContext<User | null>(null);
 
@@ -18,10 +13,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
       if (firebaseUser) {
         console.log('🚀 ~ unsubscribe ~ firebaseUser:', firebaseUser);
-        setUser({
-          email: firebaseUser.email!,
-          signIn: true,
-        });
+        setUser(firebaseUser);
       } else {
         setUser(null);
       }
