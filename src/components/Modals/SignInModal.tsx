@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { InputText } from '../shared/input/InputText';
 import { useModal } from '~/providers/ModalProvider';
 import useOnClickOutside from '~/hooks/useOnClickOutside';
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import Alert, { AlertType } from '../shared/Alert';
 import Button from '../shared/Button';
+import { auth, signInWithEmailAndPassword } from '~/services/firebase';
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -48,7 +48,6 @@ export default function SignInModal() {
     setMessage({ type: '', message: '' });
 
     try {
-      const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -56,14 +55,14 @@ export default function SignInModal() {
       );
       const user = userCredential.user;
 
-      //   if (!user.emailVerified) {
-      //     setMessage({
-      //       type: 'danger',
-      //       message: 'Please verify your email address',
-      //     });
+      if (!user.emailVerified) {
+        setMessage({
+          type: 'danger',
+          message: 'Please verify your email address',
+        });
 
-      //     return;
-      //   }
+        return;
+      }
 
       closeModal();
     } catch (error: any) {

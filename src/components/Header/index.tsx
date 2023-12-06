@@ -5,14 +5,13 @@ import Image from 'next/image';
 import { useModal } from '~/providers/ModalProvider';
 import Button from '../shared/Button';
 import { useUser } from '~/providers/UserProvider';
-import { getAuth, signOut } from 'firebase/auth';
+import { auth, signOut } from '~/services/firebase';
 
 export default function Header() {
   const { openModal, modalState } = useModal();
   const user = useUser();
 
   const handleClickSignOut = async () => {
-    const auth = getAuth();
     await signOut(auth);
   };
 
@@ -32,17 +31,22 @@ export default function Header() {
               VidVenture
             </span>
           </a>
-          <div className="flex items-center gap-2 lg:order-2">
+          <div className="flex items-center gap-4 lg:order-2">
             {user ? (
               <Button onClick={handleClickSignOut}>Logout</Button>
             ) : (
               <>
-                <Button onClick={() => openModal('signin')}>Login</Button>
+                <button
+                  className="text-white underline underline-offset-2 font-medium"
+                  onClick={() => openModal('signin')}
+                >
+                  Login
+                </button>
                 <Button onClick={() => openModal('signup')} roundedFull>
                   Sign up
                 </Button>
               </>
-            )}{' '}
+            )}
           </div>
         </div>
       </nav>

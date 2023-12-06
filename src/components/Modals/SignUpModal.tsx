@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  sendEmailVerification,
-} from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { useModal } from '~/providers/ModalProvider';
-import { app } from '~/services/firebase';
+import {
+  app,
+  auth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from '~/services/firebase';
 import Alert, { AlertType } from '~/components/shared/Alert';
 import { InputText } from '~/components/shared/input/InputText';
 import { useState } from 'react';
@@ -59,7 +59,8 @@ export default function SignUpModal() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    const auth = getAuth(app);
+    if (!app) return;
+
     setIsLoading(true);
     setMessage({ type: '', message: '' });
 
