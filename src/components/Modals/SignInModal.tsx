@@ -10,6 +10,7 @@ import useOnClickOutside from '~/hooks/useOnClickOutside';
 import Alert, { AlertType } from '../shared/Alert';
 import Button from '../shared/Button';
 import { auth, signInWithEmailAndPassword } from '~/services/firebase';
+import { usePathname } from 'next/navigation';
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -21,15 +22,21 @@ type FormValues = {
   password: string;
 };
 
+const INITIAL_ALERT: {
+  type: AlertType | '';
+  message: string;
+} = {
+  type: '',
+  message: '',
+};
+
 export default function SignInModal() {
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{
     type: AlertType | '';
     message: string;
-  }>({
-    type: '',
-    message: '',
-  });
+  }>(INITIAL_ALERT);
 
   const modalRef = React.useRef<HTMLDivElement>(null);
   const { closeModal, openModal } = useModal();
@@ -55,7 +62,7 @@ export default function SignInModal() {
       );
       const user = userCredential.user;
 
-      if (!user.emailVerified) {
+      if (!user.emailVerified && pathname !== '/auth/action') {
         setMessage({
           type: 'danger',
           message: 'Please verify your email address',
@@ -77,6 +84,12 @@ export default function SignInModal() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClickSignupModal = () => {
+    closeModal();
+    openModal('signup');
+    setMessage(INITIAL_ALERT);
   };
 
   return (
@@ -144,7 +157,8 @@ export default function SignInModal() {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{' '}
                 <button
-                  onClick={() => openModal('signup')}
+                  onClick={handleClickSignupModal}
+                  type="button"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
