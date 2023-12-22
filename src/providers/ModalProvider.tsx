@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 import SignInModal from '~/components/Modals/SignInModal';
 import SignUpModal from '~/components/Modals/SignUpModal';
 
@@ -26,16 +26,16 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     modalType: () => null as unknown as JSX.Element,
   });
 
-  const openModal = (modalType: string) => {
+  const openModal = useCallback((modalType: string) => {
     setModalState({ isOpen: true, modalType: modalComponents[modalType] });
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalState({
       isOpen: false,
       modalType: () => null as unknown as JSX.Element,
     });
-  };
+  }, []);
 
   return (
     <ModalContext.Provider value={{ modalState, openModal, closeModal }}>

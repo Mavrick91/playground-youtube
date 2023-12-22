@@ -143,6 +143,7 @@ export default function SignUpModal() {
                 <button
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   onClick={() => openModal('signin')}
+                  type="button"
                 >
                   Login here
                 </button>
