@@ -12,7 +12,7 @@ import {
   sendEmailVerification,
 } from '~/services/firebase';
 
-export default function ValidateEmailPage() {
+export default function Page() {
   const user = useUser();
   const router = useRouter();
   const { openModal, modalState, closeModal } = useModal();
@@ -100,8 +100,8 @@ export default function ValidateEmailPage() {
   }
 
   return (
-    <div className="relative grow h-72">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <EmailVerificationPopup {...popupContent} />
-    </div>
+    </main>
   );
 }
