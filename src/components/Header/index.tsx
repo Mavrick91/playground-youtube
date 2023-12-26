@@ -1,24 +1,27 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
-import { useModal } from '~/providers/ModalProvider';
-import Button from '../shared/Button';
+import Link from 'next/link';
 import { useUser } from '~/providers/UserProvider';
-import { auth, signOut } from '~/services/firebase';
-import Button from '../shared/Button';
+import Button, { buttonVariants } from '../shared/Button';
 
 export default function Header() {
-  const { openModal, modalState } = useModal();
   const user = useUser();
 
-  const handleClickSignOut = async () => {
-    await signOut(auth);
+  const handleClickSignOut = async () => {};
+
+  const initiateGoogleAuth = () => {
+    const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const redirect_uri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+    const scope = 'https://www.googleapis.com/auth/userinfo.profile';
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&access_type=offline`;
+
+    window.location.href = url;
   };
 
   return (
     <header>
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+      <nav className="bg-gray-500 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <a href="https://flowbite.com" className="flex items-center">
             <Image
@@ -37,21 +40,14 @@ export default function Header() {
               <Button onClick={handleClickSignOut}>Logout</Button>
             ) : (
               <>
-                <button
-                  className="text-white underline underline-offset-2 font-medium"
-                  onClick={() => openModal('signin')}
-                >
+                <Link href="/auth/google" className={buttonVariants()}>
                   Login
-                </button>
-                <Button onClick={() => openModal('signup')} roundedFull>
-                  Sign up
-                </Button>
+                </Link>
               </>
             )}
           </div>
         </div>
       </nav>
-      {modalState?.isOpen && modalState.modalType()}
     </header>
   );
 }

@@ -1,12 +1,9 @@
-import '~/services/firebase';
-
-import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import { ModalProvider } from '~/providers/ModalProvider';
-import { UserProvider } from '~/providers/UserProvider';
+import React from 'react';
 import Header from '~/components/Header';
+import { UserProvider } from '~/providers/UserProvider';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,12 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <UserProvider>
-          <ModalProvider>
-            <div className="flex flex-col">
-              <Header />
-              {children}
-            </div>
-          </ModalProvider>
+          <div className="flex flex-col">
+            <Header />
+            {children}
+          </div>
         </UserProvider>
       </body>
     </html>
