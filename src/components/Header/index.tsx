@@ -6,6 +6,7 @@ import { useModal } from '~/providers/ModalProvider';
 import Button from '../shared/Button';
 import { useUser } from '~/providers/UserProvider';
 import { auth, signOut } from '~/services/firebase';
+import Button from '../shared/Button';
 
 export default function Header() {
   const { openModal, modalState } = useModal();
