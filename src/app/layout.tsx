@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '~/components/Header';
 import { UserProvider } from '~/providers/UserProvider';
 import './globals.css';
+import { SWRProvider } from '~/providers/Swr-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <UserProvider>
-          <div className="flex flex-col">
-            <Header />
-            {children}
-          </div>
-        </UserProvider>
+        <SWRProvider>
+          <UserProvider>
+            <div className="flex flex-col">
+              <Header />
+              {children}
+            </div>
+          </UserProvider>
+        </SWRProvider>
       </body>
     </html>
   );

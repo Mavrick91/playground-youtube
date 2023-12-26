@@ -8,6 +8,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
+import { useIsMe } from '~/endpoint/useIsMe';
 
 interface User {
   displayName: string;
@@ -19,15 +21,6 @@ interface UserContextType {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-interface AuthStatusResponse {
-  isAuthenticated: boolean;
-}
-
-interface GoogleMeResponse {
-  names: Array<{ displayName: string }>;
-  photos: Array<{ url: string }>;
-}
-
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface UserProviderProps {
@@ -36,33 +29,19 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
+  const { isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response =
-          await axios.get<AuthStatusResponse>('/api/auth/status');
+    if (isMe) {
+      setUser({
+        displayName: isMe.names[0].displayName,
+        picture: isMe.photos[0].url,
+      });
+    }
+  }, [isMe]);
 
-        if (response.data.isAuthenticated) {
-          const responseMe =
-            await axios.get<GoogleMeResponse>('/api/google/me');
-          setUser({
-            displayName: responseMe.data.names[0].displayName,
-            picture: responseMe.data.photos[0].url,
-          });
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
-
-  if (loading) {
+  if (isAuthLoading || isMeLoading) {
     return null;
   }
 
