@@ -1,18 +1,22 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useUser } from '~/providers/UserProvider';
-import Button, { buttonVariants } from '../shared/Button';
+import Button from '../shared/Button';
+import keys from '../../../oauth2.keys.json';
+import axios from 'axios';
 
 export default function Header() {
-  const user = useUser();
+  const { user, setUser } = useUser();
 
-  const handleClickSignOut = async () => {};
+  const handleClickSignOut = async () => {
+    await axios.post('/api/auth/logout');
+    setUser(null);
+  };
 
   const initiateGoogleAuth = () => {
-    const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    const redirect_uri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+    const client_id = keys.web.client_id;
+    const redirect_uri = keys.web.redirect_uris[0];
     const scope = 'https://www.googleapis.com/auth/userinfo.profile';
     const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&access_type=offline`;
 
@@ -40,9 +44,7 @@ export default function Header() {
               <Button onClick={handleClickSignOut}>Logout</Button>
             ) : (
               <>
-                <Link href="/auth/google" className={buttonVariants()}>
-                  Login
-                </Link>
+                <Button onClick={initiateGoogleAuth}>Login</Button>
               </>
             )}
           </div>
