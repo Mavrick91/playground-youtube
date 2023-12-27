@@ -1,10 +1,18 @@
 'use client';
 
+import axios from 'axios';
 import Image from 'next/image';
 import { useUser } from '~/providers/UserProvider';
-import Button from '../shared/Button';
 import keys from '../../../oauth2.keys.json';
-import axios from 'axios';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../DropdownMenu';
+import Button from '../shared/Button';
 
 export default function Header() {
   const { user, setUser } = useUser();
@@ -41,7 +49,24 @@ export default function Header() {
           </a>
           <div className="flex items-center gap-4 lg:order-2">
             {user ? (
-              <Button onClick={handleClickSignOut}>Logout</Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Image
+                    src={user.picture}
+                    className="rounded-full"
+                    alt={user.displayName}
+                    width={40}
+                    height={40}
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 absolute top-1 -right-5">
+                  <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleClickSignOut}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <Button onClick={initiateGoogleAuth}>Login</Button>
