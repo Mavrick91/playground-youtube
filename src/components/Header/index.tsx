@@ -25,8 +25,15 @@ export default function Header() {
   const initiateGoogleAuth = () => {
     const client_id = keys.web.client_id;
     const redirect_uri = keys.web.redirect_uris[0];
-    const scope = 'https://www.googleapis.com/auth/userinfo.profile';
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&access_type=offline`;
+
+    const scope = [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/youtube.readonly',
+    ].join(' ');
+
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${encodeURIComponent(
+      scope
+    )}&access_type=offline&prompt=consent`;
 
     window.location.href = url;
   };
