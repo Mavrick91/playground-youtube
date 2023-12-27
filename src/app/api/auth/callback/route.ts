@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
       maxAge: 3600 // Set appropriate maxAge for your token
     })
 
-    const response: NextResponse = NextResponse.redirect('/');
+    const response: NextResponse = NextResponse.redirect('http://localhost:3000/');
     response.headers.set('Set-Cookie', tokens.access_token);
 
     return response;
