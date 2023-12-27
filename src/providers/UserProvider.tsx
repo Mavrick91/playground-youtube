@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 interface User {
   displayName: string;
@@ -42,7 +43,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, [isMe]);
 
   if (isAuthLoading || isMeLoading) {
-    return null;
+    return (
+      <div className="h-full flex items-center justify-center">
+        <ClipLoader size={150} />
+      </div>
+    );
   }
 
   return (
