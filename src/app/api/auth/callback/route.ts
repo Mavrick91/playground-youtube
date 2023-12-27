@@ -33,16 +33,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ status: 400, message: 'No access token returned from Google' });
     }
 
-    cookies().set('auth_token', tokens.access_token, {
-      path: '/',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 3600 // Set appropriate maxAge for your token
-    })
-
     const response: NextResponse = NextResponse.redirect('http://localhost:3000/');
-    response.headers.set('Set-Cookie', tokens.access_token);
+    response.headers.set('Set-Cookie', `auth_token=${tokens.access_token}; Path=/; HttpOnly;`);
 
     return response;
 
