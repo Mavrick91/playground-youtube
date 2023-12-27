@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import React, {
   ReactNode,
   createContext,
@@ -30,8 +29,11 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const { isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
-  const { isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated);
+  const { data: isAuthenticated, isLoading: isAuthLoading } =
+    useIsAuthenticated();
+  const { data: isMe, isLoading: isMeLoading } = useIsMe(
+    isAuthenticated?.isAuthenticated
+  );
 
   useEffect(() => {
     if (isMe) {
