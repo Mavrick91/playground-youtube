@@ -13,12 +13,14 @@ import {
   DropdownMenuTrigger,
 } from '../DropdownMenu';
 import Button from '../shared/Button';
+import { useLogout } from '~/endpoint/useLogout';
 
 export default function Header() {
   const { user, setUser } = useUser();
+  const { mutate: logout } = useLogout();
 
   const handleClickSignOut = async () => {
-    await axios.post('/api/auth/logout');
+    logout();
     setUser(null);
   };
 

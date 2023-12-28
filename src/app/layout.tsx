@@ -4,8 +4,8 @@ import React from 'react';
 import Header from '~/components/Header';
 import { UserProvider } from '~/providers/UserProvider';
 import './globals.css';
-import { SWRProvider } from '~/providers/Swr-provider';
 import { cn } from '~/lib/utils';
+import { QueryProvider } from '~/providers/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,14 +24,14 @@ export default function RootLayout({
       <body
         className={cn('relative h-full font-sans antialiased', inter.className)}
       >
-        <SWRProvider>
+        <QueryProvider>
           <UserProvider>
             <div className="flex flex-col">
               <Header />
               {children}
             </div>
           </UserProvider>
-        </SWRProvider>
+        </QueryProvider>
       </body>
     </html>
   );
