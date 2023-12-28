@@ -22,7 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={cn('relative h-full font-sans antialiased', inter.className)}
+        className={cn(
+          'relative h-full font-sans antialiased overflow-hidden',
+          inter.className
+        )}
+        style={{
+          backgroundImage: `url(/background.png)`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
       >
         <QueryProvider>
           <UserProvider>
