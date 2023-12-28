@@ -1,59 +1,43 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import VideoItem from './index';
-import { YoutubeVideo } from '~/types/videos';
-import moment from 'moment';
+import VideoItem from '.';
 
 describe('VideoItem', () => {
-  const video = {
-    snippet: {
-      title: 'Test Video',
-      thumbnails: {
-        high: {
-          url: 'http://example.com/test.jpg',
-          width: 480,
-          height: 360,
-        },
-      },
-      publishedAt: new Date().toISOString(),
-    },
-    channel: {
-      snippet: {
-        title: 'Test Channel',
-        thumbnails: {
-          default: {
-            url: 'http://example.com/test.jpg',
-          },
-        },
-      },
-    },
-    statistics: {
-      viewCount: '1000',
+  const props = {
+    channelThumbnail: 'http://example.com/channelThumbnail.jpg',
+    videoTitle: 'Test Video Title',
+    channelTitle: 'Test Channel Title',
+    viewCount: '1234',
+    publishedAt: '2022-01-01T00:00:00Z',
+    thumbnail: {
+      url: 'http://example.com/thumbnail.jpg',
+      width: 480,
+      height: 360,
     },
   };
 
   it('renders without crashing', () => {
-    render(<VideoItem video={video as YoutubeVideo} />);
-    expect(screen.getAllByRole('img').length).toEqual(2);
+    render(<VideoItem {...props} />);
+    expect(screen.getByRole('img', { name: /thumbails/i })).toBeInTheDocument();
   });
 
   it('displays the correct video title', () => {
-    render(<VideoItem video={video as YoutubeVideo} />);
-    expect(screen.getByText('Test Video')).toBeInTheDocument();
+    render(<VideoItem {...props} />);
+    expect(screen.getByText(props.videoTitle)).toBeInTheDocument();
   });
 
   it('displays the correct channel title', () => {
-    render(<VideoItem video={video as YoutubeVideo} />);
-    expect(screen.getByText('Test Channel')).toBeInTheDocument();
+    render(<VideoItem {...props} />);
+    expect(screen.getByText(props.channelTitle)).toBeInTheDocument();
   });
 
-  it('displays the correct view count and published date', () => {
-    render(<VideoItem video={video as YoutubeVideo} />);
+  it('displays the correct view count', () => {
+    render(<VideoItem {...props} />);
+    expect(screen.getByText(/1.2 K views/i)).toBeInTheDocument();
+  });
 
-    const expectedDate = moment(video.snippet.publishedAt).fromNow();
-    const dateRegex = new RegExp(expectedDate, 'i');
-
-    expect(screen.getByText(/1.0 K views/i)).toBeInTheDocument();
-    expect(screen.getByText(dateRegex)).toBeInTheDocument();
+  it('displays the correct published date', () => {
+    render(<VideoItem {...props} />);
+    expect(screen.getByText(/2 years ago/i)).toBeInTheDocument();
   });
 });

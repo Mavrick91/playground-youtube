@@ -23,11 +23,17 @@ export default async function TrendingVideos() {
   const auth_token = cookies().get('auth_token')?.value;
   const data = await getData(auth_token);
 
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {data.items.map((video: YoutubeVideo) => {
-        return <VideoItem key={video.id} video={video} />;
-      })}
-    </div>
-  );
+  return data.items.map((video: YoutubeVideo) => {
+    return (
+      <VideoItem
+        key={video.id}
+        channelThumbnail={video.channel.snippet.thumbnails.default.url}
+        videoTitle={video.snippet.title}
+        channelTitle={video.channel.snippet.title}
+        viewCount={video.statistics.viewCount}
+        publishedAt={video.snippet.publishedAt}
+        thumbnail={video.snippet.thumbnails.high}
+      />
+    );
+  });
 }
