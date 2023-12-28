@@ -9,7 +9,6 @@ interface GoogleMeResponse {
 }
 
 export const useIsMe = (shouldFetch: boolean = false) => {
-  console.log("🚀 ~ file: useIsMe.ts:12 ~ useIsMe ~ shouldFetch:", shouldFetch)
   return useQuery<GoogleMeResponse>(
     'google-me',
     async () => {
