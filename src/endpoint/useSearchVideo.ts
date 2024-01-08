@@ -4,16 +4,20 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { YouTubeSearchListResponse } from '~/types/search';
 
-export const useSearchVideo = (query: string) => {
-  return useQuery<YouTubeSearchListResponse>(
-    'google-search',
-    async () => {
-      const response = await axios.get(
-        '/api/google/search' + '?q=' + encodeURIComponent(query)
-      );
+type SearchVideoParams = Partial<{
+  q: string;
+  topicId: string;
+}>;
 
-      return response.data;
-    },
+export const useSearchVideo = ({ q, topicId }: SearchVideoParams) => {
+  return useQuery<YouTubeSearchListResponse>(
+    ['google-search'],
+    async () =>
+      axios
+        .get('/api/google/search', {
+          params: { q, topicId },
+        })
+        .then(res => res.data),
     {
       enabled: false,
     }

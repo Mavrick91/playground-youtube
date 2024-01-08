@@ -9,6 +9,8 @@ import { YouTubeSearchResult } from '~/types/search';
 import VideoItem from '../VideoItem';
 import Button from '../shared/Button';
 import { Input } from '../shared/input/InputText';
+import SearchFilters from '../SearchFilters';
+import { useFilters } from '~/providers/FiltersProvider';
 
 type SearchBarProps = {
   children?: React.ReactNode;
@@ -16,12 +18,16 @@ type SearchBarProps = {
 
 export default function SearchBar({ children }: SearchBarProps) {
   const queryClient = useQueryClient();
+  const { resetFilters } = useFilters();
   const [inputValue, setInputValue] = useState('sixen');
-  const { data, refetch, isLoading } = useSearchVideo(inputValue);
+  const { data, refetch, isFetching } = useSearchVideo({
+    q: inputValue,
+  });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('searching for', inputValue);
+
+    resetFilters();
     await refetch();
   };
 
@@ -30,12 +36,13 @@ export default function SearchBar({ children }: SearchBarProps) {
     queryClient.invalidateQueries('google-search');
   }, [queryClient]);
 
+  const clearSearchInput = useCallback(() => {
+    setInputValue('');
+  }, []);
+
   return (
     <div className="pb-32">
-      <form
-        onSubmit={onSubmit}
-        className="flex items-center max-w-md mt-5 mb-10"
-      >
+      <form onSubmit={onSubmit} className="flex items-center max-w-md my-5">
         <div className="relative w-full">
           <Input
             value={inputValue}
@@ -58,7 +65,8 @@ export default function SearchBar({ children }: SearchBarProps) {
           <Search />
         </Button>
       </form>
-      {isLoading ? (
+      <SearchFilters clearSearchInput={clearSearchInput} />
+      {isFetching ? (
         <div className="flex justify-center">
           <DotLoader size={50} color="#a147f5" />
         </div>

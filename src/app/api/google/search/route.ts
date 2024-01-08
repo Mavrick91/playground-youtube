@@ -16,6 +16,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   const token: Token | undefined = cookies().get('auth_token');
   const query = req.nextUrl.searchParams.get('q');
+  const topicId = req.nextUrl.searchParams.get('topicId');
   const channelId = req.nextUrl.searchParams.get('channelId');
 
   if (!token) {
@@ -39,14 +40,15 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (query) {
       searchParams.q = query;
-
-      const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
-        await youtube.search.list(searchParams);
-
-      return NextResponse.json(response.data, { status: 200 });
+    }
+    if (topicId) {
+      searchParams.topicId = topicId as string;
     }
 
-    return NextResponse.json(null, { status: 200 });
+    const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
+      await youtube.search.list(searchParams);
+
+    return NextResponse.json(response.data, { status: 200 });
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
     return NextResponse.json(
