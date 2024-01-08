@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useMemo } from 'react';
+import React from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSearchVideo } from '~/endpoint/useSearchVideo';
 import { useFilters } from '~/providers/FiltersProvider';
 import { Filters } from '~/types/filters';
+import Bubble from '../Bubble';
 import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
-import Bubble from '../Bubble';
 
 type Props = {
   clearSearchInput: () => void;
