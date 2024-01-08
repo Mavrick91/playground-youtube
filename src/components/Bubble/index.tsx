@@ -15,6 +15,7 @@ export default function Bubble({ children, onClick }: Props) {
         onClick={onClick}
         size={16}
         color="#4d4f4e70"
+        data-testid="bubble-delete"
       />
     </div>
   );
