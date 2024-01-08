@@ -49,7 +49,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       searchParams.regionCode = regionCode as string;
     }
 
-    console.log("🚀 ~ file: route.ts:54 ~ GET ~ searchParams:", searchParams)
     const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
       await youtube.search.list(searchParams);
 
