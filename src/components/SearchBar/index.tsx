@@ -11,6 +11,7 @@ import Button from '../shared/Button';
 import { Input } from '../shared/input/InputText';
 import SearchFilters from '../SearchFilters';
 import { useFilters } from '~/providers/FiltersProvider';
+import SearchInput from '../shared/SearchInput';
 
 type SearchBarProps = {
   children?: React.ReactNode;
@@ -19,7 +20,7 @@ type SearchBarProps = {
 export default function SearchBar({ children }: SearchBarProps) {
   const queryClient = useQueryClient();
   const { resetFilters } = useFilters();
-  const [inputValue, setInputValue] = useState('sixen');
+  const [inputValue, setInputValue] = useState('');
   const { data, refetch, isFetching } = useSearchVideo({
     q: inputValue,
   });
@@ -43,20 +44,12 @@ export default function SearchBar({ children }: SearchBarProps) {
   return (
     <div className="pb-32">
       <form onSubmit={onSubmit} className="flex items-center max-w-md my-5">
-        <div className="relative w-full">
-          <Input
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder="Search"
-            className="rounded-none rounded-tl-3xl rounded-bl-3xl focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
-          />
-          {inputValue ? (
-            <X
-              className="absolute top-1/2 transform -translate-y-1/2 right-5 cursor-pointer"
-              onClick={handleClickDeleteSearch}
-            />
-          ) : null}
-        </div>
+        <SearchInput
+          onChange={value => setInputValue(value)}
+          value={inputValue}
+          handleClickDeleteSearch={handleClickDeleteSearch}
+          className="rounded-none rounded-tl-3xl rounded-bl-3xl"
+        />
         <Button
           type="submit"
           disabled={!inputValue}
