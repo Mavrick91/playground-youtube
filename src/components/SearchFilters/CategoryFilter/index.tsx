@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +12,13 @@ import {
 } from '~/components/DropdownMenu';
 import Button from '~/components/shared/Button';
 import { CATEGORY_LIST } from '~/constants/category';
-import { Category } from '~/types/category';
+import { Filters } from '~/types/filters';
 
 type Props = {
-  updateCategory: (category: Category) => void;
+  updateFilter: (value: Filters) => void;
 };
 
-export default function CategoryFilter({ updateCategory }: Props) {
+export default function CategoryFilter({ updateFilter }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +30,7 @@ export default function CategoryFilter({ updateCategory }: Props) {
             return (
               <DropdownMenuItem
                 key={category.id}
-                onClick={() => updateCategory(category)}
+                onClick={() => updateFilter(category)}
               >
                 {category.label}
               </DropdownMenuItem>
@@ -42,7 +41,7 @@ export default function CategoryFilter({ updateCategory }: Props) {
             <DropdownMenuSub key={category.id}>
               <DropdownMenuSubTrigger
                 className="cursor-pointer"
-                onClick={() => updateCategory(category)}
+                onClick={() => updateFilter(category)}
               >
                 {category.label}
               </DropdownMenuSubTrigger>
@@ -51,7 +50,7 @@ export default function CategoryFilter({ updateCategory }: Props) {
                   {category.subCategories.map(subCategory => (
                     <DropdownMenuItem
                       key={subCategory.id}
-                      onClick={() => updateCategory(subCategory)}
+                      onClick={() => updateFilter(subCategory)}
                     >
                       {subCategory.label}
                     </DropdownMenuItem>

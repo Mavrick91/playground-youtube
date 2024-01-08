@@ -1,10 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import { Category } from '~/types/category';
+import { FilterCategory, FilterCountry } from '~/types/filters';
 
 type FiltersState = {
-  category: Category | null;
+  category: FilterCategory | null;
+  country: FilterCountry | null;
 };
 
 type FiltersContextType = {
@@ -17,6 +18,7 @@ const FiltersContext = createContext<FiltersContextType | undefined>(undefined);
 
 const INITIAL_STATE: FiltersState = {
   category: null,
+  country: null,
 };
 
 type Props = {

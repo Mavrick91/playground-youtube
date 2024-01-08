@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import CategoryFilter from './CategoryFilter';
-import { Category } from '~/types/category';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchVideo } from '~/endpoint/useSearchVideo';
 import { useFilters } from '~/providers/FiltersProvider';
+import { Filters } from '~/types/filters';
+import CategoryFilter from './CategoryFilter';
+import CountryFilter from './CountryFilter';
+import Bubble from '../Bubble';
 
 type Props = {
   clearSearchInput: () => void;
@@ -15,29 +17,62 @@ export default function SearchFilters({ clearSearchInput }: Props) {
 
   const { refetch } = useSearchVideo({
     topicId: filters.category?.id,
+    regionCode: filters.country?.id,
   });
 
-  const updateCategory = useCallback(
-    (category: Category) => {
-      setFilters(prevState => ({
-        ...prevState,
-        category: category,
-      }));
-      clearSearchInput();
+  const updateFilter = useCallback(
+    (key: string) => {
+      return (value: Filters | null) => {
+        setFilters(prevState => ({
+          ...prevState,
+          [key]: value,
+        }));
+        clearSearchInput();
+      };
     },
     [clearSearchInput, setFilters]
   );
 
+  const labelsToDisplay = Object.keys(filters)
+    .map(key => {
+      const value = filters[key as keyof typeof filters];
+
+      if (!value || !value.label) return null;
+
+      return {
+        key,
+        label: value.label,
+      };
+    })
+    .filter((item): item is { key: string; label: string } => item !== null)
+    .map(item => (
+      <Bubble key={item.key} onClick={() => updateFilter(item.key)(null)}>
+        {item.label}
+      </Bubble>
+    ));
+
   useEffect(() => {
     refetch();
-  }, [filters.category, refetch]);
+  }, [filters, refetch]);
+
+  const displayFilters = Object.values(filters).some(Boolean);
 
   return (
     <div className="mb-5">
       <h2 className="text-gray-600 font-medium mb-4">
-        {filters.category ? `Filters: ${filters.category.label}` : 'Filters'}
+        {displayFilters ? (
+          <div className="flex gap-2 items-center">
+            <span>Filters: </span>
+            {labelsToDisplay}
+          </div>
+        ) : (
+          'Filters'
+        )}
       </h2>
-      <CategoryFilter updateCategory={updateCategory} />
+      <div className="flex gap-3">
+        <CategoryFilter updateFilter={updateFilter('category')} />
+        <CountryFilter updateFilter={updateFilter('country')} />
+      </div>
     </div>
   );
 }
