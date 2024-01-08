@@ -17,6 +17,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const token: Token | undefined = cookies().get('auth_token');
   const query = req.nextUrl.searchParams.get('q');
   const topicId = req.nextUrl.searchParams.get('topicId');
+  const regionCode = req.nextUrl.searchParams.get('regionCode');
   const channelId = req.nextUrl.searchParams.get('channelId');
 
   if (!token) {
@@ -35,7 +36,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       part: ['snippet'],
       maxResults: 8,
       type: ['video', 'channel'],
-      order: 'relevance',
+      order: 'date',
     };
 
     if (query) {
@@ -44,7 +45,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     if (topicId) {
       searchParams.topicId = topicId as string;
     }
+    if (regionCode) {
+      searchParams.regionCode = regionCode as string;
+    }
 
+    console.log("🚀 ~ file: route.ts:54 ~ GET ~ searchParams:", searchParams)
     const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
       await youtube.search.list(searchParams);
 
