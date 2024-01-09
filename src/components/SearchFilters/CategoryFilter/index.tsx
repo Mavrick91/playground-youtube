@@ -40,20 +40,15 @@ export default function CategoryFilter({ updateFilter }: Props) {
 
           return (
             <DropdownMenuSub key={category.id}>
-              <DropdownMenuSubTrigger
-                className="cursor-pointer"
-                onClick={() => updateFilter(category)}
-              >
-                {category.label}
-              </DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>{category.label}</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  {category.subCategories.map(subCategory => (
+                  {category.subCategories.map((subCategory, index) => (
                     <DropdownMenuItem
                       key={subCategory.id}
                       onClick={() => updateFilter(subCategory)}
                     >
-                      {subCategory.label}
+                      {index === 0 ? 'All' : subCategory.label}
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuSubContent>
