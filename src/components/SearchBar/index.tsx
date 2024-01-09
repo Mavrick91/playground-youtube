@@ -76,7 +76,7 @@ export default function SearchBar({ children }: SearchBarProps) {
                     channelThumbnail={video.snippet.thumbnails.default.url}
                     channelTitle={video.snippet.channelTitle}
                     publishedAt={video.snippet.publishedAt}
-                    thumbnail={video.snippet.thumbnails.high}
+                    thumbnail={video.snippet.thumbnails.medium}
                     videoTitle={video.snippet.title}
                     viewCount={'0'}
                   />

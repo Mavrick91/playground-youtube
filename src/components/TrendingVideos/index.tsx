@@ -32,7 +32,7 @@ export default async function TrendingVideos() {
         channelTitle={video.channel.snippet.title}
         viewCount={video.statistics.viewCount}
         publishedAt={video.snippet.publishedAt}
-        thumbnail={video.snippet.thumbnails.high}
+        thumbnail={video.snippet.thumbnails.medium}
       />
     );
   });
