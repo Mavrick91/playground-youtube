@@ -9,7 +9,6 @@ import {
 } from '~/components/DropdownMenu';
 import Button from '~/components/shared/Button';
 import SearchInput from '~/components/shared/SearchInput';
-import { Input } from '~/components/shared/input/InputText';
 import { COUNTRY_LIST } from '~/constants/country';
 import { Filters } from '~/types/filters';
 
@@ -20,29 +19,34 @@ type Props = {
 export default function CountryFilter({ updateFilter }: Props) {
   const [inputValue, setInputValue] = useState('');
 
-  const filteredCountries = useMemo(
-    () =>
-      COUNTRY_LIST.filter(country =>
-        country.label.toLowerCase().includes(inputValue.toLowerCase())
-      ),
-    [inputValue]
-  );
+  const filteredCountries = useMemo(() => {
+    if (!inputValue) return [];
+    return COUNTRY_LIST.filter(country =>
+      country.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  }, [inputValue]);
 
-  const handleClickDeleteSearch = useCallback(() => {
+  const resetInputValue = useCallback(() => {
     setInputValue('');
   }, []);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Countries</Button>
+        <Button variant="outline">
+          Videos available in a specific country
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent
+        align="start"
+        onInteractOutside={resetInputValue}
+        className="w-[277px]"
+      >
         <div className="px-2 py-1">
           <SearchInput
             onChange={value => setInputValue(value)}
             value={inputValue}
-            handleClickDeleteSearch={handleClickDeleteSearch}
+            handleClickDeleteSearch={resetInputValue}
             className="rounded-3xl"
             placeholder="Search country..."
             size={16}
@@ -51,8 +55,12 @@ export default function CountryFilter({ updateFilter }: Props) {
         {filteredCountries.slice(0, 10).map(country => {
           return (
             <DropdownMenuItem
+              textValue="test"
               key={country.id}
-              onClick={() => updateFilter(country)}
+              onClick={() => {
+                updateFilter(country);
+                resetInputValue();
+              }}
             >
               {country.label}
             </DropdownMenuItem>
