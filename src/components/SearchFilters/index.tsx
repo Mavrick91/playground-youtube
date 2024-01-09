@@ -52,11 +52,11 @@ export default function SearchFilters({ clearSearchInput }: Props) {
       </Bubble>
     ));
 
-  useEffect(() => {
-    refetch();
-  }, [filters, refetch]);
-
   const displayFilters = Object.values(filters).some(Boolean);
+
+  useEffect(() => {
+    if (displayFilters) refetch();
+  }, [displayFilters, filters.category, filters.country, refetch]);
 
   return (
     <div className="mb-5">
