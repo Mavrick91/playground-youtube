@@ -37,6 +37,7 @@ export default function SearchInput({
           onClick={handleClickDeleteSearch}
           size={size ? size : 24}
           color="#4d4f4e70"
+          data-testid="search-input-delete"
         />
       ) : null}
     </div>

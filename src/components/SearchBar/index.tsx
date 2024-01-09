@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, X } from 'lucide-react';
+import { Search } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import DotLoader from 'react-spinners/DotLoader';
@@ -8,7 +8,6 @@ import { useSearchVideo } from '~/endpoint/useSearchVideo';
 import { YouTubeSearchResult } from '~/types/search';
 import VideoItem from '../VideoItem';
 import Button from '../shared/Button';
-import { Input } from '../shared/input/InputText';
 import SearchFilters from '../SearchFilters';
 import { useFilters } from '~/providers/FiltersProvider';
 import SearchInput from '../shared/SearchInput';
@@ -54,6 +53,7 @@ export default function SearchBar({ children }: SearchBarProps) {
           type="submit"
           disabled={!inputValue}
           className="rounded-none rounded-tr-3xl rounded-br-3xl focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+          data-testid="search-button"
         >
           <Search />
         </Button>
@@ -65,7 +65,7 @@ export default function SearchBar({ children }: SearchBarProps) {
         </div>
       ) : (
         <div className="grid grid-cols-4 gap-4">
-          {data
+          {data && data.items.length >= 1
             ? data.items.map((video: YouTubeSearchResult) => {
                 if (video.id.kind === 'youtube#channel') {
                   return null;
