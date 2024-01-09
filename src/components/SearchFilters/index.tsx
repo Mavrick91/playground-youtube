@@ -61,14 +61,16 @@ export default function SearchFilters({ clearSearchInput }: Props) {
   return (
     <div className="mb-5">
       <h2 className="text-gray-600 font-medium mb-4">
-        {displayFilters ? (
-          <div className="flex gap-2 items-center">
-            <span>Filters: </span>
-            {labelsToDisplay}
-          </div>
-        ) : (
-          'Filters'
-        )}
+        <div className="h-7 flex items-center">
+          {displayFilters ? (
+            <div className="flex gap-2 items-center">
+              <span>Filters: </span>
+              {labelsToDisplay}
+            </div>
+          ) : (
+            'Filters'
+          )}
+        </div>
       </h2>
       <div className="flex gap-3">
         <CategoryFilter updateFilter={updateFilter('category')} />
