@@ -1,6 +1,7 @@
 import { RenderOptions, render } from '@testing-library/react';
 import React, { ComponentType } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import userEvent from '@testing-library/user-event';
 
 export function createDefaultQueryResponse(overrides = {}) {
   return {
@@ -49,8 +50,12 @@ export const AllTheProviders = ({
   );
 };
 
-const customRender = (ui: React.ReactElement, options?: RenderOptions) =>
-  render(ui, { wrapper: AllTheProviders as ComponentType, ...options });
+const customRender = (ui: React.ReactElement, options?: RenderOptions) => {
+  return {
+    user: userEvent.setup(),
+    ...render(ui, { wrapper: AllTheProviders as ComponentType, ...options }),
+  };
+};
 
 // re-export everything
 export * from '@testing-library/react';

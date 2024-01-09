@@ -3,6 +3,7 @@ export const CATEGORY_LIST = [
       id: '/m/04rlf',
       label: 'Music',
       subCategories: [
+        { id: '/m/04rlf', label: 'Music' },
         { id: '/m/02mscn', label: 'Christian music' },
         { id: '/m/0ggq0m', label: 'Classical music' },
         { id: '/m/01lyv', label: 'Country' },
@@ -23,6 +24,7 @@ export const CATEGORY_LIST = [
       id: '/m/0bzvm2',
       label: 'Gaming',
       subCategories: [
+        { id: '/m/0bzvm2', label: 'Gaming' },
         { id: '/m/025zzc', label: 'Action game' },
         { id: '/m/02ntfj', label: 'Action-adventure game' },
         { id: '/m/0b1vjn', label: 'Casual game' },
@@ -39,6 +41,7 @@ export const CATEGORY_LIST = [
       id: '/m/06ntj',
       label: 'Sports',
       subCategories: [
+        { id: '/m/06ntj', label: 'Sports' },
         { id: '/m/0jm_', label: 'American football' },
         { id: '/m/018jz', label: 'Baseball' },
         { id: '/m/018w8', label: 'Basketball' },
@@ -57,6 +60,7 @@ export const CATEGORY_LIST = [
       id: '/m/02jjt',
       label: 'Entertainment',
       subCategories: [
+        { id: '/m/02jjt', label: 'Entertainment' },
         { id: '/m/09kqc', label: 'Humor' },
         { id: '/m/02vxn', label: 'Movies' },
         { id: '/m/05qjc', label: 'Performing arts' },
@@ -68,6 +72,7 @@ export const CATEGORY_LIST = [
       id: '/m/019_rr',
       label: 'Lifestyle',
       subCategories: [
+        { id: '/m/019_rr', label: 'Lifestyle' },
         { id: '/m/032tl', label: 'Fashion' },
         { id: '/m/027x7n', label: 'Fitness' },
         { id: '/m/02wbm', label: 'Food' },
@@ -83,6 +88,7 @@ export const CATEGORY_LIST = [
       id: '/m/098wr',
       label: 'Society',
       subCategories: [
+        { id: '/m/098wr', label: 'Society' },
         { id: '/m/09s1f', label: 'Business' },
         { id: '/m/0kt51', label: 'Health' },
         { id: '/m/01h6rj', label: 'Military' },
