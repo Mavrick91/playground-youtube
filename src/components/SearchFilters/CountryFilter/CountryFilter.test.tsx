@@ -26,6 +26,19 @@ describe('CountryFilter', () => {
     expect(inputElements).toBeInTheDocument();
   });
 
+  it('auto-focuses the SearchInput when the dropdown is opened', async () => {
+    const updateFilter = jest.fn();
+    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+
+    const buttonElement = screen.getByRole('button', {
+      name: /Videos available in a specific country/i,
+    });
+    await user.click(buttonElement);
+
+    const inputElements = screen.getByRole('textbox');
+    expect(document.activeElement).toBe(inputElements);
+  });
+
   it('calls updateFilter when a country is selected', async () => {
     const updateFilter = jest.fn();
     const { user } = render(<CountryFilter updateFilter={updateFilter} />);

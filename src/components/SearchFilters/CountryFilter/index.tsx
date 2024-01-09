@@ -44,6 +44,7 @@ export default function CountryFilter({ updateFilter }: Props) {
       >
         <div className="px-2 py-1">
           <SearchInput
+            autoFocus
             onChange={value => setInputValue(value)}
             value={inputValue}
             handleClickDeleteSearch={resetInputValue}

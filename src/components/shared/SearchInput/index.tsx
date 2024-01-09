@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   handleClickDeleteSearch: () => void;
   size?: number;
+  autoFocus?: boolean;
 };
 
 export default function SearchInput({
@@ -19,6 +20,7 @@ export default function SearchInput({
   className,
   handleClickDeleteSearch,
   size,
+  autoFocus,
 }: Props) {
   return (
     <div className="relative w-full">
@@ -30,6 +32,7 @@ export default function SearchInput({
           'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
           className
         )}
+        autoFocus={autoFocus}
       />
       {value ? (
         <X
