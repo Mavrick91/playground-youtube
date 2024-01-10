@@ -58,3 +58,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.pac-container-custom {
+  top: 41px !important;
+  left: 0 !important;
+}

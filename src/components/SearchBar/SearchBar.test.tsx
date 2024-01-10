@@ -35,6 +35,7 @@ describe('SearchBar', () => {
       filters: {
         category: null,
         country: null,
+        location: null,
       },
       setFilters: jest.fn(),
     });

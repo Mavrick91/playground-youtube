@@ -19,6 +19,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const topicId = req.nextUrl.searchParams.get('topicId');
   const regionCode = req.nextUrl.searchParams.get('regionCode');
   const channelId = req.nextUrl.searchParams.get('channelId');
+  const location = req.nextUrl.searchParams.get('location');
+  const radius = req.nextUrl.searchParams.get('radius');
 
   if (!token) {
     return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
@@ -47,6 +49,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
     if (regionCode) {
       searchParams.regionCode = regionCode as string;
+    }
+    if (location && radius) {
+      searchParams.location = location as string;
+      searchParams.locationRadius = `${radius}km` as string;
+      searchParams.type = ['video'];
     }
 
     const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =

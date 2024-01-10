@@ -27,10 +27,6 @@ const options = [
 export default function FilterGroup({ clearSearchInput }: Props) {
   const { filters, setFilters } = useFilters();
 
-  console.log(
-    '🚀 ~ file: index.tsx:25 ~ FilterGroup ~ filters.location?.lat:',
-    filters.location?.lat
-  );
   const { refetch } = useSearchVideo({
     topicId: filters.category?.id,
     regionCode: filters.country?.id,
