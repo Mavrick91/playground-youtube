@@ -8,7 +8,7 @@ import { useSearchVideo } from '~/endpoint/useSearchVideo';
 import { YouTubeSearchResult } from '~/types/search';
 import VideoItem from '../VideoItem';
 import Button from '../shared/Button';
-import SearchFilters from '../SearchFilters';
+import FilterGroup from '../FilterGroup';
 import { useFilters } from '~/providers/FiltersProvider';
 import SearchInput from '../shared/SearchInput';
 
@@ -58,7 +58,7 @@ export default function SearchBar({ children }: SearchBarProps) {
           <Search />
         </Button>
       </form>
-      <SearchFilters clearSearchInput={clearSearchInput} />
+      <FilterGroup clearSearchInput={clearSearchInput} />
       {isFetching ? (
         <div className="flex justify-center">
           <DotLoader size={50} color="#a147f5" />
