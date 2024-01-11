@@ -70,7 +70,7 @@ export default function FilterGroup({ clearSearchInput }: Props) {
   const displayFilters = Object.values(filters).some(Boolean);
 
   useEffect(() => {
-    if (labelsToDisplay) refetch();
+    if (labelsToDisplay.length) refetch();
   }, [labelsToDisplay, refetch]);
 
   return (
