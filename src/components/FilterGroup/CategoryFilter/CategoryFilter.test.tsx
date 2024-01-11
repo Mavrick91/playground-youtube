@@ -34,4 +34,17 @@ describe('CategoryFilter', () => {
       expect.any(String)
     );
   });
+
+  it('calls updateQueryParams with null when the reset button is clicked', async () => {
+    const { user } = render(<CategoryFilter />);
+
+    const button = screen.getByRole('button', { name: /Categories/i });
+
+    await user.click(button);
+
+    const resetButton = screen.getByText(/Reset/i);
+    fireEvent.click(resetButton);
+
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith('topicId', null);
+  });
 });

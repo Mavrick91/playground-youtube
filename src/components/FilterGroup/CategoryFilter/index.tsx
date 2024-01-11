@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuPortal,
+  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -22,7 +23,7 @@ export default function CategoryFilter() {
   });
 
   const handleUpdateCategory = useCallback(
-    (value: string) => {
+    (value: string | null) => {
       updateQueryParams('topicId', value);
     },
     [updateQueryParams]
@@ -69,6 +70,12 @@ export default function CategoryFilter() {
             </DropdownMenuSub>
           );
         })}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => handleUpdateCategory(null)} asChild>
+          <Button className="w-full" size="sm" variant="link">
+            Reset
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
