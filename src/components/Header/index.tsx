@@ -66,6 +66,7 @@ export default function Header() {
                       src={user.picture}
                       className="rounded-full cursor-pointer"
                       alt={user.displayName}
+                      quality={100}
                       width={40}
                       height={40}
                     />
