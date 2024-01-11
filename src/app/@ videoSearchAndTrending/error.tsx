@@ -42,14 +42,16 @@ export default function Error({
   return (
     <div className="h-[496px] border border-purple-400 rounded-md flex items-center justify-center flex-col gap-4">
       <h1 className="font-medium text-gray-800">{message}</h1>
-      <a
-        href={`https://developers.google.com${link}`}
-        className="text-purple-600 hover:underline"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        See the documentation
-      </a>
+      {link && (
+        <a
+          href={`https://developers.google.com${link}`}
+          className="text-purple-600 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          See the documentation
+        </a>
+      )}
       <Button onClick={() => reset()}>Try again</Button>
     </div>
   );
