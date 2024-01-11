@@ -10,12 +10,13 @@ const mockUseUpdateQueryParams = useUpdateQueryParams as jest.MockedFunction<
 >;
 
 const mockUpdateQueryParams = jest.fn();
+const mockGetQueryParam = jest.fn();
 
 describe('CountryFilter', () => {
   beforeEach(() => {
     mockUseUpdateQueryParams.mockReturnValue({
       updateQueryParams: mockUpdateQueryParams,
-      getQueryParam: jest.fn(),
+      getQueryParam: mockGetQueryParam,
     });
   });
 
@@ -128,5 +129,30 @@ describe('CountryFilter', () => {
     fireEvent.click(resetButton);
 
     expect(mockUpdateQueryParams).toHaveBeenCalledWith('regionCode', null);
+  });
+
+  it('renders with default placeholder when regionCode is not set', async () => {
+    const { user } = render(<CountryFilter />);
+
+    const buttonElement: HTMLElement = screen.getByRole('button', {
+      name: /Videos available in a specific country/i,
+    });
+    await user.click(buttonElement);
+
+    const searchInput = screen.getByPlaceholderText('Search country...');
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  it('renders with country label as placeholder when regionCode is set', async () => {
+    mockGetQueryParam.mockReturnValue('US');
+    const { user } = render(<CountryFilter />);
+
+    const buttonElement: HTMLElement = screen.getByRole('button', {
+      name: /Videos available in a specific country/i,
+    });
+    await user.click(buttonElement);
+
+    const searchInput = screen.getByPlaceholderText('United States of America');
+    expect(searchInput).toBeInTheDocument();
   });
 });

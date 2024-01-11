@@ -1,5 +1,6 @@
 'use client';
 
+import { Label } from '@radix-ui/react-dropdown-menu';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   DropdownMenu,
@@ -31,6 +32,17 @@ export default function CountryFilter() {
     setInputValue('');
   }, []);
 
+  const regionLabel = useMemo(() => {
+    const country = COUNTRY_LIST.find(
+      country => country.id === getQueryParam('regionCode')
+    )?.label;
+    if (country) {
+      return country;
+    }
+
+    return 'Search country...';
+  }, [getQueryParam]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -53,7 +65,7 @@ export default function CountryFilter() {
             value={inputValue}
             handleClickDeleteSearch={resetInputValue}
             className="rounded-3xl"
-            placeholder="Search country..."
+            placeholder={regionLabel}
             size={16}
           />
           <DropdownMenuItem
