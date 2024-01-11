@@ -46,7 +46,7 @@ export default function CountryFilter() {
         onInteractOutside={resetInputValue}
         className="w-[277px]"
       >
-        <div className="px-2 py-1">
+        <div className="px-2 py-1 flex gap-2">
           <SearchInput
             autoFocus
             onChange={value => setInputValue(value)}
@@ -56,6 +56,14 @@ export default function CountryFilter() {
             placeholder="Search country..."
             size={16}
           />
+          <DropdownMenuItem
+            onClick={() => updateQueryParams('regionCode', null)}
+            asChild
+          >
+            <Button size="sm" variant="link">
+              Reset
+            </Button>
+          </DropdownMenuItem>
         </div>
         {filteredCountries.slice(0, 10).map(country => {
           return (

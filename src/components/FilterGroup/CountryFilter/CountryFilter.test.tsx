@@ -56,7 +56,7 @@ describe('CountryFilter', () => {
     expect(document.activeElement).toBe(inputElements);
   });
 
-  it('calls updateQueryParams and resetInputValue when DropdownMenuItem is clicked', async () => {
+  it('calls updateQueryParams when DropdownMenuItem is clicked', async () => {
     mockUseUpdateQueryParams.mockReturnValue({
       updateQueryParams: mockUpdateQueryParams,
       getQueryParam: jest.fn(),
@@ -109,10 +109,24 @@ describe('CountryFilter', () => {
     const inputElements: HTMLInputElement = screen.getByRole('textbox');
     await user.type(inputElements, 'Fr');
     let countryElements = screen.getAllByRole('menuitem');
-    expect(countryElements).toHaveLength(6);
+    expect(countryElements).toHaveLength(7);
 
     await user.type(inputElements, 'ance');
     countryElements = screen.getAllByRole('menuitem');
-    expect(countryElements).toHaveLength(1);
+    expect(countryElements).toHaveLength(2);
+  });
+
+  it('calls updateQueryParams with null when the reset button is clicked', async () => {
+    const { user } = render(<CountryFilter />);
+
+    const buttonElement: HTMLElement = screen.getByRole('button', {
+      name: /Videos available in a specific country/i,
+    });
+    await user.click(buttonElement);
+
+    const resetButton = screen.getByText(/Reset/i);
+    fireEvent.click(resetButton);
+
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith('regionCode', null);
   });
 });
