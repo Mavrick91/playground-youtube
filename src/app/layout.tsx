@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
+import AuthenticatedUserCheck from '~/components/AuthenticatedUserCheck';
 import Header from '~/components/Header';
-import { UserProvider } from '~/providers/UserProvider';
-import './globals.css';
+import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import { cn } from '~/lib/utils';
 import { QueryProvider } from '~/providers/QueryProvider';
+import { UserProvider } from '~/providers/UserProvider';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,8 +18,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  videoSearchAndTrending,
 }: {
   children: React.ReactNode;
+  videoSearchAndTrending: React.ReactNode;
 }) {
   return (
     <html lang="en" className="h-full">
@@ -36,7 +40,12 @@ export default function RootLayout({
           <UserProvider>
             <div className="flex flex-col">
               <Header />
-              {children}
+              <AuthenticatedUserCheck>
+                <MaxWidthWrapper>
+                  {children}
+                  {videoSearchAndTrending}
+                </MaxWidthWrapper>
+              </AuthenticatedUserCheck>
             </div>
           </UserProvider>
         </QueryProvider>

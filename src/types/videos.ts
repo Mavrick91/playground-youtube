@@ -1,7 +1,7 @@
 export type Thumbnail = {
   url: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 };
 
 export type VideoSnippet = {

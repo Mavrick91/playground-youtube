@@ -22,6 +22,8 @@ export default function VideoItem({
   publishedAt,
   thumbnail,
 }: Props) {
+  if (!thumbnail.height || !thumbnail.width) return null;
+
   return (
     <div>
       <Image
