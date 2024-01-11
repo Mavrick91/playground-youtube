@@ -69,7 +69,7 @@ export async function GET(): Promise<NextResponse> {
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
     return NextResponse.json(
-      { message: 'Error fetching trending videos from YouTube' },
+      { message: error?.message },
       { status: 500 }
     );
   }
