@@ -10,10 +10,13 @@ import {
 import Button from '~/components/shared/Button';
 import SearchInput from '~/components/shared/SearchInput';
 import { COUNTRY_LIST } from '~/constants/country';
+import { activeFilterButton } from '~/constants/style';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
 
 export default function CountryFilter() {
-  const { updateQueryParams } = useQueryParams({ deleteQ: true });
+  const { updateQueryParams, getQueryParam } = useQueryParams({
+    deleteQ: true,
+  });
 
   const [inputValue, setInputValue] = useState('');
 
@@ -31,7 +34,10 @@ export default function CountryFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          {...activeFilterButton(!!getQueryParam('regionCode'))}
+        >
           Videos available in a specific country
         </Button>
       </DropdownMenuTrigger>

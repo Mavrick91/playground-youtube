@@ -13,6 +13,8 @@ import {
 import { FilterLocation, Filters } from '~/types/filters';
 import CustomLatLng from './CustomLatLng';
 import { useGetPlaceName } from '~/endpoint/useGetPlaceName';
+import useQueryParams from '~/hooks/useUpdateQueryParams';
+import { activeFilterButton } from '~/constants/style';
 
 type Props = {
   updateFilter: (value: Filters) => void;
@@ -20,7 +22,10 @@ type Props = {
 
 const DEFAULT_RADIUS = '1000'; // Meter unit
 
-export default function LocationFilter({ updateFilter }: Props) {
+export default function LocationFilter() {
+  const { updateQueryParams, getQueryParam } = useQueryParams({
+    deleteQ: true,
+  });
   const [open, setOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<FilterLocation>({
     id: '',
@@ -69,12 +74,8 @@ export default function LocationFilter({ updateFilter }: Props) {
         throw new Error('Failed to fetch place name');
       }
 
-      updateFilter({
-        id: 'location',
-        label: (selectedLocation.label ||
-          res.data.results[1].formatted_address) as string,
-        lat: selectedLocation.lat,
-        lng: selectedLocation.lng,
+      updateQueryParams({
+        location: `${selectedLocation.lat},${selectedLocation.lng}`,
         radius: selectedLocation.radius,
       });
 
@@ -84,18 +85,24 @@ export default function LocationFilter({ updateFilter }: Props) {
     }
   }, [
     refetch,
-    selectedLocation.label,
     selectedLocation.lat,
     selectedLocation.lng,
     selectedLocation.radius,
-    updateFilter,
+    updateQueryParams,
   ]);
 
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Location</Button>
+          <Button
+            variant="outline"
+            {...activeFilterButton(
+              !!getQueryParam('location') && !!getQueryParam('radius')
+            )}
+          >
+            Location
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] md:max-w-7xl">
           <DialogTitle className="text-2xl text-gray-800">
