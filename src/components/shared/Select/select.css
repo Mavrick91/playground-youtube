@@ -1,0 +1,22 @@
+.react-select__control {
+  height: 40px;
+  box-shadow: none !important;
+  border-color: hsl(0, 0%, 80%) !important;
+  @apply !rounded-md;
+}
+
+.react-select__control:hover {
+  border-color: hsl(0, 0%, 80%) !important;
+}
+
+.css-b62m3t-container:focus-within {
+  @apply rounded-md border border-input bg-background ring-offset-background outline-none ring-2 ring-ring ring-offset-2;
+}
+
+.react-select__option--is-focused {
+  @apply !bg-primary/20;
+}
+
+.react-select__option--is-selected {
+  @apply !bg-primary/90;
+}
