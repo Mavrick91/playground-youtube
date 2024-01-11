@@ -12,13 +12,13 @@ type SearchVideoParams = Partial<{
   radius: string;
 }>;
 
-export const useSearchVideo = ({ q, topicId, regionCode, location, radius }: SearchVideoParams) => {
+export const useSearchVideo = (params: SearchVideoParams) => {
   return useQuery<YouTubeSearchListResponse>(
     ['google-search'],
     async () =>
       axios
         .get('/api/google/search', {
-          params: { q, topicId, regionCode, location, radius },
+          params,
         })
         .then(res => res.data),
     {
