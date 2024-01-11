@@ -64,7 +64,7 @@ export default function SearchBar({ children }: SearchBarProps) {
           <DotLoader size={50} color="#a147f5" />
         </div>
       ) : (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-y-10 gap-x-4">
           {data && data.items.length >= 1
             ? data.items.map((video: YouTubeSearchResult) => {
                 if (video.id.kind === 'youtube#channel') {
@@ -73,12 +73,12 @@ export default function SearchBar({ children }: SearchBarProps) {
                 return (
                   <VideoItem
                     key={video.snippet.title}
-                    channelThumbnail={video.snippet.thumbnails.default.url}
+                    channelThumbnail={video.channelThumbnail}
                     channelTitle={video.snippet.channelTitle}
                     publishedAt={video.snippet.publishedAt}
                     thumbnail={video.snippet.thumbnails.medium}
                     videoTitle={video.snippet.title}
-                    viewCount={'0'}
+                    viewCount={video.statistics?.viewCount || '0'}
                   />
                 );
               })

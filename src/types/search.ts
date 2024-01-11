@@ -17,6 +17,10 @@ export interface YouTubeSearchListResponse {
     etag: string;
     id: SearchResultId;
     snippet: SearchResultSnippet;
+    statistics?: {
+      viewCount: string;
+    };
+    channelThumbnail: string;
   }
   
   interface SearchResultId {

@@ -38,7 +38,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       part: ['snippet'],
       maxResults: 8,
       type: ['video', 'channel'],
-      order: 'date',
     };
 
     if (query) {
@@ -56,10 +55,71 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       searchParams.type = ['video'];
     }
 
-    const response: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
+    const searchResponse: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
       await youtube.search.list(searchParams);
 
-    return NextResponse.json(response.data, { status: 200 });
+    if (!searchResponse.data.items)
+      return NextResponse.json(null, { status: 200 });
+
+    const videoIds = searchResponse.data.items
+      .filter(item => item.id?.kind === 'youtube#video')
+      .map(item => item.id?.videoId) as string[];
+
+    const channelResponses = await Promise.all(
+      searchResponse.data.items.map(item =>
+        youtube.channels.list({
+          part: ['snippet'],
+          id: [item.snippet?.channelId || ''],
+        })
+      )
+    );
+
+    const statsResponse = await youtube.videos.list({
+      id: videoIds,
+      part: ['statistics'],
+    });
+
+    if (!statsResponse.data.items)
+      return NextResponse.json(null, { status: 200 });
+
+    const viewCounts: Record<string, string> = {};
+    statsResponse.data.items.forEach(item => {
+      if (item.id && item.statistics) {
+        viewCounts[item.id] = item.statistics.viewCount || '0';
+      }
+    });
+
+    const itemsWithStatistics = searchResponse.data.items.map(item => {
+      if (item.id && item.id.kind === 'youtube#video' && item.id.videoId) {
+        return {
+          ...item,
+          statistics: { viewCount: viewCounts[item.id.videoId] || '0' },
+        };
+      }
+      return item;
+    });
+
+    const itemsWithStatisticsAndChannelThumbnails = itemsWithStatistics.map(
+      (item, index) => {
+        const channelResponse = channelResponses[index];
+        const urlThumbnail = channelResponse.data.items?.[0].snippet?.thumbnails?.default?.url;
+
+        if (channelResponse.data.items && urlThumbnail) {
+          if (item.snippet) {
+            return {
+              ...item,
+              channelThumbnail: urlThumbnail
+            };
+          }
+          return null
+        }
+      }
+    );
+
+    return NextResponse.json(
+      { ...searchResponse.data, items: itemsWithStatisticsAndChannelThumbnails },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
     return NextResponse.json(
