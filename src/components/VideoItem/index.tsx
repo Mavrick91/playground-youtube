@@ -24,15 +24,14 @@ export default function VideoItem({
 }: Props) {
   return (
     <div>
-      <div className="rounded-lg overflow-hidden flex items-center">
-        <Image
-          width={thumbnail.width}
-          height={thumbnail.height}
-          src={thumbnail.url}
-          alt="thumbails"
-          quality={100}
-        />
-      </div>
+      <Image
+        width={thumbnail.width}
+        className="rounded-lg"
+        height={thumbnail.height}
+        src={thumbnail.url}
+        alt="thumbails"
+        quality={100}
+      />
       <div className="mt-3">
         <div className="flex gap-2 items-start">
           <Image
