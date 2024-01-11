@@ -1,33 +1,27 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '~/test-utils';
+import { render, fireEvent, screen } from '~/test-utils';
 import CategoryFilter from './index';
-import { CATEGORY_LIST } from '~/constants/category';
+import useQueryParams from '~/hooks/useUpdateQueryParams';
+
+jest.mock('~/hooks/useUpdateQueryParams');
 
 describe('CategoryFilter', () => {
+  const mockUpdateQueryParams = jest.fn();
+  const mockGetQueryParam = jest.fn();
+
+  beforeEach(() => {
+    (useQueryParams as jest.Mock).mockReturnValue({
+      updateQueryParams: mockUpdateQueryParams,
+      getQueryParam: mockGetQueryParam,
+    });
+  });
+
   it('renders without crashing', () => {
-    const updateFilter = jest.fn();
-    render(<CategoryFilter updateFilter={updateFilter} />);
+    render(<CategoryFilter />);
   });
 
-  it('calls updateFilter when a category without subcategories is clicked', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CategoryFilter updateFilter={updateFilter} />);
-
-    const button = screen.getByRole('button', { name: /Categories/i });
-
-    await user.click(button);
-    await user.click(screen.getByText('Other'));
-
-    const clickedCategory = CATEGORY_LIST.find(
-      category => category.label === 'Other'
-    );
-
-    expect(updateFilter).toHaveBeenCalledWith(clickedCategory);
-  });
-
-  it('renders subcategories when a category with subcategories is clicked', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CategoryFilter updateFilter={updateFilter} />);
+  it('calls updateQueryParams with correct parameters when a category is clicked', async () => {
+    const { user } = render(<CategoryFilter />);
 
     const button = screen.getByRole('button', { name: /Categories/i });
 
@@ -35,13 +29,9 @@ describe('CategoryFilter', () => {
     await user.click(screen.getByText('Music'));
 
     fireEvent.click(screen.getByText('Christian music'));
-
-    const clickedCategory = CATEGORY_LIST[0].subCategories!.find(
-      category => category.label === 'Christian music'
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith(
+      'topicId',
+      expect.any(String)
     );
-
-    await waitFor(() => {
-      expect(updateFilter).toHaveBeenCalledWith(clickedCategory);
-    });
   });
 });

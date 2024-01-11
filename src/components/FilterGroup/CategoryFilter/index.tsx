@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,17 +13,30 @@ import {
 } from '~/components/DropdownMenu';
 import Button from '~/components/shared/Button';
 import { CATEGORY_LIST } from '~/constants/category';
-import { Filters } from '~/types/filters';
+import { activeFilterButton } from '~/constants/style';
+import useQueryParams from '~/hooks/useUpdateQueryParams';
 
-type Props = {
-  updateFilter: (value: Filters) => void;
-};
+export default function CategoryFilter() {
+  const { updateQueryParams, getQueryParam } = useQueryParams({
+    deleteQ: true,
+  });
 
-export default function CategoryFilter({ updateFilter }: Props) {
+  const handleUpdateCategory = useCallback(
+    (value: string) => {
+      updateQueryParams('topicId', value);
+    },
+    [updateQueryParams]
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Categories</Button>
+        <Button
+          variant="outline"
+          {...activeFilterButton(!!getQueryParam('topicId'))}
+        >
+          Categories
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {CATEGORY_LIST.map(category => {
@@ -31,7 +44,7 @@ export default function CategoryFilter({ updateFilter }: Props) {
             return (
               <DropdownMenuItem
                 key={category.id}
-                onClick={() => updateFilter(category)}
+                onClick={() => handleUpdateCategory(category.id)}
               >
                 {category.label}
               </DropdownMenuItem>
@@ -46,7 +59,7 @@ export default function CategoryFilter({ updateFilter }: Props) {
                   {category.subCategories.map((subCategory, index) => (
                     <DropdownMenuItem
                       key={subCategory.id}
-                      onClick={() => updateFilter(subCategory)}
+                      onClick={() => handleUpdateCategory(subCategory.id)}
                     >
                       {index === 0 ? 'All' : subCategory.label}
                     </DropdownMenuItem>

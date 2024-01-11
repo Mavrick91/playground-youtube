@@ -10,13 +10,11 @@ import {
 import Button from '~/components/shared/Button';
 import SearchInput from '~/components/shared/SearchInput';
 import { COUNTRY_LIST } from '~/constants/country';
-import { Filters } from '~/types/filters';
+import useQueryParams from '~/hooks/useUpdateQueryParams';
 
-type Props = {
-  updateFilter: (value: Filters) => void;
-};
+export default function CountryFilter() {
+  const { updateQueryParams } = useQueryParams({ deleteQ: true });
 
-export default function CountryFilter({ updateFilter }: Props) {
   const [inputValue, setInputValue] = useState('');
 
   const filteredCountries = useMemo(() => {
@@ -59,7 +57,7 @@ export default function CountryFilter({ updateFilter }: Props) {
               textValue="test"
               key={country.id}
               onClick={() => {
-                updateFilter(country);
+                updateQueryParams('regionCode', country.id);
                 resetInputValue();
               }}
             >

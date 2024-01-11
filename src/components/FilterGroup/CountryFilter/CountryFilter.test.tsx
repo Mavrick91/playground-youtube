@@ -1,11 +1,30 @@
 import React from 'react';
-import { render, screen, fireEvent } from '~/test-utils';
+import { render, screen, fireEvent, waitFor } from '~/test-utils';
 import CountryFilter from './index';
+import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
+
+jest.mock('~/hooks/useUpdateQueryParams');
+
+const mockUseUpdateQueryParams = useUpdateQueryParams as jest.MockedFunction<
+  typeof useUpdateQueryParams
+>;
+
+const mockUpdateQueryParams = jest.fn();
 
 describe('CountryFilter', () => {
+  beforeEach(() => {
+    mockUseUpdateQueryParams.mockReturnValue({
+      updateQueryParams: mockUpdateQueryParams,
+      getQueryParam: jest.fn(),
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
-    const updateFilter = jest.fn();
-    render(<CountryFilter updateFilter={updateFilter} />);
+    render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
@@ -14,8 +33,7 @@ describe('CountryFilter', () => {
   });
 
   it('displays an input when dropdown is opened', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+    const { user } = render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
@@ -27,8 +45,7 @@ describe('CountryFilter', () => {
   });
 
   it('auto-focuses the SearchInput when the dropdown is opened', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+    const { user } = render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
@@ -39,29 +56,34 @@ describe('CountryFilter', () => {
     expect(document.activeElement).toBe(inputElements);
   });
 
-  it('calls updateFilter when a country is selected', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+  it('calls updateQueryParams and resetInputValue when DropdownMenuItem is clicked', async () => {
+    mockUseUpdateQueryParams.mockReturnValue({
+      updateQueryParams: mockUpdateQueryParams,
+      getQueryParam: jest.fn(),
+    });
 
-    const buttonElement = screen.getByRole('button', {
+    const { user } = render(<CountryFilter />);
+
+    const buttonElement: HTMLElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
     });
     await user.click(buttonElement);
 
-    const inputElements = screen.getByRole('textbox');
+    const inputElements: HTMLInputElement = screen.getByRole('textbox');
+
     await user.type(inputElements, 'France');
+    await user.click(screen.getByText('France'));
 
-    fireEvent.click(screen.getByText('France'));
-
-    expect(updateFilter).toHaveBeenCalledWith({
-      id: 'FR',
-      label: 'France',
+    await waitFor(() => {
+      expect(mockUpdateQueryParams).toHaveBeenCalledWith(
+        'regionCode',
+        expect.any(String)
+      );
     });
   });
 
   it('resets the input value when a country is selected', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+    const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
@@ -77,8 +99,7 @@ describe('CountryFilter', () => {
   });
 
   it('filters the list of countries based on the input value', async () => {
-    const updateFilter = jest.fn();
-    const { user } = render(<CountryFilter updateFilter={updateFilter} />);
+    const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
       name: /Videos available in a specific country/i,
