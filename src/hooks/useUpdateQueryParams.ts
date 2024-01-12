@@ -16,7 +16,7 @@ export default function useQueryParams(options?: OptionsQueryParams) {
   const params = useSearchParams();
 
   const updateQueryParams = useCallback(
-    (key: string | Record<string, string>, value?: string | null) => {
+    (key: string | Record<string, string | null>, value?: string | null) => {
       const newUrl = setQueryParam(key, value, options);
       router.push(newUrl, {
         shallow: true,
