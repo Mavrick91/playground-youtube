@@ -5,11 +5,18 @@ import Select from '../shared/Select';
 import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
 import LocationFilter from './LocationFilter';
+import DateFilter from './DateFilter';
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
+}));
 
 jest.mock('../shared/Select', () => jest.fn(() => null));
 jest.mock('./CategoryFilter', () => jest.fn(() => null));
 jest.mock('./CountryFilter', () => jest.fn(() => null));
 jest.mock('./LocationFilter', () => jest.fn(() => null));
+jest.mock('./DateFilter', () => jest.fn(() => null));
 
 describe('FilterGroup', () => {
   it('renders without crashing', () => {
@@ -40,5 +47,6 @@ describe('FilterGroup', () => {
     expect(CategoryFilter).toHaveBeenCalled();
     expect(CountryFilter).toHaveBeenCalled();
     expect(LocationFilter).toHaveBeenCalled();
+    expect(DateFilter).toHaveBeenCalled();
   });
 });
