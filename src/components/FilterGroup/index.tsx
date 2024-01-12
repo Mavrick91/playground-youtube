@@ -5,6 +5,7 @@ import Select from '../shared/Select';
 import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
 import LocationFilter from './LocationFilter';
+import DateFilter from './DateFilter';
 
 const options = [
   { value: 'date', label: 'Date' },
@@ -18,10 +19,13 @@ const options = [
 export default function FilterGroup() {
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-3">
-        <CategoryFilter />
-        <CountryFilter />
-        <LocationFilter />
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-3">
+          <CategoryFilter />
+          <CountryFilter />
+          <LocationFilter />
+        </div>
+        <DateFilter />
       </div>
       <div className="flex gap-2 items-center">
         <div className="text-gray-600 font-medium">Order by:</div>{' '}

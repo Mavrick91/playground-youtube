@@ -21,6 +21,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const channelId = req.nextUrl.searchParams.get('channelId');
   const location = req.nextUrl.searchParams.get('location');
   const radius = req.nextUrl.searchParams.get('radius');
+  const publishedAfter = req.nextUrl.searchParams.get('publishedAfter');
+  const publishedBefore = req.nextUrl.searchParams.get('publishedBefore');
 
   if (!token) {
     return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
@@ -53,6 +55,12 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       searchParams.location = location as string;
       searchParams.locationRadius = `${radius}km` as string;
       searchParams.type = ['video'];
+    }
+    if (publishedAfter) {
+      searchParams.publishedAfter = publishedAfter as string;
+    }
+    if (publishedBefore) {
+      searchParams.publishedBefore = publishedBefore as string;
     }
 
     const searchResponse: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
