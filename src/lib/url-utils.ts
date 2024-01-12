@@ -1,8 +1,8 @@
+import { SEARCH_PARAMS } from "~/constants/searchParams";
 import { OptionsQueryParams } from "~/hooks/useUpdateQueryParams";
 
 export function hasSearchQueryOrFilters(searchParams: Record<string, string>): boolean {
-    const keysToCheck = ['q', 'topicId', 'regionCode', 'location', 'radius'];
-    return keysToCheck.some(key => key in searchParams && !!searchParams[key]);
+    return SEARCH_PARAMS.some(key => key in searchParams && !!searchParams[key]);
 }
 
 export function setQueryParam(
