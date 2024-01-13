@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react';
 import { setQueryParam } from '~/lib/url-utils';
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
 
 export type OptionsQueryParams =
   | {
@@ -27,7 +27,10 @@ export default function useQueryParams(options?: OptionsQueryParams) {
 
   const getQueryParam = useCallback(
     (key: string) => {
-      return params.get(key);
+      if (params.get(key)) {
+        return params.get(key) as string;
+      }
+      return undefined;
     },
     [params]
   );

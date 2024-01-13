@@ -1,5 +1,9 @@
 import { renderHook } from '@testing-library/react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import {
+  useSearchParams,
+  useRouter,
+  ReadonlyURLSearchParams,
+} from 'next/navigation';
 import useQueryParams from './useUpdateQueryParams';
 
 jest.mock('next/navigation', () => ({
@@ -51,10 +55,10 @@ describe('useQueryParams', () => {
     expect(value).toBe('testValue');
   });
 
-  it('getQueryParam returns null if the query parameter does not exist', () => {
+  it('getQueryParam returns undefined if the query parameter does not exist', () => {
     const { result } = renderHook(() => useQueryParams());
     const value = result.current.getQueryParam('nonexistentKey');
 
-    expect(value).toBeNull();
+    expect(value).toBeUndefined();
   });
 });
