@@ -28,7 +28,7 @@ describe('CountryFilter', () => {
     render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     expect(buttonElement).toBeInTheDocument();
   });
@@ -37,7 +37,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -49,7 +49,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -66,7 +66,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -87,7 +87,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -103,7 +103,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -121,7 +121,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -135,7 +135,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 
@@ -148,7 +148,7 @@ describe('CountryFilter', () => {
     const { user } = render(<CountryFilter />);
 
     const buttonElement: HTMLElement = screen.getByRole('button', {
-      name: /Videos available in a specific country/i,
+      name: /Country/i,
     });
     await user.click(buttonElement);
 

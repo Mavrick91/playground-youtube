@@ -50,7 +50,7 @@ export default function CountryFilter() {
           variant="outline"
           {...activeFilterButton(!!getQueryParam('regionCode'))}
         >
-          Videos available in a specific country
+          Country
           <Tooltip tip="This setting filters the videos based on their availability in a specific country" />
         </Button>
       </DropdownMenuTrigger>
