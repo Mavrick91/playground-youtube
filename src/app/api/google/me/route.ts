@@ -31,7 +31,7 @@ export async function GET(): Promise<NextResponse> {
 
     return NextResponse.json(me.data, { status: 200 })
   } catch (error: any) {
-    console.error('YouTube API error:', error?.message);
-    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 })
+    console.error('Google API error:', error?.message);
+    return NextResponse.json({ message: error?.message }, { status: 500 })
   }
 }

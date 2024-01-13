@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { ReadonlyURLSearchParams } from 'next/navigation';
 import ContainerVideoItems from '~/components/shared/ContainerVideoItems';
 import { hasSearchQueryOrFilters } from '~/lib/url-utils';
 import { YouTubeSearchListResponse } from '~/types/search';
@@ -27,8 +26,8 @@ async function getData(
   searchParams: Record<string, string>
 ): Promise<YouTubeSearchListResponse> {
   const endpoint = hasSearchQueryOrFilters(searchParams)
-    ? '/api/google/search'
-    : '/api/google/trending';
+    ? '/api/youtube/search'
+    : '/api/youtube/trending';
 
   const url = new URL(endpoint, 'http://localhost:3000');
   const params = new URLSearchParams(searchParams);
