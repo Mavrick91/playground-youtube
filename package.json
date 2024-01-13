@@ -43,7 +43,7 @@
     "he": "^1.2.0",
     "lucide-react": "^0.302.0",
     "moment": "^2.30.0",
-    "next": "14.0.3",
+    "next": "^14.0.5-canary.55",
     "open": "^10.0.0",
     "react": "^18",
     "react-day-picker": "^8.10.0",

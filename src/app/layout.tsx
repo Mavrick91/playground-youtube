@@ -18,10 +18,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  videoSearchAndTrending,
 }: {
   children: React.ReactNode;
-  videoSearchAndTrending: React.ReactNode;
 }) {
   return (
     <html lang="en" className="h-full">
@@ -41,10 +39,7 @@ export default function RootLayout({
             <div className="flex flex-col">
               <Header />
               <AuthenticatedUserCheck>
-                <MaxWidthWrapper>
-                  {children}
-                  {videoSearchAndTrending}
-                </MaxWidthWrapper>
+                <MaxWidthWrapper>{children}</MaxWidthWrapper>
               </AuthenticatedUserCheck>
             </div>
           </UserProvider>
