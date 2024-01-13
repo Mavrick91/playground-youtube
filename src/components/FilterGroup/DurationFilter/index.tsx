@@ -38,7 +38,6 @@ export default function DurationFilter() {
             <DropdownMenuItem
               key={duration.value}
               onClick={() => handleUpdateDuration(duration.value)}
-              className="flex gap-1"
             >
               {duration.label}
               <Tooltip tip={duration.tooltip} />

@@ -1,6 +1,5 @@
 'use client';
 
-import { Label } from '@radix-ui/react-dropdown-menu';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   DropdownMenu,
@@ -10,6 +9,7 @@ import {
 } from '~/components/DropdownMenu';
 import Button from '~/components/shared/Button';
 import SearchInput from '~/components/shared/SearchInput';
+import Tooltip from '~/components/shared/Tooltip';
 import { COUNTRY_LIST } from '~/constants/country';
 import { activeFilterButton } from '~/constants/style';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
@@ -51,6 +51,7 @@ export default function CountryFilter() {
           {...activeFilterButton(!!getQueryParam('regionCode'))}
         >
           Videos available in a specific country
+          <Tooltip tip="This setting filters the videos based on their availability in a specific country" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
