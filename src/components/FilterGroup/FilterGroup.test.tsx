@@ -6,6 +6,7 @@ import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
 import LocationFilter from './LocationFilter';
 import DateFilter from './DateFilter';
+import DurationFilter from './DateFilter';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -17,6 +18,7 @@ jest.mock('./CategoryFilter', () => jest.fn(() => null));
 jest.mock('./CountryFilter', () => jest.fn(() => null));
 jest.mock('./LocationFilter', () => jest.fn(() => null));
 jest.mock('./DateFilter', () => jest.fn(() => null));
+jest.mock('./DurationFilter', () => jest.fn(() => null));
 
 describe('FilterGroup', () => {
   it('renders without crashing', () => {
@@ -48,5 +50,6 @@ describe('FilterGroup', () => {
     expect(CountryFilter).toHaveBeenCalled();
     expect(LocationFilter).toHaveBeenCalled();
     expect(DateFilter).toHaveBeenCalled();
+    expect(DurationFilter).toHaveBeenCalled();
   });
 });

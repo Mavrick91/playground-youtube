@@ -6,6 +6,7 @@ import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
 import LocationFilter from './LocationFilter';
 import DateFilter from './DateFilter';
+import DurationFilter from './DurationFilter';
 
 const options = [
   { value: 'date', label: 'Date' },
@@ -24,6 +25,7 @@ export default function FilterGroup() {
           <CategoryFilter />
           <CountryFilter />
           <LocationFilter />
+          <DurationFilter />
         </div>
         <DateFilter />
       </div>

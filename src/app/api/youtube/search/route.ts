@@ -25,6 +25,7 @@ const getSearchParams = (req: NextRequest) => {
   const radius = req.nextUrl.searchParams.get('radius');
   const publishedAfter = req.nextUrl.searchParams.get('publishedAfter');
   const publishedBefore = req.nextUrl.searchParams.get('publishedBefore');
+  const videoDuration = req.nextUrl.searchParams.get('videoDuration');
 
   let searchParams: youtube_v3.Params$Resource$Search$List = {
     part: ['snippet'],
@@ -34,6 +35,7 @@ const getSearchParams = (req: NextRequest) => {
 
   if (query) searchParams.q = query;
   if (topicId) searchParams.topicId = topicId;
+  if (videoDuration) searchParams.videoDuration = videoDuration;
   if (regionCode) searchParams.regionCode = regionCode;
   if (location && radius) {
     searchParams.location = location;
@@ -48,6 +50,7 @@ const getSearchParams = (req: NextRequest) => {
       searchParams.publishedBefore = parseISO(publishedBefore).toISOString();
     }
   }
+  console.log("🚀 ~ searchParams:", searchParams)
   return searchParams;
 };
 
