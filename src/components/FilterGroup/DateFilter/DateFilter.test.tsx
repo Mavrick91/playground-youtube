@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, act } from '@testing-library/react';
 import DateFilter from './index';
 import { format } from 'date-fns';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
@@ -132,5 +132,31 @@ describe('DateFilter', () => {
     fireEvent.click(resetButtonElement);
 
     expect(publishBeforeButton.textContent).toBe('Published Before');
+  });
+
+  it('sets the publishedAfter and publishedBefore states based on the query parameters', async () => {
+    const dateAfter = new Date('2022-01-01');
+    const dateBefore = new Date('2022-12-31');
+
+    mockGetQueryParam
+      .mockReturnValueOnce(dateAfter.toISOString().slice(0, 10))
+      .mockReturnValueOnce(dateBefore.toISOString().slice(0, 10));
+
+    const { rerender } = await act(async () => render(<DateFilter />));
+
+    expect(
+      screen.getByText(format(dateAfter, 'LLL dd, y'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(format(dateBefore, 'LLL dd, y'))
+    ).toBeInTheDocument();
+
+    mockGetQueryParam
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(undefined);
+    await act(async () => rerender(<DateFilter />));
+
+    expect(screen.queryByText('Published After')).not.toBeInTheDocument();
+    expect(screen.queryByText('Published Before')).not.toBeInTheDocument();
   });
 });

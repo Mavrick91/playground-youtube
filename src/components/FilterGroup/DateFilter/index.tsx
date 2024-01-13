@@ -28,12 +28,11 @@ export default function DateFilter({ className }: { className?: string }) {
     const before = getQueryParam('publishedBefore');
 
     if (arePublishedDatesValid(after, before)) {
-      if (after) {
-        setPublishedAfter(new Date(decodeURIComponent(after)));
-      }
-      if (before) {
-        setPublishedBefore(new Date(decodeURIComponent(before)));
-      }
+      if (after) setPublishedAfter(new Date(decodeURIComponent(after)));
+      if (before) setPublishedBefore(new Date(decodeURIComponent(before)));
+    } else {
+      setPublishedAfter(undefined);
+      setPublishedBefore(undefined);
     }
   }, [getQueryParam]);
 
