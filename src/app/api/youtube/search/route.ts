@@ -1,8 +1,9 @@
+import { parseISO } from 'date-fns';
 import { GaxiosResponse } from 'gaxios';
 import { google, youtube_v3 } from 'googleapis';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { isValidRFC3339Date } from '~/lib/utils';
+import { arePublishedDatesValid, isValidDate } from '~/lib/utils';
 
 interface Token {
   value: string;
@@ -39,13 +40,14 @@ const getSearchParams = (req: NextRequest) => {
     searchParams.locationRadius = `${radius}km`;
     searchParams.type = ['video'];
   }
-  if (publishedAfter && isValidRFC3339Date(publishedAfter)) {
-    searchParams.publishedAfter = publishedAfter;
+  if (publishedAfter && publishedBefore && arePublishedDatesValid(publishedAfter, publishedBefore)) {
+    if (isValidDate(publishedAfter)) {
+      searchParams.publishedAfter = parseISO(publishedAfter).toISOString();
+    }
+    if (isValidDate(publishedBefore)) {
+      searchParams.publishedBefore = parseISO(publishedBefore).toISOString();
+    }
   }
-  if (publishedBefore && isValidRFC3339Date(publishedBefore)) {
-    searchParams.publishedBefore = publishedBefore;
-  }
-
   return searchParams;
 };
 
