@@ -51,4 +51,16 @@ describe('DurationFilter', () => {
 
     expect(mockUpdateQueryParams).toHaveBeenCalledWith('videoDuration', null);
   });
+
+  it('disables the Duration button when order is videoCount', () => {
+    mockGetQueryParam.mockReturnValue('videoCount');
+
+    render(<DurationFilter />);
+
+    const durationButton = screen.getByRole('button', {
+      name: /Duration/i,
+    });
+
+    expect(durationButton).toBeDisabled();
+  });
 });

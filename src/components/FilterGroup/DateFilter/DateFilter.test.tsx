@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  screen,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import DateFilter from './index';
 import { format } from 'date-fns';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
@@ -15,6 +21,10 @@ describe('DateFilter', () => {
       updateQueryParams: mockUpdateQueryParams,
       getQueryParam: mockGetQueryParam,
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   const selectDate = async (buttonName: string, dateToSelect?: number) => {
@@ -138,9 +148,14 @@ describe('DateFilter', () => {
     const dateAfter = new Date('2022-01-01');
     const dateBefore = new Date('2022-12-31');
 
-    mockGetQueryParam
-      .mockReturnValueOnce(dateAfter.toISOString().slice(0, 10))
-      .mockReturnValueOnce(dateBefore.toISOString().slice(0, 10));
+    mockGetQueryParam.mockImplementation((key: string) => {
+      if (key === 'publishedAfter') {
+        return dateAfter.toISOString().slice(0, 10);
+      }
+      if (key === 'publishedBefore') {
+        return dateBefore.toISOString().slice(0, 10);
+      }
+    });
 
     const { rerender } = await act(async () => render(<DateFilter />));
 
@@ -158,5 +173,25 @@ describe('DateFilter', () => {
 
     expect(screen.queryByText('Published After')).not.toBeInTheDocument();
     expect(screen.queryByText('Published Before')).not.toBeInTheDocument();
+  });
+
+  it('disables the Published After and Published Before buttons when order is videoCount', () => {
+    mockGetQueryParam.mockImplementation((key: string) => {
+      if (key === 'order') {
+        return 'videoCount';
+      }
+    });
+
+    render(<DateFilter />);
+
+    const publishedAfterButton = screen.getByRole('button', {
+      name: /Published After/i,
+    });
+    const publishedBeforeButton = screen.getByRole('button', {
+      name: /Published Before/i,
+    });
+
+    expect(publishedAfterButton).toBeDisabled();
+    expect(publishedBeforeButton).toBeDisabled();
   });
 });

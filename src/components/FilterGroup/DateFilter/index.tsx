@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
-import { format, isBefore } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import Button from '~/components/shared/Button';
 import {
@@ -57,6 +57,7 @@ export default function DateFilter({ className }: { className?: string }) {
             <Button
               id="publishedAfter"
               variant={'outline'}
+              disabled={getQueryParam('order') === 'videoCount'}
               className={cn(
                 'w-[170px] justify-start text-left font-normal',
                 !publishedAfter && 'text-muted-foreground'
@@ -102,6 +103,7 @@ export default function DateFilter({ className }: { className?: string }) {
             <Button
               id="publishedBefore"
               variant={'outline'}
+              disabled={getQueryParam('order') === 'videoCount'}
               className={cn(
                 'w-[170px] justify-start text-left font-normal',
                 !publishedBefore && 'text-muted-foreground'

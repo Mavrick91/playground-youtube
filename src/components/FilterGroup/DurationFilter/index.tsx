@@ -27,6 +27,7 @@ export default function DurationFilter() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
+          disabled={getQueryParam('order') === 'videoCount'}
           {...activeFilterButton(!!getQueryParam('videoDuration'))}
         >
           Duration
