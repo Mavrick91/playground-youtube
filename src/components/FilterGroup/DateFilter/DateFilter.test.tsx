@@ -8,11 +8,12 @@ jest.mock('~/hooks/useUpdateQueryParams');
 
 describe('DateFilter', () => {
   const mockUpdateQueryParams = jest.fn();
+  const mockGetQueryParam = jest.fn();
 
   beforeEach(() => {
     (useQueryParams as jest.Mock).mockReturnValue({
       updateQueryParams: mockUpdateQueryParams,
-      getQueryParam: jest.fn(),
+      getQueryParam: mockGetQueryParam,
     });
   });
 
@@ -23,13 +24,11 @@ describe('DateFilter', () => {
     fireEvent.click(buttonElement);
 
     const today = new Date();
-    // If dateToSelect is not provided, use today's date
     const date = dateToSelect || today.getDate();
 
     const dateElement = await screen.findByText(date.toString());
     fireEvent.click(dateElement);
 
-    // Set the day to the selected date
     today.setDate(date);
 
     return { formatDate: format(today, 'LLL dd, y'), buttonElement };
@@ -75,8 +74,8 @@ describe('DateFilter', () => {
 
     fireEvent.click(filterButtonElement);
     expect(mockUpdateQueryParams).toHaveBeenNthCalledWith(2, {
-      publishedAfter: expect.any(String),
-      publishedBefore: expect.any(String),
+      publishedAfter: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      publishedBefore: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
     });
   });
 

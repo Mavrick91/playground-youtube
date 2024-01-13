@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { format, isBefore } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import Button from '~/components/shared/Button';
@@ -10,11 +10,11 @@ import {
   PopoverTrigger,
 } from '~/components/shared/Popover';
 import { Calendar } from '~/components/shared/Popover/Calendar';
-import { cn } from '~/lib/utils';
+import { arePublishedDatesValid, cn } from '~/lib/utils';
 import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
 
 export default function DateFilter({ className }: { className?: string }) {
-  const { updateQueryParams } = useUpdateQueryParams();
+  const { updateQueryParams, getQueryParam } = useUpdateQueryParams();
 
   const [publishedAfter, setPublishedAfter] = React.useState<
     Date | undefined
@@ -23,14 +23,28 @@ export default function DateFilter({ className }: { className?: string }) {
     Date | undefined
   >();
 
+  useEffect(() => {
+    const after = getQueryParam('publishedAfter');
+    const before = getQueryParam('publishedBefore');
+
+    if (arePublishedDatesValid(after, before)) {
+      if (after) {
+        setPublishedAfter(new Date(decodeURIComponent(after)));
+      }
+      if (before) {
+        setPublishedBefore(new Date(decodeURIComponent(before)));
+      }
+    }
+  }, [getQueryParam]);
+
   const handleClickFilterDate = useCallback(() => {
     const newParams: Record<string, string | null> = {};
 
     newParams.publishedAfter = publishedAfter
-      ? publishedAfter.toISOString()
+      ? publishedAfter.toISOString().slice(0, 10)
       : null;
     newParams.publishedBefore = publishedBefore
-      ? publishedBefore.toISOString()
+      ? publishedBefore.toISOString().slice(0, 10)
       : null;
 
     updateQueryParams(newParams);
