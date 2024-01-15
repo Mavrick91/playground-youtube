@@ -8,7 +8,7 @@ jest.mock('next/link', () => {
 });
 
 describe('VideoItem', () => {
-  const props = {
+  const baseProps = {
     id: 'test-id',
     channelThumbnail: 'http://example.com/channelThumbnail.jpg',
     videoTitle: 'Test Video Title',
@@ -23,32 +23,32 @@ describe('VideoItem', () => {
   };
 
   it('renders without crashing', () => {
-    render(<VideoItem {...props} />);
+    render(<VideoItem {...baseProps} />);
     expect(screen.getByRole('img', { name: /thumbails/i })).toBeInTheDocument();
   });
 
   it('displays the correct video title', () => {
-    render(<VideoItem {...props} />);
-    expect(screen.getByText(props.videoTitle)).toBeInTheDocument();
+    render(<VideoItem {...baseProps} />);
+    expect(screen.getByText(baseProps.videoTitle)).toBeInTheDocument();
   });
 
   it('displays the correct channel title', () => {
-    render(<VideoItem {...props} />);
-    expect(screen.getByText(props.channelTitle)).toBeInTheDocument();
+    render(<VideoItem {...baseProps} />);
+    expect(screen.getByText(baseProps.channelTitle)).toBeInTheDocument();
   });
 
   it('displays the correct view count', () => {
-    render(<VideoItem {...props} />);
+    render(<VideoItem {...baseProps} />);
     expect(screen.getByText(/1.2 K views/i)).toBeInTheDocument();
   });
 
   it('displays the correct published date', () => {
-    render(<VideoItem {...props} />);
+    render(<VideoItem {...baseProps} />);
     expect(screen.getByText(/2 years ago/i)).toBeInTheDocument();
   });
 
   it('passes the correct props to Link', () => {
-    render(<VideoItem {...props} />);
+    render(<VideoItem {...baseProps} />);
 
     expect(Link).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -56,5 +56,33 @@ describe('VideoItem', () => {
       }),
       {}
     );
+  });
+
+  it('does not render when thumbnail height is not provided', () => {
+    const props = {
+      ...baseProps,
+      thumbnail: {
+        url: 'http://example.com/thumbnail.jpg',
+        width: 480,
+      },
+    };
+
+    const { container } = render(<VideoItem {...props} />);
+
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('does not render when thumbnail width is not provided', () => {
+    const props = {
+      ...baseProps,
+      thumbnail: {
+        url: 'http://example.com/thumbnail.jpg',
+        height: 360,
+      },
+    };
+
+    const { container } = render(<VideoItem {...props} />);
+
+    expect(container.firstChild).toBeNull();
   });
 });
