@@ -1,6 +1,6 @@
 import { GaxiosResponse } from 'gaxios';
 import { google, people_v1 } from 'googleapis';
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 interface Token {
@@ -17,7 +17,7 @@ export async function GET(): Promise<NextResponse> {
   const token: Token | undefined = cookies().get('auth_token');
 
   if (!token) {
-    return NextResponse.json({ message: 'Not authenticated' }, { status: 401 })
+    return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
   }
 
   oAuth2Client.setCredentials({ access_token: token.value });
@@ -26,12 +26,12 @@ export async function GET(): Promise<NextResponse> {
     const people: people_v1.People = google.people({ version: 'v1', auth: oAuth2Client });
     const me: GaxiosResponse<people_v1.Schema$Person> = await people.people.get({
       resourceName: 'people/me',
-      personFields: 'names,photos,emailAddresses'
+      personFields: 'names,photos,emailAddresses',
     });
 
-    return NextResponse.json(me.data, { status: 200 })
+    return NextResponse.json(me.data, { status: 200 });
   } catch (error: any) {
     console.error('Google API error:', error?.message);
-    return NextResponse.json({ message: error?.message }, { status: 500 })
+    return NextResponse.json({ message: error?.message }, { status: 500 });
   }
 }

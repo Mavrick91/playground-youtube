@@ -29,10 +29,7 @@ describe('CategoryFilter', () => {
     await user.click(screen.getByText('Music'));
 
     fireEvent.click(screen.getByText('Christian music'));
-    expect(mockUpdateQueryParams).toHaveBeenCalledWith(
-      'topicId',
-      expect.any(String)
-    );
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith('topicId', expect.any(String));
   });
 
   it('calls updateQueryParams with null when the reset button is clicked', async () => {

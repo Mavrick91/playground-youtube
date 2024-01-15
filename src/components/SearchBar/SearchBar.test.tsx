@@ -12,17 +12,13 @@ jest.mock('next/navigation', () => ({
 
 describe('SearchBar', () => {
   const mockUpdateQueryParams = jest.fn();
-  const mockUseSearchParams = useSearchParams as jest.MockedFunction<
-    typeof useSearchParams
-  >;
+  const mockUseSearchParams = useSearchParams as jest.MockedFunction<typeof useSearchParams>;
 
   beforeEach(() => {
     (useQueryParams as jest.Mock).mockReturnValue({
       updateQueryParams: mockUpdateQueryParams,
     });
-    mockUseSearchParams.mockReturnValue(
-      new ReadonlyURLSearchParams(new URLSearchParams())
-    );
+    mockUseSearchParams.mockReturnValue(new ReadonlyURLSearchParams(new URLSearchParams()));
   });
 
   it('renders without crashing', () => {
@@ -44,9 +40,7 @@ describe('SearchBar', () => {
   });
 
   it('sets the input value based on search params', () => {
-    mockUseSearchParams.mockReturnValue(
-      new ReadonlyURLSearchParams(new URLSearchParams('q=test'))
-    );
+    mockUseSearchParams.mockReturnValue(new ReadonlyURLSearchParams(new URLSearchParams('q=test')));
 
     render(<SearchBar />);
     const searchInput: HTMLInputElement = screen.getByRole('textbox');
@@ -63,9 +57,7 @@ describe('SearchBar', () => {
   it('clears the input when the delete button is clicked', () => {
     const { getByRole, getByTestId } = render(<SearchBar />);
 
-    const searchInput: HTMLInputElement = getByRole(
-      'textbox'
-    ) as HTMLInputElement;
+    const searchInput: HTMLInputElement = getByRole('textbox') as HTMLInputElement;
     fireEvent.change(searchInput, { target: { value: 'test' } });
     const deleteButton: HTMLElement = getByTestId('search-input-delete');
     fireEvent.click(deleteButton);

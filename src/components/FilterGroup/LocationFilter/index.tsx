@@ -4,12 +4,7 @@ import React from 'react';
 import { useCallback, useState } from 'react';
 import GoogleMap from '~/components/GoogleMap';
 import Button from '~/components/shared/Button';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '~/components/shared/Dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '~/components/shared/Dialog';
 import { FilterLocation, Filters } from '~/types/filters';
 import CustomLatLng from './CustomLatLng';
 import { useGetPlaceName } from '~/endpoint/useGetPlaceName';
@@ -34,24 +29,18 @@ export default function LocationFilter() {
     lng: '',
     radius: DEFAULT_RADIUS,
   });
-  const { refetch, isFetching } = useGetPlaceName(
-    selectedLocation.lat,
-    selectedLocation.lng
-  );
+  const { refetch, isFetching } = useGetPlaceName(selectedLocation.lat, selectedLocation.lng);
 
-  const onClickMap = useCallback(
-    (lat: string, lng: string, placeName: string = '') => {
-      setSelectedLocation(prev => {
-        return {
-          ...prev,
-          lat: lat,
-          lng: lng,
-          label: placeName,
-        };
-      });
-    },
-    []
-  );
+  const onClickMap = useCallback((lat: string, lng: string, placeName: string = '') => {
+    setSelectedLocation(prev => {
+      return {
+        ...prev,
+        lat: lat,
+        lng: lng,
+        label: placeName,
+      };
+    });
+  }, []);
 
   const handleUpdateLocation = (key: string, value: string) => {
     setSelectedLocation(prev => {
@@ -83,35 +72,19 @@ export default function LocationFilter() {
     } catch (error) {
       console.error('Error saving location:', error);
     }
-  }, [
-    refetch,
-    selectedLocation.lat,
-    selectedLocation.lng,
-    selectedLocation.radius,
-    updateQueryParams,
-  ]);
+  }, [refetch, selectedLocation.lat, selectedLocation.lng, selectedLocation.radius, updateQueryParams]);
 
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            {...activeFilterButton(
-              !!getQueryParam('location') && !!getQueryParam('radius')
-            )}
-          >
+          <Button variant="outline" {...activeFilterButton(!!getQueryParam('location') && !!getQueryParam('radius'))}>
             Location
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] md:max-w-7xl">
-          <DialogTitle className="text-2xl text-gray-800">
-            Discover videos by location
-          </DialogTitle>
-          <p>
-            Select a location on the map or enter coordinates to find videos
-            from that area.
-          </p>
+          <DialogTitle className="text-2xl text-gray-800">Discover videos by location</DialogTitle>
+          <p>Select a location on the map or enter coordinates to find videos from that area.</p>
 
           <div className="flex gap-4">
             <GoogleMap
@@ -121,15 +94,8 @@ export default function LocationFilter() {
               radius={(parseFloat(selectedLocation.radius) || 0) * 1000}
             />
             <div className="w-3/12 flex flex-col justify-between">
-              <CustomLatLng
-                selectedLocation={selectedLocation}
-                handleUpdateLocation={handleUpdateLocation}
-              />
-              <Button
-                type="submit"
-                disabled={isFetching}
-                onClick={handleClickSave}
-              >
+              <CustomLatLng selectedLocation={selectedLocation} handleUpdateLocation={handleUpdateLocation} />
+              <Button type="submit" disabled={isFetching} onClick={handleClickSave}>
                 Save changes
               </Button>
             </div>

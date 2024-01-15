@@ -16,10 +16,6 @@ const queryClient = new QueryClient({
   },
 });
 
-export const QueryProvider = ({
-  children,
-}: QueryProviderProps): JSX.Element => {
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+export const QueryProvider = ({ children }: QueryProviderProps): JSX.Element => {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };

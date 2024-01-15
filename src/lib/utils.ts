@@ -24,14 +24,9 @@ export function formatNumber(numStr: string) {
   }
 }
 
-export function arePublishedDatesValid(
-  publishedAfter: string | undefined,
-  publishedBefore: string | undefined
-) {
+export function arePublishedDatesValid(publishedAfter: string | undefined, publishedBefore: string | undefined) {
   const isAfterDateValid = publishedAfter ? isValidDate(publishedAfter) : true;
-  const isBeforeDateValid = publishedBefore
-    ? isValidDate(publishedBefore)
-    : true;
+  const isBeforeDateValid = publishedBefore ? isValidDate(publishedBefore) : true;
 
   if (!isAfterDateValid || !isBeforeDateValid) return false;
 

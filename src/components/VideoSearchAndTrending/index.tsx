@@ -20,9 +20,7 @@ async function getData(
   auth_token: string | undefined,
   searchParams: Record<string, string>
 ): Promise<YouTubeSearchListResponse> {
-  const endpoint = hasSearchQueryOrFilters(searchParams)
-    ? '/api/youtube/search'
-    : '/api/youtube/trending';
+  const endpoint = hasSearchQueryOrFilters(searchParams) ? '/api/youtube/search' : '/api/youtube/trending';
 
   const url = new URL(endpoint, 'http://localhost:3000');
   const params = new URLSearchParams(searchParams);
@@ -44,11 +42,7 @@ async function getData(
   return responseData;
 }
 
-export default async function SearchedVideos({
-  searchParams,
-}: {
-  searchParams: Record<string, string>;
-}) {
+export default async function SearchedVideos({ searchParams }: { searchParams: Record<string, string> }) {
   const auth_token = cookies().get('auth_token')?.value;
   const data = await getData(auth_token, searchParams);
 

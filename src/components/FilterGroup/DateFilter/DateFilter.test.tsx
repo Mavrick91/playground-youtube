@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  screen,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
 import DateFilter from './index';
 import { format } from 'date-fns';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
@@ -127,16 +121,14 @@ describe('DateFilter', () => {
   it('resets the publishedAfter and publishedBefore dates when the Reset button is clicked', async () => {
     render(<DateFilter />);
 
-    const { buttonElement: publishAfterButton } =
-      await selectDate('Published After');
+    const { buttonElement: publishAfterButton } = await selectDate('Published After');
 
     let resetButtonElement = screen.getByRole('button', { name: /Reset/i });
     fireEvent.click(resetButtonElement);
 
     expect(publishAfterButton.textContent).toBe('Published After');
 
-    const { buttonElement: publishBeforeButton } =
-      await selectDate('Published Before');
+    const { buttonElement: publishBeforeButton } = await selectDate('Published Before');
 
     resetButtonElement = screen.getByRole('button', { name: /Reset/i });
     fireEvent.click(resetButtonElement);
@@ -159,16 +151,10 @@ describe('DateFilter', () => {
 
     const { rerender } = await act(async () => render(<DateFilter />));
 
-    expect(
-      screen.getByText(format(dateAfter, 'LLL dd, y'))
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(format(dateBefore, 'LLL dd, y'))
-    ).toBeInTheDocument();
+    expect(screen.getByText(format(dateAfter, 'LLL dd, y'))).toBeInTheDocument();
+    expect(screen.getByText(format(dateBefore, 'LLL dd, y'))).toBeInTheDocument();
 
-    mockGetQueryParam
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce(undefined);
+    mockGetQueryParam.mockReturnValueOnce(undefined).mockReturnValueOnce(undefined);
     await act(async () => rerender(<DateFilter />));
 
     expect(screen.queryByText('Published After')).not.toBeInTheDocument();

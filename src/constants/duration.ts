@@ -2,7 +2,7 @@ export const VIDEO_DURATION_OPTIONS = [
   {
     value: 'long',
     label: 'Long',
-    tooltip: 'Only include videos longer than 20 minutes.'
+    tooltip: 'Only include videos longer than 20 minutes.',
   },
   {
     value: 'medium',

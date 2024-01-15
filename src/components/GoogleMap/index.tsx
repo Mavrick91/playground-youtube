@@ -31,15 +31,13 @@ type Props = {
 };
 
 export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
-  const [autocomplete, setAutocomplete] =
-    useState<google.maps.places.Autocomplete | null>(null);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocompleteValue, setAutocompleteValue] = useState('');
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
   const markerRef = useRef<google.maps.Marker | null>(null);
   const circleRef = useRef<google.maps.Circle | null>(null);
-  const [containerAutocompleteRef, setContainerAutocompleteRef] =
-    useState<HTMLDivElement | null>(null);
+  const [containerAutocompleteRef, setContainerAutocompleteRef] = useState<HTMLDivElement | null>(null);
 
   const deleteMarker = () => {
     if (markerRef.current) {
@@ -59,16 +57,12 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
     const observer = new MutationObserver((mutationsList, observer) => {
       for (let mutation of mutationsList) {
         if (mutation.addedNodes.length) {
-          const hasNewNode = Array.from(mutation.addedNodes).some(
-            (node: any) => {
-              return node.className === 'pac-container pac-logo hdpi';
-            }
-          );
+          const hasNewNode = Array.from(mutation.addedNodes).some((node: any) => {
+            return node.className === 'pac-container pac-logo hdpi';
+          });
 
           if (hasNewNode && containerAutocompleteRef) {
-            Array.from(
-              document.getElementsByClassName('pac-container pac-logo hdpi')
-            ).forEach(element => {
+            Array.from(document.getElementsByClassName('pac-container pac-logo hdpi')).forEach(element => {
               (element as HTMLElement).classList.add('pac-container-custom');
               containerAutocompleteRef.append(element);
             });
@@ -85,9 +79,7 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
 
   useEffect(() => {
     return () => {
-      Array.from(
-        document.getElementsByClassName('pac-container pac-logo hdpi')
-      ).forEach(element => {
+      Array.from(document.getElementsByClassName('pac-container pac-logo hdpi')).forEach(element => {
         element.remove();
       });
     };
@@ -182,10 +174,7 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
     loader
       .load()
       .then(google => {
-        mapRef.current = new google.maps.Map(
-          document.getElementById('map')!,
-          mapOptions
-        );
+        mapRef.current = new google.maps.Map(document.getElementById('map')!, mapOptions);
 
         setIsMapLoaded(true);
       })
@@ -230,20 +219,13 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
                   const lng = location.lng();
 
                   setAutocompleteValue(place.formatted_address || '');
-                  onClickMap(
-                    lat.toString(),
-                    lng.toString(),
-                    place.formatted_address
-                  );
+                  onClickMap(lat.toString(), lng.toString(), place.formatted_address);
                   centerMap(lat, lng);
                 }
               }
             }}
           >
-            <div
-              ref={node => setContainerAutocompleteRef(node)}
-              className="relative top-2.5 left-2.5 h-10 border w-72"
-            >
+            <div ref={node => setContainerAutocompleteRef(node)} className="relative top-2.5 left-2.5 h-10 border w-72">
               <Input
                 className="absolute inset-0 rounded-none w-72"
                 placeholder="Search location"
@@ -252,10 +234,7 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
               />
               {!!lat && !!lng && (
                 <div className="absolute top-0 left-80 z-10 flex gap-2">
-                  <Button
-                    variant="secondary"
-                    onClick={() => centerMap(lat, lng)}
-                  >
+                  <Button variant="secondary" onClick={() => centerMap(lat, lng)}>
                     Center
                   </Button>
                   <Button variant="secondary" onClick={resetZoom}>

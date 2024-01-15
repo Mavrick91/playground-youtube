@@ -8,11 +8,7 @@ interface Props {
 
 export default function Tooltip({ tip }: Props) {
   return (
-    <div
-      data-tooltip-id="my-tooltip"
-      data-tooltip-content={tip}
-      className="ml-[2px]"
-    >
+    <div data-tooltip-id="my-tooltip" data-tooltip-content={tip} className="ml-[2px]">
       <Info data-tip className="tooltip" size={10} />
       <ReactTooltip id="my-tooltip" />
     </div>

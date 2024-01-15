@@ -32,20 +32,14 @@ export default function OrderFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          {...activeFilterButton(!!getQueryParam('order'))}
-        >
+        <Button variant="outline" {...activeFilterButton(!!getQueryParam('order'))}>
           Order
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="overflow-visible">
         {VIDEO_ORDER_OPTIONS.map(order => {
           return (
-            <DropdownMenuItem
-              key={order.value}
-              onClick={() => handleUpdateDuration(order.value)}
-            >
+            <DropdownMenuItem key={order.value} onClick={() => handleUpdateDuration(order.value)}>
               {order.label}
               <Tooltip tip={order.tooltip} />
             </DropdownMenuItem>

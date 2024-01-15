@@ -28,10 +28,7 @@ export default function SearchInput({
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className={cn(
-          'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
-          className
-        )}
+        className={cn('focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none', className)}
         autoFocus={autoFocus}
       />
       {value ? (

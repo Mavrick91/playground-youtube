@@ -1,9 +1,7 @@
 import { SEARCH_PARAMS } from '~/constants/searchParams';
 import { OptionsQueryParams } from '~/hooks/useUpdateQueryParams';
 
-export function hasSearchQueryOrFilters(
-  searchParams: Record<string, string>
-): boolean {
+export function hasSearchQueryOrFilters(searchParams: Record<string, string>): boolean {
   return SEARCH_PARAMS.some(key => key in searchParams && !!searchParams[key]);
 }
 
@@ -40,17 +38,12 @@ export function setQueryParam(
   }
 
   const newSearchParams = searchParams.toString();
-  const newUrl = `${window.location.pathname}${
-    newSearchParams ? `?${newSearchParams}` : ''
-  }`;
+  const newUrl = `${window.location.pathname}${newSearchParams ? `?${newSearchParams}` : ''}`;
 
   return newUrl;
 }
 
-export function createURL(
-  path: string,
-  params: Record<string, string>
-) {
+export function createURL(path: string, params: Record<string, string>) {
   const url = new URL(path, process.env.NEXT_PUBLIC_APP_URL);
   const urlParams = new URLSearchParams(params);
 

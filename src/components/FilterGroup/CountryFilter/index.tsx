@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '~/components/DropdownMenu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/DropdownMenu';
 import Button from '~/components/shared/Button';
 import SearchInput from '~/components/shared/SearchInput';
 import Tooltip from '~/components/shared/Tooltip';
@@ -23,9 +18,7 @@ export default function CountryFilter() {
 
   const filteredCountries = useMemo(() => {
     if (!inputValue) return [];
-    return COUNTRY_LIST.filter(country =>
-      country.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    return COUNTRY_LIST.filter(country => country.label.toLowerCase().includes(inputValue.toLowerCase()));
   }, [inputValue]);
 
   const resetInputValue = useCallback(() => {
@@ -33,9 +26,7 @@ export default function CountryFilter() {
   }, []);
 
   const regionLabel = useMemo(() => {
-    const country = COUNTRY_LIST.find(
-      country => country.id === getQueryParam('regionCode')
-    )?.label;
+    const country = COUNTRY_LIST.find(country => country.id === getQueryParam('regionCode'))?.label;
     if (country) {
       return country;
     }
@@ -46,19 +37,12 @@ export default function CountryFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          {...activeFilterButton(!!getQueryParam('regionCode'))}
-        >
+        <Button variant="outline" {...activeFilterButton(!!getQueryParam('regionCode'))}>
           Country
           <Tooltip tip="This setting filters the videos based on their availability in a specific country" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        onInteractOutside={resetInputValue}
-        className="w-[277px]"
-      >
+      <DropdownMenuContent align="start" onInteractOutside={resetInputValue} className="w-[277px]">
         <div className="px-2 py-1 flex gap-2">
           <SearchInput
             autoFocus
@@ -69,10 +53,7 @@ export default function CountryFilter() {
             placeholder={regionLabel}
             size={16}
           />
-          <DropdownMenuItem
-            onClick={() => updateQueryParams('regionCode', null)}
-            asChild
-          >
+          <DropdownMenuItem onClick={() => updateQueryParams('regionCode', null)} asChild>
             <Button size="sm" variant="link">
               Reset
             </Button>

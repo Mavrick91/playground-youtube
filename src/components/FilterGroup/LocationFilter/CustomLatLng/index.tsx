@@ -12,10 +12,7 @@ type Props = {
   handleUpdateLocation: (key: string, value: string) => void;
 };
 
-export default function CustomLatLng({
-  selectedLocation,
-  handleUpdateLocation,
-}: Props) {
+export default function CustomLatLng({ selectedLocation, handleUpdateLocation }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <Label className="font-bold text-sm text-gray-700">Latitude</Label>
@@ -37,9 +34,7 @@ export default function CustomLatLng({
       />
       <Label className="font-bold text-sm text-gray-700">Radius</Label>
       <Slider
-        onValueChange={value =>
-          handleUpdateLocation('radius', value[0].toString())
-        }
+        onValueChange={value => handleUpdateLocation('radius', value[0].toString())}
         max={1000}
         value={[parseFloat(selectedLocation.radius)]}
         step={50}

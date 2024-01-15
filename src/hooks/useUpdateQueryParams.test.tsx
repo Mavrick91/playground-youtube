@@ -1,9 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import {
-  useSearchParams,
-  useRouter,
-  ReadonlyURLSearchParams,
-} from 'next/navigation';
+import { useSearchParams, useRouter, ReadonlyURLSearchParams } from 'next/navigation';
 import useQueryParams from './useUpdateQueryParams';
 
 jest.mock('next/navigation', () => ({
@@ -38,16 +34,11 @@ describe('useQueryParams', () => {
       testKey2: 'testValue2',
     });
 
-    expect(mockUseRouter().push).toHaveBeenCalledWith(
-      '/?testKey=testValue&testKey2=testValue2',
-      { shallow: true }
-    );
+    expect(mockUseRouter().push).toHaveBeenCalledWith('/?testKey=testValue&testKey2=testValue2', { shallow: true });
   });
 
   it('getQueryParam returns the correct query parameter value', () => {
-    mockUseSearchParams.mockReturnValue(
-      new URLSearchParams('testKey=testValue')
-    );
+    mockUseSearchParams.mockReturnValue(new URLSearchParams('testKey=testValue'));
 
     const { result } = renderHook(() => useQueryParams());
     const value = result.current.getQueryParam('testKey');

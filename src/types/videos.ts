@@ -75,7 +75,7 @@ export type Channel = {
   id: string;
   snippet: ChannelSnippet;
   statistics: ChannelStatistics;
-}
+};
 
 export type YoutubeVideo = {
   kind: string;

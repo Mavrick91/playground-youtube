@@ -28,13 +28,12 @@ export async function GET(): Promise<NextResponse> {
       auth: oAuth2Client,
     });
 
-    const response: GaxiosResponse<youtube_v3.Schema$VideoListResponse> =
-      await youtube.videos.list({
-        part: ['snippet', 'contentDetails', 'statistics'],
-        chart: 'mostPopular',
-        regionCode: 'US',
-        maxResults: 8,
-      });
+    const response: GaxiosResponse<youtube_v3.Schema$VideoListResponse> = await youtube.videos.list({
+      part: ['snippet', 'contentDetails', 'statistics'],
+      chart: 'mostPopular',
+      regionCode: 'US',
+      maxResults: 8,
+    });
 
     const items = response.data.items;
 
@@ -54,23 +53,23 @@ export async function GET(): Promise<NextResponse> {
     );
 
     const MergeVideosChannels = items.map((item, index) => {
-      const channelFound = channels.find(channel => channel?.id === item.snippet?.channelId)
+      const channelFound = channels.find(channel => channel?.id === item.snippet?.channelId);
 
       return {
         ...item,
-        channel: channelFound
+        channel: channelFound,
       };
     });
 
-    return NextResponse.json({
-      ...response.data,
-      items: MergeVideosChannels,
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        ...response.data,
+        items: MergeVideosChannels,
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
-    return NextResponse.json(
-      { message: error?.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error?.message }, { status: 500 });
   }
 }

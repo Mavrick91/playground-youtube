@@ -122,7 +122,7 @@ export const COUNTRY_LIST = [
   { id: 'KI', label: 'Kiribati' },
   { id: 'KM', label: 'Comoros' },
   { id: 'KN', label: 'Saint Kitts and Nevis' },
-  { id: 'KP', label: "Korea" },
+  { id: 'KP', label: 'Korea' },
   { id: 'KR', label: 'Korea' },
   { id: 'KW', label: 'Kuwait' },
   { id: 'KY', label: 'Cayman Islands' },

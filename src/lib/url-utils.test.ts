@@ -46,9 +46,7 @@ describe('url-utils', () => {
         testKey1: 'testValue1',
         testKey2: 'testValue2',
       });
-      expect(newUrl).toBe(
-        '/test?q=test&testKey3=testValue3&testKey1=testValue1&testKey2=testValue2'
-      );
+      expect(newUrl).toBe('/test?q=test&testKey3=testValue3&testKey1=testValue1&testKey2=testValue2');
     });
 
     it('should delete a query parameter if its value is null (if a string)', () => {
@@ -69,8 +67,7 @@ describe('url-utils', () => {
     it('should delete the filter query parameters if "deleteFilters" is in options', () => {
       window.location = {
         ...originalLocation,
-        search:
-          '?q=test&topicId=1&regionCode=US&location=New%20York&radius=100',
+        search: '?q=test&topicId=1&regionCode=US&location=New%20York&radius=100',
         pathname: '/test',
       } as any;
       const newUrl = setQueryParam('testKey', 'testValue', {
@@ -81,26 +78,26 @@ describe('url-utils', () => {
   });
   describe('createURL', () => {
     let originalUrl: string | undefined;
-  
+
     beforeAll(() => {
       originalUrl = process.env.NEXT_PUBLIC_APP_URL;
     });
-  
+
     afterAll(() => {
       process.env.NEXT_PUBLIC_APP_URL = originalUrl;
     });
-  
+
     it('creates a URL with the correct path and query parameters', () => {
       process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
-  
+
       const path = '/test';
       const params = { param1: 'value1', param2: 'value2' };
-  
+
       const url = createURL(path, params);
-  
+
       expect(url.pathname).toBe(path);
       expect(url.searchParams.get('param1')).toBe('value1');
       expect(url.searchParams.get('param2')).toBe('value2');
     });
-  });;
+  });
 });

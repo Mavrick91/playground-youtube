@@ -48,11 +48,7 @@ const getSearchParams = (req: NextRequest) => {
     searchParams.locationRadius = `${radius}km`;
     searchParams.type = ['video'];
   }
-  if (
-    publishedAfter &&
-    publishedBefore &&
-    arePublishedDatesValid(publishedAfter, publishedBefore)
-  ) {
+  if (publishedAfter && publishedBefore && arePublishedDatesValid(publishedAfter, publishedBefore)) {
     if (isValidDate(publishedAfter)) {
       searchParams.publishedAfter = parseISO(publishedAfter).toISOString();
     }
@@ -86,8 +82,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const searchResponse: GaxiosResponse<youtube_v3.Schema$SearchListResponse> =
       await youtube.search.list(searchParams);
 
-    if (!searchResponse.data.items)
-      return NextResponse.json(null, { status: 200 });
+    if (!searchResponse.data.items) return NextResponse.json(null, { status: 200 });
 
     const videoIds = searchResponse.data.items
       .filter(item => item.id?.kind === 'youtube#video')
@@ -119,11 +114,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       },
     });
 
-    const statsResponseJson: GaxiosResponse<youtube_v3.Schema$VideoListResponse> =
-      await statsResponse.json();
+    const statsResponseJson: GaxiosResponse<youtube_v3.Schema$VideoListResponse> = await statsResponse.json();
 
-    if (!statsResponseJson.data.items)
-      return NextResponse.json(null, { status: 200 });
+    if (!statsResponseJson.data.items) return NextResponse.json(null, { status: 200 });
 
     const viewCounts: Record<string, string> = {};
     statsResponseJson.data.items.forEach(item => {
@@ -142,23 +135,20 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return item;
     });
 
-    const itemsWithStatisticsAndChannelThumbnails = itemsWithStatistics.map(
-      (item, index) => {
-        const channelResponse = channelResponses[index];
-        const urlThumbnail =
-          channelResponse.data.items?.[0].snippet?.thumbnails?.default?.url;
+    const itemsWithStatisticsAndChannelThumbnails = itemsWithStatistics.map((item, index) => {
+      const channelResponse = channelResponses[index];
+      const urlThumbnail = channelResponse.data.items?.[0].snippet?.thumbnails?.default?.url;
 
-        if (channelResponse.data.items && urlThumbnail) {
-          if (item.snippet) {
-            return {
-              ...item,
-              channelThumbnail: urlThumbnail,
-            };
-          }
-          return null;
+      if (channelResponse.data.items && urlThumbnail) {
+        if (item.snippet) {
+          return {
+            ...item,
+            channelThumbnail: urlThumbnail,
+          };
         }
+        return null;
       }
-    );
+    });
 
     return NextResponse.json(
       {
@@ -169,9 +159,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     );
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
-    return NextResponse.json(
-      { message: 'Error fetching data from YouTube' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }

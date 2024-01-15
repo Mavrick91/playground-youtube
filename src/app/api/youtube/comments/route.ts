@@ -35,10 +35,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const videoId = req.nextUrl.searchParams.get('videoId');
 
     if (!videoId) {
-      return NextResponse.json(
-        { message: 'No videoId provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'No videoId provided' }, { status: 400 });
     }
 
     const commentThreadsResponse: GaxiosResponse<youtube_v3.Schema$CommentListResponse> =
@@ -47,15 +44,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         part: ['snippet'],
       });
 
-    if (!commentThreadsResponse.data.items)
-      return NextResponse.json(null, { status: 200 });
+    if (!commentThreadsResponse.data.items) return NextResponse.json(null, { status: 200 });
 
     return NextResponse.json(commentThreadsResponse.data, { status: 200 });
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
-    return NextResponse.json(
-      { message: 'Error fetching data from YouTube' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }

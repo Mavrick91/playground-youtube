@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -29,11 +23,8 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const { data: isAuthenticated, isLoading: isAuthLoading } =
-    useIsAuthenticated();
-  const { data: isMe, isLoading: isMeLoading } = useIsMe(
-    isAuthenticated?.isAuthenticated
-  );
+  const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
+  const { data: isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated?.isAuthenticated);
 
   useEffect(() => {
     if (isMe) {
@@ -52,11 +43,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
   }
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {

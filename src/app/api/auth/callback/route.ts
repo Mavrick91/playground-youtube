@@ -37,7 +37,6 @@ export async function GET(req: NextRequest) {
     response.headers.set('Set-Cookie', `auth_token=${tokens.access_token}; Path=/; HttpOnly;`);
 
     return response;
-
   } catch (error: any) {
     console.error('Error exchanging code for tokens:', error.message);
     return NextResponse.json({ status: 500, message: 'Authentication failed' });

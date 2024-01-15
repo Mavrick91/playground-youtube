@@ -5,9 +5,7 @@ import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 
-const mockUseUpdateQueryParams = useUpdateQueryParams as jest.MockedFunction<
-  typeof useUpdateQueryParams
->;
+const mockUseUpdateQueryParams = useUpdateQueryParams as jest.MockedFunction<typeof useUpdateQueryParams>;
 
 const mockUpdateQueryParams = jest.fn();
 const mockGetQueryParam = jest.fn();
@@ -76,10 +74,7 @@ describe('CountryFilter', () => {
     await user.click(screen.getByText('France'));
 
     await waitFor(() => {
-      expect(mockUpdateQueryParams).toHaveBeenCalledWith(
-        'regionCode',
-        expect.any(String)
-      );
+      expect(mockUpdateQueryParams).toHaveBeenCalledWith('regionCode', expect.any(String));
     });
   });
 

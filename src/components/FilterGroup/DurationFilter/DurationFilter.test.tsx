@@ -34,10 +34,7 @@ describe('DurationFilter', () => {
     });
     fireEvent.click(menuItemElement);
 
-    expect(mockUpdateQueryParams).toHaveBeenCalledWith(
-      'videoDuration',
-      VIDEO_DURATION_OPTIONS[0].value
-    );
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith('videoDuration', VIDEO_DURATION_OPTIONS[0].value);
   });
 
   it('calls updateQueryParams with null when the reset button is clicked', async () => {

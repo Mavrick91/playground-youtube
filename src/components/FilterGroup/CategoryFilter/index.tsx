@@ -32,10 +32,7 @@ export default function CategoryFilter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          {...activeFilterButton(!!getQueryParam('topicId'))}
-        >
+        <Button variant="outline" {...activeFilterButton(!!getQueryParam('topicId'))}>
           Categories
         </Button>
       </DropdownMenuTrigger>
@@ -43,10 +40,7 @@ export default function CategoryFilter() {
         {CATEGORY_LIST.map(category => {
           if (!category.subCategories) {
             return (
-              <DropdownMenuItem
-                key={category.id}
-                onClick={() => handleUpdateCategory(category.id)}
-              >
+              <DropdownMenuItem key={category.id} onClick={() => handleUpdateCategory(category.id)}>
                 {category.label}
               </DropdownMenuItem>
             );
@@ -58,10 +52,7 @@ export default function CategoryFilter() {
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   {category.subCategories.map((subCategory, index) => (
-                    <DropdownMenuItem
-                      key={subCategory.id}
-                      onClick={() => handleUpdateCategory(subCategory.id)}
-                    >
+                    <DropdownMenuItem key={subCategory.id} onClick={() => handleUpdateCategory(subCategory.id)}>
                       {index === 0 ? 'All' : subCategory.label}
                     </DropdownMenuItem>
                   ))}

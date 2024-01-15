@@ -1,8 +1,4 @@
-import {
-  arePublishedDatesValid,
-  formatNumber,
-  isValidDate
-} from './utils';
+import { arePublishedDatesValid, formatNumber, isValidDate } from './utils';
 
 describe('formatNumber', () => {
   it('should return "Invalid number" for non-numeric input', () => {
@@ -25,7 +21,6 @@ describe('formatNumber', () => {
     expect(formatNumber('1500000000')).toBe('1.5 B');
   });
 });
-
 
 describe('arePublishedDatesValid', () => {
   it('returns false when publishedAfter is not a valid date string', () => {
@@ -67,7 +62,7 @@ describe('arePublishedDatesValid', () => {
     const result = arePublishedDatesValid(undefined, undefined);
     expect(result).toBe(false);
   });
-});;
+});
 
 describe('isValidDate', () => {
   it('returns false when the date string is not in the format YYYY-MM-DD', () => {

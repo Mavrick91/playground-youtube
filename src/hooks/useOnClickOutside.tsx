@@ -1,23 +1,14 @@
 import { useEffect } from 'react';
 
-const useOnClickOutside = (
-  ref: React.RefObject<HTMLElement>,
-  handler: () => void
-) => {
+const useOnClickOutside = (ref: React.RefObject<HTMLElement>, handler: () => void) => {
   useEffect(() => {
     const listener = (event: MouseEvent | KeyboardEvent) => {
       // Close the modal if a click is outside the modal or 'Escape' key is pressed
-      if (
-        (!ref.current || ref.current.contains(event.target as Node)) &&
-        event.type !== 'keydown'
-      ) {
+      if ((!ref.current || ref.current.contains(event.target as Node)) && event.type !== 'keydown') {
         return;
       }
 
-      if (
-        event.type === 'keydown' &&
-        (event as KeyboardEvent).key !== 'Escape'
-      ) {
+      if (event.type === 'keydown' && (event as KeyboardEvent).key !== 'Escape') {
         return;
       }
 

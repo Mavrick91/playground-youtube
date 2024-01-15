@@ -3,11 +3,7 @@ import React, { ComponentType } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import userEvent from '@testing-library/user-event';
 
-export const AllTheProviders = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -17,9 +13,7 @@ export const AllTheProviders = ({
     },
   });
 
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
 const customRender = (ui: React.ReactElement, options?: RenderOptions) => {

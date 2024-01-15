@@ -4,11 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import Button from '~/components/shared/Button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '~/components/shared/Popover';
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/shared/Popover';
 import { Calendar } from '~/components/shared/Popover/Calendar';
 import { arePublishedDatesValid, cn } from '~/lib/utils';
 import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
@@ -16,12 +12,8 @@ import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
 export default function DateFilter({ className }: { className?: string }) {
   const { updateQueryParams, getQueryParam } = useUpdateQueryParams();
 
-  const [publishedAfter, setPublishedAfter] = React.useState<
-    Date | undefined
-  >();
-  const [publishedBefore, setPublishedBefore] = React.useState<
-    Date | undefined
-  >();
+  const [publishedAfter, setPublishedAfter] = React.useState<Date | undefined>();
+  const [publishedBefore, setPublishedBefore] = React.useState<Date | undefined>();
 
   useEffect(() => {
     const after = getQueryParam('publishedAfter');
@@ -39,12 +31,8 @@ export default function DateFilter({ className }: { className?: string }) {
   const handleClickFilterDate = useCallback(() => {
     const newParams: Record<string, string | null> = {};
 
-    newParams.publishedAfter = publishedAfter
-      ? publishedAfter.toISOString().slice(0, 10)
-      : null;
-    newParams.publishedBefore = publishedBefore
-      ? publishedBefore.toISOString().slice(0, 10)
-      : null;
+    newParams.publishedAfter = publishedAfter ? publishedAfter.toISOString().slice(0, 10) : null;
+    newParams.publishedBefore = publishedBefore ? publishedBefore.toISOString().slice(0, 10) : null;
 
     updateQueryParams(newParams);
   }, [publishedAfter, publishedBefore, updateQueryParams]);
@@ -64,11 +52,7 @@ export default function DateFilter({ className }: { className?: string }) {
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-              {publishedAfter ? (
-                format(publishedAfter, 'LLL dd, y')
-              ) : (
-                <span>Published After</span>
-              )}
+              {publishedAfter ? format(publishedAfter, 'LLL dd, y') : <span>Published After</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -86,12 +70,7 @@ export default function DateFilter({ className }: { className?: string }) {
               }}
             />
             <div className="px-3 pb-3">
-              <Button
-                className="w-full mx-auto"
-                size="sm"
-                variant="ghost"
-                onClick={() => setPublishedAfter(undefined)}
-              >
+              <Button className="w-full mx-auto" size="sm" variant="ghost" onClick={() => setPublishedAfter(undefined)}>
                 Reset
               </Button>
             </div>
@@ -110,11 +89,7 @@ export default function DateFilter({ className }: { className?: string }) {
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-              {publishedBefore ? (
-                format(publishedBefore, 'LLL dd, y')
-              ) : (
-                <span>Published Before</span>
-              )}
+              {publishedBefore ? format(publishedBefore, 'LLL dd, y') : <span>Published Before</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
