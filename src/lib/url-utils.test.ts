@@ -1,4 +1,4 @@
-import { hasSearchQueryOrFilters, setQueryParam } from './url-utils';
+import { createURL, hasSearchQueryOrFilters, setQueryParam } from './url-utils';
 
 describe('url-utils', () => {
   describe('hasSearchQueryOrFilters', () => {
@@ -79,4 +79,28 @@ describe('url-utils', () => {
       expect(newUrl).toBe('/test?q=test&testKey=testValue');
     });
   });
+  describe('createURL', () => {
+    let originalUrl: string | undefined;
+  
+    beforeAll(() => {
+      originalUrl = process.env.NEXT_PUBLIC_APP_URL;
+    });
+  
+    afterAll(() => {
+      process.env.NEXT_PUBLIC_APP_URL = originalUrl;
+    });
+  
+    it('creates a URL with the correct path and query parameters', () => {
+      process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
+  
+      const path = '/test';
+      const params = { param1: 'value1', param2: 'value2' };
+  
+      const url = createURL(path, params);
+  
+      expect(url.pathname).toBe(path);
+      expect(url.searchParams.get('param1')).toBe('value1');
+      expect(url.searchParams.get('param2')).toBe('value2');
+    });
+  });;
 });

@@ -58,12 +58,12 @@ export type ChannelSnippet = {
     title: string;
     description: string;
   };
-  country: string;
+  country?: string;
 };
 
 export type ChannelStatistics = {
   viewCount: string;
-  commentCount: string;
+  commentCount?: string;
   subscriberCount: string;
   hiddenSubscriberCount: boolean;
   videoCount: string;
@@ -82,7 +82,7 @@ export type YoutubeVideo = {
   etag: string;
   id: string;
   snippet: VideoSnippet;
-  contentDetails: ContentDetails;
+  contentDetails?: ContentDetails;
   statistics: VideoStatistics;
   channel: Channel;
 };
