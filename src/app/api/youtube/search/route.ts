@@ -3,6 +3,7 @@ import { GaxiosResponse } from 'gaxios';
 import { google, youtube_v3 } from 'googleapis';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { createURL } from '~/lib/url-utils';
 import { arePublishedDatesValid, isValidDate } from '~/lib/utils';
 
 interface Token {
@@ -87,29 +88,45 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (!searchResponse.data.items)
       return NextResponse.json(null, { status: 200 });
+
     const videoIds = searchResponse.data.items
       .filter(item => item.id?.kind === 'youtube#video')
-      .map(item => item.id?.videoId) as string[];
+      .map(item => item.id?.videoId)
+      .join(',') as string;
 
     const channelResponses = await Promise.all(
-      searchResponse.data.items.map(item =>
-        youtube.channels.list({
-          part: ['snippet'],
-          id: [item.snippet?.channelId || ''],
-        })
-      )
+      searchResponse.data.items.map(item => {
+        const channelUrl = createURL('/api/youtube/channels', {
+          channelId: item.snippet?.channelId!,
+        });
+
+        return fetch(channelUrl, {
+          headers: {
+            Cookie: `auth_token=${token.value}`,
+          },
+        }).then(res => res.json());
+      })
     );
 
-    const statsResponse = await youtube.videos.list({
-      id: videoIds,
-      part: ['statistics'],
+    const videosUrl = createURL('/api/youtube/videos', {
+      videoIds,
+      parts: 'statistics',
     });
 
-    if (!statsResponse.data.items)
+    const statsResponse = await fetch(videosUrl, {
+      headers: {
+        Cookie: `auth_token=${token.value}`,
+      },
+    });
+
+    const statsResponseJson: GaxiosResponse<youtube_v3.Schema$VideoListResponse> =
+      await statsResponse.json();
+
+    if (!statsResponseJson.data.items)
       return NextResponse.json(null, { status: 200 });
 
     const viewCounts: Record<string, string> = {};
-    statsResponse.data.items.forEach(item => {
+    statsResponseJson.data.items.forEach(item => {
       if (item.id && item.statistics) {
         viewCounts[item.id] = item.statistics.viewCount || '0';
       }
