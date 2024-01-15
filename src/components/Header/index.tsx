@@ -32,7 +32,7 @@ export default function Header() {
 
     const scope = [
       'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/youtube.readonly',
+      'https://www.googleapis.com/auth/youtube.force-ssl',
     ].join(' ');
 
     const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${encodeURIComponent(
@@ -56,9 +56,7 @@ export default function Header() {
                   width={50}
                   height={50}
                 />
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                  VidVenture
-                </span>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">VidVenture</span>
               </a>
 
               {user && (
@@ -84,9 +82,7 @@ export default function Header() {
                   <DropdownMenuContent className="w-56 absolute top-1 -right-5">
                     <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleClickSignOut}>
-                      Log out
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleClickSignOut}>Log out</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
