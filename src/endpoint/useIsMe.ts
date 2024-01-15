@@ -9,8 +9,7 @@ interface GoogleMeResponse {
   photos: Array<{ url: string }>;
 }
 
-export const useIsMe = (shouldFetch: boolean = false) => {
-  return useQuery<GoogleMeResponse>(
+export const useIsMe = (shouldFetch: boolean = false) => useQuery<GoogleMeResponse>(
     'google-me',
     async () => {
       const response = await axios.get(API.GOOGLE.ME);
@@ -21,4 +20,3 @@ export const useIsMe = (shouldFetch: boolean = false) => {
       enabled: shouldFetch,
     }
   );
-};

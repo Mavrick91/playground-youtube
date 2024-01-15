@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '~/test-utils';
-import OrderFilter from './index';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
+import OrderFilter from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 

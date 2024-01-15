@@ -1,12 +1,11 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import FilterGroup from './index';
+import { render } from '@testing-library/react';
 import CategoryFilter from './CategoryFilter';
 import CountryFilter from './CountryFilter';
-import LocationFilter from './LocationFilter';
 import DateFilter from './DateFilter';
-import DurationFilter from './DateFilter';
-import OrderFilter from './DateFilter';
+import DurationFilter from './DurationFilter';
+import LocationFilter from './LocationFilter';
+import OrderFilter from './OrderFilter';
+import FilterGroup from './index';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),

@@ -9,19 +9,26 @@ export function cn(...inputs: ClassValue[]) {
 export function formatNumber(numStr: string) {
   const num = parseInt(numStr, 10);
 
-  if (isNaN(num)) {
+  if (Number.isNaN(num)) {
     return 'Invalid number';
   }
 
   if (num < 1000) {
     return num.toString();
-  } else if (num < 1000000) {
-    return (num / 1000).toFixed(1) + ' K';
-  } else if (num < 1000000000) {
-    return (num / 1000000).toFixed(1) + ' M';
-  } else {
-    return (num / 1000000000).toFixed(1) + ' B';
-  }
+  } if (num < 1000000) {
+    return `${(num / 1000).toFixed(1)  } K`;
+  } if (num < 1000000000) {
+    return `${(num / 1000000).toFixed(1)  } M`;
+  } 
+    return `${(num / 1000000000).toFixed(1)  } B`;
+  
+}
+
+
+export function isValidDate(dateString: string) {
+  const dateFormat = 'yyyy-MM-dd';
+  const parsedDate = parse(dateString, dateFormat, new Date());
+  return isValid(parsedDate);
 }
 
 export function arePublishedDatesValid(publishedAfter: string | undefined, publishedBefore: string | undefined) {
@@ -39,14 +46,8 @@ export function arePublishedDatesValid(publishedAfter: string | undefined, publi
 
     if (afterDate && beforeDate) {
       return afterDate <= beforeDate;
-    } else if (afterDate || beforeDate) return true;
+    } if (afterDate || beforeDate) return true;
   }
 
   return false;
-}
-
-export function isValidDate(dateString: string) {
-  const dateFormat = 'yyyy-MM-dd';
-  const parsedDate = parse(dateString, dateFormat, new Date());
-  return isValid(parsedDate);
 }

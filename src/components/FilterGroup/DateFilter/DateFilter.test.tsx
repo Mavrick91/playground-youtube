@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
-import DateFilter from './index';
+import { render, fireEvent, screen, act } from '@testing-library/react';
 import { format } from 'date-fns';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
+import DateFilter from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 
@@ -147,6 +147,8 @@ describe('DateFilter', () => {
       if (key === 'publishedBefore') {
         return dateBefore.toISOString().slice(0, 10);
       }
+
+      return '';
     });
 
     const { rerender } = await act(async () => render(<DateFilter />));
@@ -166,6 +168,7 @@ describe('DateFilter', () => {
       if (key === 'order') {
         return 'videoCount';
       }
+      return '';
     });
 
     render(<DateFilter />);

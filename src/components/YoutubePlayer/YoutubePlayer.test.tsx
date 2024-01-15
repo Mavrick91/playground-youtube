@@ -1,9 +1,9 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import YoutubePlayer from './index';
-import { YoutubeVideo } from '~/types/videos';
 import { formatNumber } from '~/lib/utils';
 import ReactPlayer from 'react-player';
 import { youtube_v3 } from 'googleapis';
+import YoutubePlayer from './index';
 
 jest.mock('react-player', () => jest.fn(() => null));
 

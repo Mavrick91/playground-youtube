@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface QueryProviderProps {
@@ -16,6 +16,6 @@ const queryClient = new QueryClient({
   },
 });
 
-export const QueryProvider = ({ children }: QueryProviderProps): JSX.Element => {
+export function QueryProvider({ children }: QueryProviderProps) {
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
-};
+}

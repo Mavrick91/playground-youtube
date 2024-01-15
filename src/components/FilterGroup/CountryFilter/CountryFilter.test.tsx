@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '~/test-utils';
-import CountryFilter from './index';
 import useUpdateQueryParams from '~/hooks/useUpdateQueryParams';
+import CountryFilter from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 

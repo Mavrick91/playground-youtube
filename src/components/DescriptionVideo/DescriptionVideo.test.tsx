@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import DescriptionVideo from './index';
 import { formatNumber } from '~/lib/utils';
+import DescriptionVideo from './index';
 
 describe('DescriptionVideo', () => {
   const props = {

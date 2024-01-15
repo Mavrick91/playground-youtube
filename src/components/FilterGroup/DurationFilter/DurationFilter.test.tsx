@@ -1,8 +1,8 @@
 import React from 'react';
-import DurationFilter from './index';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
 import { VIDEO_DURATION_OPTIONS } from '~/constants/duration';
 import { render, screen, fireEvent } from '~/test-utils';
+import DurationFilter from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 

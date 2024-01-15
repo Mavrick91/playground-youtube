@@ -1,8 +1,7 @@
-import React from 'react';
-import SearchBar from './index';
-import { render, screen, fireEvent, waitFor } from '~/test-utils';
+import { render, screen, fireEvent } from '~/test-utils';
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
+import SearchBar from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 jest.mock('next/navigation', () => ({

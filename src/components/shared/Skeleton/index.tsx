@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Skeleton = {
-  youtubeVideo: () => (
+  YoutubeVideo: () => (
     <div className="flex flex-col">
       <div className="animate-pulse h-44 rounded-md bg-gray-300" />
       <div className="mt-3">

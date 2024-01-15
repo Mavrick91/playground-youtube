@@ -54,22 +54,21 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
   };
 
   useEffect(() => {
-    const observer = new MutationObserver((mutationsList, observer) => {
-      for (let mutation of mutationsList) {
+    const observer = new MutationObserver((mutationsList, obs) => {
+      mutationsList.forEach(mutation => {
         if (mutation.addedNodes.length) {
-          const hasNewNode = Array.from(mutation.addedNodes).some((node: any) => {
-            return node.className === 'pac-container pac-logo hdpi';
-          });
-
+          const hasNewNode = Array.from(mutation.addedNodes).some(
+            (node: Node) => (node as HTMLElement).className === 'pac-container pac-logo hdpi'
+          );
           if (hasNewNode && containerAutocompleteRef) {
             Array.from(document.getElementsByClassName('pac-container pac-logo hdpi')).forEach(element => {
               (element as HTMLElement).classList.add('pac-container-custom');
               containerAutocompleteRef.append(element);
             });
-            observer.disconnect();
+            obs.disconnect();
           }
         }
-      }
+      });
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
@@ -77,13 +76,14 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
     return () => observer.disconnect();
   }, [containerAutocompleteRef, isMapLoaded]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       Array.from(document.getElementsByClassName('pac-container pac-logo hdpi')).forEach(element => {
         element.remove();
       });
-    };
-  }, []);
+    },
+    []
+  );
 
   const resetZoom = () => {
     if (mapRef.current) {
@@ -147,9 +147,11 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
         fillOpacity: 0.15,
       });
 
-      marker.addListener('dragend', (event: any) => {
-        const newLat = event.latLng.lat();
-        const newLng = event.latLng.lng();
+      marker.addListener('dragend', (event: google.maps.MapMouseEvent) => {
+        const newLat = event.latLng?.lat();
+        const newLng = event.latLng?.lng();
+
+        if (!newLat || !newLng) return;
 
         onClickMap(newLat.toString(), newLng.toString());
         createMarkerAndCircle(newLat, newLng);
@@ -179,15 +181,17 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
         setIsMapLoaded(true);
       })
       .catch(e => {
-        console.log(e.message);
+        console.error(e.message);
       });
   }, []);
 
   useEffect(() => {
     if (mapRef.current && isMapLoaded) {
-      mapRef.current.addListener('click', (e: any) => {
-        const lat = e.latLng.lat();
-        const lng = e.latLng.lng();
+      mapRef.current.addListener('click', (e: google.maps.MapMouseEvent) => {
+        const lat = e.latLng?.lat();
+        const lng = e.latLng?.lng();
+
+        if (!lat || !lng) return;
 
         onClickMap(lat.toString(), lng.toString());
         createMarkerAndCircle(lat, lng);

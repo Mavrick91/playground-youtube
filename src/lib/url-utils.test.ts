@@ -20,20 +20,22 @@ describe('url-utils', () => {
   });
 
   describe('setQueryParam', () => {
-    let originalLocation: Location;
+    let originalLocation: Location | undefined;
 
     beforeEach(() => {
       originalLocation = window.location;
-      delete (window as any).location;
-      window.location = {
-        ...originalLocation,
-        search: '?q=test&testKey3=testValue3',
-        pathname: '/test',
-      } as any;
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: {
+          ...(originalLocation as Location),
+          search: '?q=test&testKey3=testValue3',
+          pathname: '/test',
+        },
+      });
     });
 
     afterEach(() => {
-      window.location = originalLocation;
+      window.location = originalLocation as Location;
     });
 
     it('should set a single query parameter', () => {
@@ -50,7 +52,7 @@ describe('url-utils', () => {
     });
 
     it('should delete a query parameter if its value is null (if a string)', () => {
-      let newUrl = setQueryParam('q', null);
+      const newUrl = setQueryParam('q', null);
       expect(newUrl).toBe('/test?testKey3=testValue3');
     });
 
@@ -69,7 +71,7 @@ describe('url-utils', () => {
         ...originalLocation,
         search: '?q=test&topicId=1&regionCode=US&location=New%20York&radius=100',
         pathname: '/test',
-      } as any;
+      } as Location;
       const newUrl = setQueryParam('testKey', 'testValue', {
         deleteFilters: true,
       });

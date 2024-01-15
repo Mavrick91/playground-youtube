@@ -1,11 +1,11 @@
 'use client';
 
-import { youtube_v3 } from 'googleapis';
-import React from 'react';
-import Image from 'next/image';
-import parse from 'html-react-parser';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { youtube_v3 } from 'googleapis';
+import Image from 'next/image';
 import Link from 'next/link';
+import { descriptionElements } from '~/lib/string';
+import { cn } from '~/lib/utils';
 
 type Props = {
   commentCount: string;
@@ -21,12 +21,15 @@ export default function CommentSection({ commentCount, commentThreads }: Props) 
 
       <div className="flex flex-col gap-y-4">
         {commentThreads?.items?.map(commentThread => {
+          const isAuthorChannel =
+            commentThread.snippet?.topLevelComment?.snippet?.authorChannelId?.value ===
+            commentThread.snippet?.topLevelComment?.snippet?.channelId;
           const comment = commentThread.snippet?.topLevelComment?.snippet;
           const date = parseISO(comment?.publishedAt || '');
           const timeAgo = formatDistanceToNow(date, { addSuffix: true, includeSeconds: true });
 
           return (
-            <div key={comment?.textDisplay} className="flex gap-1 items-start mb-4">
+            <div key={comment?.textOriginal} className="flex gap-1 items-start mb-4">
               <Link href={`channel/${comment?.authorChannelUrl}`} className="shrink-0">
                 <Image
                   src={comment?.authorProfileImageUrl || ''}
@@ -39,12 +42,19 @@ export default function CommentSection({ commentCount, commentThreads }: Props) 
               </Link>
               <div className="flex flex-col ml-4">
                 <div className="flex items-center gap-1 mb-1">
-                  <Link href={`channel/${comment?.authorChannelUrl}`} className="text-black text-xs font-bold ">
+                  <Link
+                    href={`channel/${comment?.authorChannelUrl}`}
+                    className={cn('text-black text-xs font-bold', {
+                      'text-white bg-gray-400 p-1 px-1.5 rounded-full': isAuthorChannel,
+                    })}
+                  >
                     {comment?.authorDisplayName}
                   </Link>
                   <span className="text-gray-800 text-xs">{timeAgo}</span>
                 </div>
-                <div className="text-gray-700 text-sm font-medium">{parse(comment?.textDisplay || '')}</div>
+                <div className="text-gray-700 text-sm font-medium">
+                  {descriptionElements(comment?.textOriginal || '')}
+                </div>
               </div>
             </div>
           );

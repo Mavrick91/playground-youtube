@@ -5,7 +5,7 @@ import useOnClickOutside from './useOnClickOutside';
 
 const handler = jest.fn();
 
-const TestComponent = () => {
+function TestComponent() {
   const ref = useRef(null);
   useOnClickOutside(ref, handler);
 
@@ -15,7 +15,7 @@ const TestComponent = () => {
       <div>Outside</div>
     </div>
   );
-};
+}
 
 describe('useOnClickOutside', () => {
   afterEach(() => {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import CommentSection from './index';
 import { youtube_v3 } from 'googleapis';
+import CommentSection from './index';
 
 describe('CommentSection', () => {
   const commentCount = '1000';
@@ -10,7 +10,7 @@ describe('CommentSection', () => {
         snippet: {
           topLevelComment: {
             snippet: {
-              textDisplay: 'Test comment',
+              textOriginal: 'Test comment',
               authorDisplayName: 'Test User',
               authorProfileImageUrl: 'http://example.com/image.jpg',
               authorChannelUrl: 'http://example.com/channel',

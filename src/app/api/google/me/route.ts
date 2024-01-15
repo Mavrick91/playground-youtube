@@ -30,8 +30,10 @@ export async function GET(): Promise<NextResponse> {
     });
 
     return NextResponse.json(me.data, { status: 200 });
-  } catch (error: any) {
-    console.error('Google API error:', error?.message);
-    return NextResponse.json({ message: error?.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Google API error:', error?.message);
+    }
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }

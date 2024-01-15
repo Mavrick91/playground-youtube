@@ -1,5 +1,5 @@
 import { SEARCH_PARAMS } from '~/constants/searchParams';
-import { OptionsQueryParams } from '~/hooks/useUpdateQueryParams';
+import { OptionsQueryParams } from '~/types/filters';
 
 export function hasSearchQueryOrFilters(searchParams: Record<string, string>): boolean {
   return SEARCH_PARAMS.some(key => key in searchParams && !!searchParams[key]);
@@ -20,13 +20,11 @@ export function setQueryParam(
         searchParams.set(k, v);
       }
     });
-  } else {
-    if (value === null) {
+  } else if (value === null) {
       searchParams.delete(key);
     } else {
       searchParams.set(key, value!);
     }
-  }
 
   if (options && 'deleteQ' in options) {
     searchParams.delete('q');

@@ -34,14 +34,12 @@ export default function DurationFilter() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="overflow-visible">
-        {VIDEO_DURATION_OPTIONS.map(duration => {
-          return (
+        {VIDEO_DURATION_OPTIONS.map(duration => (
             <DropdownMenuItem key={duration.value} onClick={() => handleUpdateDuration(duration.value)}>
               {duration.label}
               <Tooltip tip={duration.tooltip} />
             </DropdownMenuItem>
-          );
-        })}
+          ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleUpdateDuration(null)} asChild>
           <Button className="w-full" size="sm" variant="link">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -21,7 +21,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-export const UserProvider = ({ children }: UserProviderProps) => {
+export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
   const { data: isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated?.isAuthenticated);
@@ -35,6 +35,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   }, [isMe]);
 
+  const value = useMemo(() => ({ user, setUser }), [user]);
+
   if (isAuthLoading || isMeLoading) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -43,8 +45,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
   }
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
-};
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+}
 
 export const useUser = () => {
   const context = useContext(UserContext);

@@ -1,15 +1,7 @@
-import { useRouter } from 'next/navigation';
-import React, { useCallback } from 'react';
+import { useRouter , useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 import { setQueryParam } from '~/lib/url-utils';
-import { useSearchParams } from 'next/navigation';
-
-export type OptionsQueryParams =
-  | {
-      deleteQ: boolean;
-    }
-  | {
-      deleteFilters: boolean;
-    };
+import { OptionsQueryParams } from '~/types/filters';
 
 export default function useQueryParams(options?: OptionsQueryParams) {
   const router = useRouter();
@@ -19,6 +11,8 @@ export default function useQueryParams(options?: OptionsQueryParams) {
     (key: string | Record<string, string | null>, value?: string | null) => {
       const newUrl = setQueryParam(key, value, options);
       router.push(newUrl, {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         shallow: true,
       });
     },

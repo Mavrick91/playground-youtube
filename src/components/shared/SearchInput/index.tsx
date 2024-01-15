@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input } from '../input/InputText';
 import { X } from 'lucide-react';
 import { cn } from '~/lib/utils';
+import { Input } from '../input/InputText';
 
 type Props = {
   value: string;
@@ -35,7 +35,7 @@ export default function SearchInput({
         <X
           className="absolute top-1/2 transform -translate-y-1/2 right-5 cursor-pointer"
           onClick={handleClickDeleteSearch}
-          size={size ? size : 24}
+          size={size || 24}
           color="#4d4f4e70"
           data-testid="search-input-delete"
         />

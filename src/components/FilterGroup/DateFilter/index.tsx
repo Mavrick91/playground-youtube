@@ -44,7 +44,7 @@ export default function DateFilter({ className }: { className?: string }) {
           <PopoverTrigger asChild>
             <Button
               id="publishedAfter"
-              variant={'outline'}
+              variant="outline"
               disabled={getQueryParam('order') === 'videoCount'}
               className={cn(
                 'w-[170px] justify-start text-left font-normal',
@@ -81,7 +81,7 @@ export default function DateFilter({ className }: { className?: string }) {
           <PopoverTrigger asChild>
             <Button
               id="publishedBefore"
-              variant={'outline'}
+              variant="outline"
               disabled={getQueryParam('order') === 'videoCount'}
               className={cn(
                 'w-[170px] justify-start text-left font-normal',

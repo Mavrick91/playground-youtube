@@ -37,14 +37,12 @@ export default function OrderFilter() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="overflow-visible">
-        {VIDEO_ORDER_OPTIONS.map(order => {
-          return (
+        {VIDEO_ORDER_OPTIONS.map(order => (
             <DropdownMenuItem key={order.value} onClick={() => handleUpdateDuration(order.value)}>
               {order.label}
               <Tooltip tip={order.tooltip} />
             </DropdownMenuItem>
-          );
-        })}
+          ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleUpdateDuration(null)} asChild>
           <Button className="w-full" size="sm" variant="link">

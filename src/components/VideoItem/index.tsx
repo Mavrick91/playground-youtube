@@ -2,18 +2,18 @@ import React from 'react';
 import moment from 'moment';
 import Image from 'next/image';
 import { formatNumber } from '~/lib/utils';
-import { Thumbnail } from '~/types/videos';
 import he from 'he';
 import Link from 'next/link';
+import { youtube_v3 } from 'googleapis';
 
 type Props = {
-  channelThumbnail: string;
-  videoTitle: string;
-  channelTitle: string;
-  viewCount: string;
-  publishedAt: string;
-  thumbnail: Thumbnail;
-  id: string;
+  channelThumbnail?: string;
+  videoTitle?: string | null;
+  channelTitle?: string | null;
+  viewCount?: string | null;
+  publishedAt?: string | null;
+  thumbnail?: youtube_v3.Schema$Thumbnail;
+  id?: string | youtube_v3.Schema$ResourceId | null | undefined;
 };
 
 export default function VideoItem({
@@ -25,11 +25,13 @@ export default function VideoItem({
   thumbnail,
   id,
 }: Props) {
-  if (!thumbnail.height || !thumbnail.width) return null;
+  if (!thumbnail?.height || !thumbnail?.width || !thumbnail?.url) return null;
+
+  const videoId = typeof id === 'string' ? id : id?.videoId;
 
   return (
     <div>
-      <Link href={`/watch?v=${id}`}>
+      <Link href={`/watch?v=${videoId}`}>
         <Image
           width={thumbnail.width}
           className="rounded-lg"
@@ -41,13 +43,20 @@ export default function VideoItem({
       </Link>
       <div className="mt-3">
         <div className="flex gap-2 items-start">
-          <Image src={channelThumbnail} alt="channel" className="rounded-full" width={36} height={36} quality={100} />
+          <Image
+            src={channelThumbnail || ''}
+            alt="channel"
+            className="rounded-full"
+            width={36}
+            height={36}
+            quality={100}
+          />
           <div className="flex flex-col">
-            <h1 className="font-bold mb-1 line-clamp-2">{he.decode(videoTitle)}</h1>
+            <h1 className="font-bold mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
             <div className="text-gray-600 text-sm font-medium flex flex-col">
               <p>{channelTitle}</p>
               <p>
-                {formatNumber(viewCount)} views • {moment(publishedAt).fromNow()}
+                {formatNumber(viewCount || '')} views • {moment(publishedAt).fromNow()}
               </p>
             </div>
           </div>

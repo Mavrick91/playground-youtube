@@ -1,8 +1,7 @@
 import { OAuth2Client } from 'google-auth-library';
 import { GetTokenResponse } from 'google-auth-library/build/src/auth/oauth2client';
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { URL, URLSearchParams } from 'url';
+import { URL } from 'url';
 
 export async function GET(req: NextRequest) {
   const oAuth2Client: OAuth2Client = new OAuth2Client(
@@ -12,13 +11,13 @@ export async function GET(req: NextRequest) {
   );
 
   const url: URL = new URL(req.nextUrl.toString());
-  const searchParams: URLSearchParams = url.searchParams;
+  const {searchParams} = url;
 
   const code: string | null = searchParams.get('code');
   const error: string | null = searchParams.get('error');
 
   if (error) {
-    return NextResponse.json({ status: 401, message: 'Unauthorized: ' + error });
+    return NextResponse.json({ status: 401, message: `Unauthorized: ${  error}` });
   }
 
   if (!code) {
@@ -37,8 +36,10 @@ export async function GET(req: NextRequest) {
     response.headers.set('Set-Cookie', `auth_token=${tokens.access_token}; Path=/; HttpOnly;`);
 
     return response;
-  } catch (error: any) {
-    console.error('Error exchanging code for tokens:', error.message);
-    return NextResponse.json({ status: 500, message: 'Authentication failed' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error exchanging code for tokens:', error.message);
+    }
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }

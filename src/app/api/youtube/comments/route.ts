@@ -7,13 +7,11 @@ interface Token {
   value: string;
 }
 
-const getOAuth2Client = () => {
-  return new google.auth.OAuth2(
+const getOAuth2Client = () => new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URI
   );
-};
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const oAuth2Client = getOAuth2Client();
@@ -46,9 +44,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (!commentThreadsResponse.data.items) return NextResponse.json(null, { status: 200 });
 
-    return NextResponse.json(commentThreadsResponse.data, { status: 200 });
-  } catch (error: any) {
-    console.error('YouTube API error:', error?.message);
+    return NextResponse.json(commentThreadsResponse, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('YouTube API error:', error.message);
+    }
     return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }

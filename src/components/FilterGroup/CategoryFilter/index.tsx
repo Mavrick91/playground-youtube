@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,

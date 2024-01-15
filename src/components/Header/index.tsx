@@ -1,8 +1,9 @@
 'use client';
 
-import axios from 'axios';
+import React from 'react';
 import Image from 'next/image';
 import { useUser } from '~/providers/UserProvider';
+import { useLogout } from '~/endpoint/useLogout';
 import keys from '../../../oauth2.keys.json';
 import {
   DropdownMenu,
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from '../DropdownMenu';
 import Button from '../shared/Button';
-import { useLogout } from '~/endpoint/useLogout';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import SearchBar from '../SearchBar';
 
@@ -27,7 +27,7 @@ export default function Header() {
   };
 
   const initiateGoogleAuth = () => {
-    const client_id = keys.web.client_id;
+    const { client_id } = keys.web;
     const redirect_uri = keys.web.redirect_uris[0];
 
     const scope = [
@@ -86,9 +86,7 @@ export default function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <>
-                  <Button onClick={initiateGoogleAuth}>Login</Button>
-                </>
+                <Button onClick={initiateGoogleAuth}>Login</Button>
               )}
             </div>
           </div>

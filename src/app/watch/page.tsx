@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import React from 'react';
-import data from './data.json';
+import { GaxiosResponse } from 'gaxios';
 import YoutubePlayer from '~/components/YoutubePlayer';
 import DescriptionVideo from '~/components/DescriptionVideo';
 import CommentSection from '~/components/CommentSection';
@@ -8,9 +8,10 @@ import { createURL } from '~/lib/url-utils';
 import { youtube_v3 } from 'googleapis';
 import { Separator } from '~/components/Separator';
 import { API } from '~/constants/apiUrl';
+import data from './data.json';
 
 async function getData(
-  auth_token: string | undefined,
+  authToken: string | undefined,
   searchParams: Record<string, string>
 ): Promise<{
   video: youtube_v3.Schema$VideoListResponse;
@@ -20,11 +21,11 @@ async function getData(
   const options = {
     cache: 'no-cache',
     headers: {
-      Cookie: `auth_token=${auth_token}`,
+      Cookie: `auth_token=${authToken}`,
     },
   } as RequestInit;
 
-  const videoUrl = createURL(API.YOUTUBE.VIDEOS.LIST, { v: searchParams.v });
+  const videoUrl = createURL(API.YOUTUBE.VIDEOS.LIST, { videoIds: searchParams.v });
   const commentThreadsUrl = createURL(API.YOUTUBE.COMMENTS.LIST, { videoId: searchParams.v });
 
   const [videoRes, commentThreadsRes] = await Promise.all([
@@ -32,35 +33,42 @@ async function getData(
     fetch(commentThreadsUrl, options),
   ]);
 
-  const [videoData, commentThreadsData] = await Promise.all([videoRes.json(), commentThreadsRes.json()]);
+  const [videoData, commentThreadsData]: [
+    GaxiosResponse<youtube_v3.Schema$VideoListResponse>,
+    GaxiosResponse<youtube_v3.Schema$CommentListResponse>,
+  ] = await Promise.all([videoRes.json(), commentThreadsRes.json()]);
 
   if (!videoRes.ok) {
-    throw new Error(videoData.message);
+    throw new Error(videoData.statusText);
   }
 
   if (!commentThreadsRes.ok) {
-    throw new Error(commentThreadsData.message);
+    throw new Error(commentThreadsData.statusText);
   }
 
-  const channelId = videoData.items[0].snippet.channelId;
-  const channelUrl = createURL(API.YOUTUBE.CHANNELS.LIST, { id: channelId });
+  const channelId = videoData.data.items?.[0].snippet?.channelId;
+  if (!channelId) {
+    throw new Error('Channel not found');
+  }
+
+  const channelUrl = createURL(API.YOUTUBE.CHANNELS.LIST, { channelIds: channelId });
   const channelRes = await fetch(channelUrl, options);
-  const channelData = await channelRes.json();
+  const channelData: GaxiosResponse<youtube_v3.Schema$ChannelListResponse> = await channelRes.json();
 
   if (!channelRes.ok) {
-    throw new Error(channelData.message);
+    throw new Error(channelData.statusText);
   }
 
-  return { video: videoData, channel: channelData, commentThreads: commentThreadsData };
+  return { video: videoData.data, channel: channelData.data, commentThreads: commentThreadsData.data };
 }
 
 export default async function WatchPage({ searchParams }: { searchParams: Record<string, string> }) {
-  const auth_token = cookies().get('auth_token')?.value;
-  // const data = await getData(auth_token, searchParams);
+  const authToken = cookies().get('auth_token')?.value;
+  // const data = await getData(authToken, searchParams);
   // console.log('🚀 ~ data:', JSON.stringify(data));
   const video = data.video.items?.[0];
   const channel = data.channel.items?.[0];
-  const commentThreads = data.commentThreads;
+  const { commentThreads } = data;
 
   return (
     <div className="overflow-auto">

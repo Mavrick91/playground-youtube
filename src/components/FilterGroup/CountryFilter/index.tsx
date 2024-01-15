@@ -59,8 +59,7 @@ export default function CountryFilter() {
             </Button>
           </DropdownMenuItem>
         </div>
-        {filteredCountries.slice(0, 10).map(country => {
-          return (
+        {filteredCountries.slice(0, 10).map(country => (
             <DropdownMenuItem
               textValue="test"
               key={country.id}
@@ -71,8 +70,7 @@ export default function CountryFilter() {
             >
               {country.label}
             </DropdownMenuItem>
-          );
-        })}
+          ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

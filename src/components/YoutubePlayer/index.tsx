@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import ReactPlayer from 'react-player';
 import Image from 'next/image';
 import { formatNumber } from '~/lib/utils';
@@ -19,8 +20,8 @@ export default function YoutubePlayer({ video, channel }: Props) {
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${video?.id}`}
           controls
-          width={'100%'}
-          height={'100%'}
+          width="100%"
+          height="100%"
           config={{
             youtube: {
               playerVars: {

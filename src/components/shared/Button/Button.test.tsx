@@ -14,7 +14,7 @@ describe('Button', () => {
   });
 
   it('shows a loading icon when isLoading is true', () => {
-    render(<Button isLoading={true}>Test Button</Button>);
+    render(<Button isLoading>Test Button</Button>);
     expect(screen.getByTestId('loading-icon')).toBeInTheDocument();
   });
 });

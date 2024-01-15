@@ -18,3 +18,11 @@ export type FilterLocation = {
 };
 
 export type Filters = FilterCategory | FilterCountry | FilterLocation;
+
+export type OptionsQueryParams =
+  | {
+      deleteQ: boolean;
+    }
+  | {
+      deleteFilters: boolean;
+    };

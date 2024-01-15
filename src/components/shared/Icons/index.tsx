@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Icons = {
-  loading: () => (
+  Loading: () => (
     <svg
       aria-hidden="true"
       role="status"

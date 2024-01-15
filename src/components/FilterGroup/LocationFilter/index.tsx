@@ -1,19 +1,14 @@
 'use client';
 
-import React from 'react';
 import { useCallback, useState } from 'react';
 import GoogleMap from '~/components/GoogleMap';
 import Button from '~/components/shared/Button';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '~/components/shared/Dialog';
-import { FilterLocation, Filters } from '~/types/filters';
-import CustomLatLng from './CustomLatLng';
+import { activeFilterButton } from '~/constants/style';
 import { useGetPlaceName } from '~/endpoint/useGetPlaceName';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
-import { activeFilterButton } from '~/constants/style';
-
-type Props = {
-  updateFilter: (value: Filters) => void;
-};
+import { FilterLocation } from '~/types/filters';
+import CustomLatLng from './CustomLatLng';
 
 const DEFAULT_RADIUS = '1000'; // Meter unit
 
@@ -32,23 +27,19 @@ export default function LocationFilter() {
   const { refetch, isFetching } = useGetPlaceName(selectedLocation.lat, selectedLocation.lng);
 
   const onClickMap = useCallback((lat: string, lng: string, placeName: string = '') => {
-    setSelectedLocation(prev => {
-      return {
-        ...prev,
-        lat: lat,
-        lng: lng,
-        label: placeName,
-      };
-    });
+    setSelectedLocation(prev => ({
+      ...prev,
+      lat,
+      lng,
+      label: placeName,
+    }));
   }, []);
 
   const handleUpdateLocation = (key: string, value: string) => {
-    setSelectedLocation(prev => {
-      return {
-        ...prev,
-        [key]: value,
-      };
-    });
+    setSelectedLocation(prev => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   const handleClickSave = useCallback(async () => {

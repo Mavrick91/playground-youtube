@@ -9,13 +9,15 @@ jest.mock('next/navigation', () => ({
 
 describe('useQueryParams', () => {
   const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
-  const mockUseSearchParams = useSearchParams as jest.MockedFunction<any>;
+  const mockUseSearchParams = useSearchParams as jest.MockedFunction<typeof useSearchParams>;
 
   beforeEach(() => {
     mockUseRouter.mockReturnValue({
       push: jest.fn(),
     } as unknown as ReturnType<typeof useRouter>);
-    mockUseSearchParams.mockReturnValue(new URLSearchParams());
+    mockUseSearchParams.mockReturnValue({
+      [Symbol.iterator]: () => new URLSearchParams()[Symbol.iterator](),
+    } as ReadonlyURLSearchParams);
   });
 
   it("updateQueryParams updates the query parameters when it's a string", () => {
@@ -38,7 +40,10 @@ describe('useQueryParams', () => {
   });
 
   it('getQueryParam returns the correct query parameter value', () => {
-    mockUseSearchParams.mockReturnValue(new URLSearchParams('testKey=testValue'));
+    mockUseSearchParams.mockReturnValue({
+      [Symbol.iterator]: () => new URLSearchParams('testKey=testValue')[Symbol.iterator](),
+      get: (key: string) => (key === 'testKey' ? 'testValue' : undefined),
+    } as ReadonlyURLSearchParams);
 
     const { result } = renderHook(() => useQueryParams());
     const value = result.current.getQueryParam('testKey');
@@ -47,6 +52,11 @@ describe('useQueryParams', () => {
   });
 
   it('getQueryParam returns undefined if the query parameter does not exist', () => {
+    mockUseSearchParams.mockReturnValue({
+      [Symbol.iterator]: () => new URLSearchParams('testKey=testValue')[Symbol.iterator](),
+      get: (key: string) => (key === 'testKey' ? 'testValue' : undefined),
+    } as ReadonlyURLSearchParams);
+
     const { result } = renderHook(() => useQueryParams());
     const value = result.current.getQueryParam('nonexistentKey');
 

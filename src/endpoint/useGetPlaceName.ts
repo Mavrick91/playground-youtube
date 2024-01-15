@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { QueryObserverResult, useQuery } from 'react-query';
 import { GeocodingResponse } from '~/types/placeName';
 
-export const useGetPlaceName = (lat: string, lng: string): QueryObserverResult<GeocodingResponse, Error> => {
-  return useQuery<GeocodingResponse, Error>(
+export const useGetPlaceName = (lat: string, lng: string): QueryObserverResult<GeocodingResponse, Error> => useQuery<GeocodingResponse, Error>(
     ['place-name', lat, lng],
     async () => {
       const response: AxiosResponse<GeocodingResponse> = await axios.get(
@@ -11,12 +10,11 @@ export const useGetPlaceName = (lat: string, lng: string): QueryObserverResult<G
       );
       if (response.data.results[0]) {
         return response.data;
-      } else {
+      } 
         throw new Error('No results found');
-      }
+      
     },
     {
       enabled: false,
     }
   );
-};

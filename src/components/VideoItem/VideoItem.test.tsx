@@ -1,11 +1,9 @@
 import React from 'react';
 import { render, screen } from '~/test-utils';
-import VideoItem from './index';
 import Link from 'next/link';
+import VideoItem from './index';
 
-jest.mock('next/link', () => {
-  return jest.fn(({ children }) => children);
-});
+jest.mock('next/link', () => jest.fn(({ children }) => children));
 
 describe('VideoItem', () => {
   const baseProps = {
