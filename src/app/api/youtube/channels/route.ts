@@ -12,9 +12,9 @@ const getOAuth2Client = () => {
 };
 
 interface Token {
-    value: string;
-  }
-  
+  value: string;
+}
+
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const oAuth2Client = getOAuth2Client();
 
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       auth: oAuth2Client,
     });
 
-    const channelId = req.nextUrl.searchParams.get('channelId');
+    const channelId = req.nextUrl.searchParams.get('id');
 
     const channelResponse = await youtube.channels.list({
       part: ['snippet', 'statistics'],
@@ -42,9 +42,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json(channelResponse.data, { status: 200 });
   } catch (error: any) {
     console.error('YouTube API error:', error?.message);
-    return NextResponse.json(
-      { message: 'Error fetching data from YouTube' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
 }
