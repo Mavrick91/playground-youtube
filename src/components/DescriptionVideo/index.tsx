@@ -11,11 +11,7 @@ type Props = {
   description: string;
 };
 
-export default function DescriptionVideo({
-  viewCount,
-  publishedAt,
-  description,
-}: Props) {
+export default function DescriptionVideo({ viewCount, publishedAt, description }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const date = parseISO(publishedAt);
@@ -49,22 +45,16 @@ export default function DescriptionVideo({
 
   return (
     <button
-      className="relative w-full text-left"
+      className="relative w-full text-left rounded-md bg-gray-200 hover:bg-gray-300 transition-all"
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      <div className="rounded-md bg-gray-200 p-3 flex flex-col">
+      <div className="p-3 flex flex-col">
         <div className="text-gray-900 font-semibold text-sm">
           {formatNumber(viewCount)} views
           <span className="mx-2">•</span>
           {timeAgo}
         </div>
-        <div
-          className={`text-sm overflow-hidden ${
-            isExpanded ? '' : 'max-h-[3.6rem]'
-          }`}
-        >
-          {descriptionElements}
-        </div>
+        <div className={`text-sm overflow-hidden ${isExpanded ? '' : 'max-h-[3.6rem]'}`}>{descriptionElements}</div>
       </div>
     </button>
   );
