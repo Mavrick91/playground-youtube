@@ -13,9 +13,11 @@ export default function ContainerVideoItems({ data }: Props) {
     <div className="grid grid-cols-4 gap-y-10 gap-x-4">
       {data.items.map(video => {
         let channelThumbnail = '';
+        let videoId = '';
 
         if (isYoutubeVideo(video)) {
           channelThumbnail = video.channel.snippet.thumbnails.high.url;
+          videoId = video.id;
         } else {
           if (video.kind === 'youtube#channel') return null;
           channelThumbnail = video.channelThumbnail;
@@ -30,6 +32,7 @@ export default function ContainerVideoItems({ data }: Props) {
             thumbnail={video.snippet.thumbnails.medium}
             videoTitle={video.snippet.title}
             viewCount={video.statistics?.viewCount || '0'}
+            id={videoId}
           />
         );
       })}

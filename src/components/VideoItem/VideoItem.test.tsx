@@ -1,9 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import VideoItem from '.';
+import { render, screen } from '~/test-utils';
+import VideoItem from './index';
+import Link from 'next/link';
+
+jest.mock('next/link', () => {
+  return jest.fn(({ children }) => children);
+});
 
 describe('VideoItem', () => {
   const props = {
+    id: 'test-id',
     channelThumbnail: 'http://example.com/channelThumbnail.jpg',
     videoTitle: 'Test Video Title',
     channelTitle: 'Test Channel Title',
@@ -39,5 +45,16 @@ describe('VideoItem', () => {
   it('displays the correct published date', () => {
     render(<VideoItem {...props} />);
     expect(screen.getByText(/2 years ago/i)).toBeInTheDocument();
+  });
+
+  it('passes the correct props to Link', () => {
+    render(<VideoItem {...props} />);
+
+    expect(Link).toHaveBeenCalledWith(
+      expect.objectContaining({
+        href: '/watch?v=test-id',
+      }),
+      {}
+    );
   });
 });

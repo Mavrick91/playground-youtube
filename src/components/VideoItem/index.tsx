@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { formatNumber } from '~/lib/utils';
 import { Thumbnail } from '~/types/videos';
 import he from 'he';
+import Link from 'next/link';
 
 type Props = {
   channelThumbnail: string;
@@ -12,6 +13,7 @@ type Props = {
   viewCount: string;
   publishedAt: string;
   thumbnail: Thumbnail;
+  id: string;
 };
 
 export default function VideoItem({
@@ -21,19 +23,22 @@ export default function VideoItem({
   viewCount,
   publishedAt,
   thumbnail,
+  id,
 }: Props) {
   if (!thumbnail.height || !thumbnail.width) return null;
 
   return (
     <div>
-      <Image
-        width={thumbnail.width}
-        className="rounded-lg"
-        height={thumbnail.height}
-        src={thumbnail.url}
-        alt="thumbails"
-        quality={100}
-      />
+      <Link href={`/watch?v=${id}`}>
+        <Image
+          width={thumbnail.width}
+          className="rounded-lg"
+          height={thumbnail.height}
+          src={thumbnail.url}
+          alt="thumbails"
+          quality={100}
+        />
+      </Link>
       <div className="mt-3">
         <div className="flex gap-2 items-start">
           <Image
