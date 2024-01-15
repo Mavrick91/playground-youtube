@@ -3,6 +3,7 @@ import { GaxiosResponse } from 'gaxios';
 import { google, youtube_v3 } from 'googleapis';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { API } from '~/constants/apiUrl';
 import { createURL } from '~/lib/url-utils';
 import { arePublishedDatesValid, isValidDate } from '~/lib/utils';
 
@@ -91,7 +92,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const channelResponses = await Promise.all(
       searchResponse.data.items.map(item => {
-        const channelUrl = createURL('/api/youtube/channels', {
+        const channelUrl = createURL(API.YOUTUBE.CHANNELS.LIST, {
           channelId: item.snippet?.channelId!,
         });
 
@@ -103,7 +104,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       })
     );
 
-    const videosUrl = createURL('/api/youtube/videos', {
+    const videosUrl = createURL(API.YOUTUBE.VIDEOS.LIST, {
       videoIds,
       parts: 'statistics',
     });

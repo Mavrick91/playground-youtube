@@ -7,6 +7,7 @@ import CommentSection from '~/components/CommentSection';
 import { createURL } from '~/lib/url-utils';
 import { youtube_v3 } from 'googleapis';
 import { Separator } from '~/components/Separator';
+import { API } from '~/constants/apiUrl';
 
 async function getData(
   auth_token: string | undefined,
@@ -23,8 +24,8 @@ async function getData(
     },
   } as RequestInit;
 
-  const videoUrl = createURL('/api/youtube/videos', { v: searchParams.v });
-  const commentThreadsUrl = createURL('/api/youtube/comments', { videoId: searchParams.v });
+  const videoUrl = createURL(API.YOUTUBE.VIDEOS.LIST, { v: searchParams.v });
+  const commentThreadsUrl = createURL(API.YOUTUBE.COMMENTS.LIST, { videoId: searchParams.v });
 
   const [videoRes, commentThreadsRes] = await Promise.all([
     fetch(videoUrl, options),
@@ -42,7 +43,7 @@ async function getData(
   }
 
   const channelId = videoData.items[0].snippet.channelId;
-  const channelUrl = createURL('/api/youtube/channels', { id: channelId });
+  const channelUrl = createURL(API.YOUTUBE.CHANNELS.LIST, { id: channelId });
   const channelRes = await fetch(channelUrl, options);
   const channelData = await channelRes.json();
 
