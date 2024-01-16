@@ -46,10 +46,13 @@ async function getData(searchParams: Record<string, string>): Promise<ItemWithSt
   const statsResponseJson = responses[0] as youtube_v3.Schema$VideoListResponse;
   const channelResponse = responses[1] as youtube_v3.Schema$ChannelListResponse;
 
-  const viewCounts: Record<string, string> = {};
+  const videoInfos: Record<string, Record<string, object>> = {};
   statsResponseJson.items?.forEach(item => {
     if (item.id && item.statistics) {
-      viewCounts[item.id] = item.statistics.viewCount || '0';
+      videoInfos[item.id] = {
+        statistics: item.statistics,
+        contentDetails: item.contentDetails || {},
+      };
     }
   });
 
@@ -68,8 +71,9 @@ async function getData(searchParams: Record<string, string>): Promise<ItemWithSt
 
       const newItem = {
         ...item,
-        statistics: { viewCount: videoId ? viewCounts[videoId] || '0' : '0' },
+        statistics: videoId ? videoInfos[videoId].statistics : undefined,
         channelThumbnail: channelId ? channelThumbnails[channelId] : undefined,
+        contentDetails: videoId ? videoInfos[videoId].contentDetails : undefined,
       };
 
       return newItem;
@@ -78,7 +82,7 @@ async function getData(searchParams: Record<string, string>): Promise<ItemWithSt
 }
 
 export default async function SearchedVideos({ searchParams }: { searchParams: Record<string, string> }) {
-  // const data = await getData(searchParams);
+  const data = await getData(searchParams);
   console.log('🚀 ~ data:', JSON.stringify(data));
 
   // return <div>Searched videos</div>;
