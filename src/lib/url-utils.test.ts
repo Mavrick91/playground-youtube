@@ -1,3 +1,4 @@
+import { OptionsQueryParams } from '~/types/filters';
 import { createURL, hasSearchQueryOrFilters, setQueryParam } from './url-utils';
 
 describe('url-utils', () => {
@@ -40,7 +41,19 @@ describe('url-utils', () => {
 
     it('should set a single query parameter', () => {
       const newUrl = setQueryParam('testKey', 'testValue');
-      expect(newUrl).toBe('/test?q=test&testKey3=testValue3&testKey=testValue');
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}/test?q=test&testKey3=testValue3&testKey=testValue`);
+    });
+
+    it('should set the query parameter correctly', () => {
+      window.location = { pathname: '/testPath', search: '?testKey=testValue' } as any;
+
+      const key = 'newKey';
+      const value = 'newValue';
+      const options: OptionsQueryParams = { baseURL: '/newPath' };
+
+      const newUrl = setQueryParam(key, value, options);
+
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}${options.baseURL}${window.location.search}&${key}=${value}`);
     });
 
     it('should set multiple query parameters', () => {
@@ -48,22 +61,24 @@ describe('url-utils', () => {
         testKey1: 'testValue1',
         testKey2: 'testValue2',
       });
-      expect(newUrl).toBe('/test?q=test&testKey3=testValue3&testKey1=testValue1&testKey2=testValue2');
+      expect(newUrl).toBe(
+        `${process.env.NEXT_PUBLIC_APP_URL}/test?q=test&testKey3=testValue3&testKey1=testValue1&testKey2=testValue2`
+      );
     });
 
     it('should delete a query parameter if its value is null (if a string)', () => {
       const newUrl = setQueryParam('q', null);
-      expect(newUrl).toBe('/test?testKey3=testValue3');
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}/test?testKey3=testValue3`);
     });
 
     it('should delete a query parameter if its value is null (if an object)', () => {
       const newUrl = setQueryParam({ testKey3: null });
-      expect(newUrl).toBe('/test?q=test');
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}/test?q=test`);
     });
 
     it('should delete the "q" query parameter if "deleteQ" is in options', () => {
       const newUrl = setQueryParam('testKey', 'testValue', { deleteQ: true });
-      expect(newUrl).toBe('/test?testKey3=testValue3&testKey=testValue');
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}/test?testKey3=testValue3&testKey=testValue`);
     });
 
     it('should delete the filter query parameters if "deleteFilters" is in options', () => {
@@ -75,7 +90,7 @@ describe('url-utils', () => {
       const newUrl = setQueryParam('testKey', 'testValue', {
         deleteFilters: true,
       });
-      expect(newUrl).toBe('/test?q=test&testKey=testValue');
+      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}/test?q=test&testKey=testValue`);
     });
   });
   describe('createURL', () => {

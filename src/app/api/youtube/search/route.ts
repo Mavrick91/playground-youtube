@@ -9,7 +9,8 @@ interface Token {
   value: string;
 }
 
-const getOAuth2Client = () => new google.auth.OAuth2(
+const getOAuth2Client = () =>
+  new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URI
@@ -29,15 +30,15 @@ const getSearchParams = (req: NextRequest) => {
   const searchParams: youtube_v3.Params$Resource$Search$List = {
     part: ['snippet'],
     maxResults: 8,
-    type: ['video', 'channel'],
+    type: ['video'],
   };
 
   if (query) searchParams.q = query;
   if (topicId) searchParams.topicId = topicId;
   if (videoDuration) searchParams.videoDuration = videoDuration;
   if (order) {
-    searchParams.type = ['channel'];
     searchParams.order = order;
+    if (order === 'viewCount') searchParams.type = ['channel'];
   }
   if (regionCode) searchParams.regionCode = regionCode;
   if (location && radius) {
@@ -80,14 +81,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (!searchResponse.data.items) return NextResponse.json(null, { status: 200 });
 
-    return NextResponse.json(
-      searchResponse,
-      { status: 200 }
-    );
+    return NextResponse.json(searchResponse, { status: 200 });
   } catch (error: unknown) {
-  if (error instanceof Error) {
-    console.error('YouTube API error:', error.message);
+    if (error instanceof Error) {
+      console.error('YouTube API error:', error.message);
+    }
+    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
   }
-  return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
-}
 }

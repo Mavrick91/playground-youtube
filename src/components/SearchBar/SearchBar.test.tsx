@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '~/test-utils';
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
 import SearchBar from './index';
+import { ROUTES } from '~/constants/route';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 jest.mock('next/navigation', () => ({
@@ -36,6 +37,14 @@ describe('SearchBar', () => {
     await user.click(buttonSubmit);
 
     expect(mockUpdateQueryParams).toHaveBeenCalledWith('q', 'test');
+  });
+
+  it('calls useQueryParams with the right parameters', () => {
+    (useQueryParams as jest.Mock).mockReturnValue({ updateQueryParams: jest.fn() });
+
+    render(<SearchBar />);
+
+    expect(useQueryParams).toHaveBeenCalledWith({ deleteFilters: true, baseURL: ROUTES.HOME });
   });
 
   it('sets the input value based on search params', () => {

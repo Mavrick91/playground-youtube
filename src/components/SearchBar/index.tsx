@@ -4,11 +4,12 @@ import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
+import { ROUTES } from '~/constants/route';
 import Button from '../shared/Button';
 import SearchInput from '../shared/SearchInput';
 
 export default function SearchBar() {
-  const { updateQueryParams } = useQueryParams({ deleteFilters: true });
+  const { updateQueryParams } = useQueryParams({ deleteFilters: true, baseURL: ROUTES.HOME });
   const params = useSearchParams();
   const [inputValue, setInputValue] = useState('');
 

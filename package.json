@@ -39,6 +39,7 @@
     "classnames": "^2.3.2",
     "clsx": "^2.0.0",
     "date-fns": "^3.2.0",
+    "dotenv": "^16.3.1",
     "eslint-config-airbnb": "^19.0.4",
     "gaxios": "^6.1.1",
     "google-auth-library": "^9.4.1",

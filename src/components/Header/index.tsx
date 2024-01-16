@@ -48,7 +48,7 @@ export default function Header() {
         <MaxWidthWrapper>
           <div className="flex items-center justify-between">
             <div className="flex items-center w-full">
-              <a href="https://flowbite.com" className="flex items-center">
+              <a href={process.env.NEXT_PUBLIC_APP_URL} className="flex items-center">
                 <Image
                   src="https://flowbite.com/docs/images/logo.svg"
                   className="mr-3 h-6 sm:h-9"

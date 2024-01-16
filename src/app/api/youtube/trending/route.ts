@@ -39,9 +39,15 @@ export async function GET(): Promise<NextResponse> {
 
     return NextResponse.json(videoTrendingResponse, { status: 200 });
   } catch (error: unknown) {
+    console.error('YouTube API error:', error);
+  
+    let errorMessage = 'Error fetching data from YouTube';
+    const statusCode = 500;
+  
     if (error instanceof Error) {
-      console.error('YouTube API error:', error.message);
+      errorMessage += `: ${error.message}`;
     }
-    return NextResponse.json({ message: 'Error fetching data from YouTube' }, { status: 500 });
+  
+    return NextResponse.json({ message: errorMessage }, { status: statusCode });
   }
 }

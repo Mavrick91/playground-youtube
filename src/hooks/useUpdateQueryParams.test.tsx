@@ -24,7 +24,7 @@ describe('useQueryParams', () => {
     const { result } = renderHook(() => useQueryParams());
     result.current.updateQueryParams('testKey', 'testValue');
 
-    expect(mockUseRouter().push).toHaveBeenCalledWith('/?testKey=testValue', {
+    expect(mockUseRouter().push).toHaveBeenCalledWith(`${process.env.NEXT_PUBLIC_APP_URL}/?testKey=testValue`, {
       shallow: true,
     });
   });
@@ -36,7 +36,10 @@ describe('useQueryParams', () => {
       testKey2: 'testValue2',
     });
 
-    expect(mockUseRouter().push).toHaveBeenCalledWith('/?testKey=testValue&testKey2=testValue2', { shallow: true });
+    expect(mockUseRouter().push).toHaveBeenCalledWith(
+      `${process.env.NEXT_PUBLIC_APP_URL}/?testKey=testValue&testKey2=testValue2`,
+      { shallow: true }
+    );
   });
 
   it('getQueryParam returns the correct query parameter value', () => {

@@ -10,6 +10,7 @@ export function setQueryParam(
   value?: string | null,
   options?: OptionsQueryParams
 ): string {
+  const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${options?.baseURL ? options.baseURL : window.location.pathname}`);
   const searchParams = new URLSearchParams(window.location.search);
 
   if (typeof key === 'object') {
@@ -21,10 +22,10 @@ export function setQueryParam(
       }
     });
   } else if (value === null) {
-      searchParams.delete(key);
-    } else {
-      searchParams.set(key, value!);
-    }
+    searchParams.delete(key);
+  } else {
+    searchParams.set(key, value!);
+  }
 
   if (options && 'deleteQ' in options) {
     searchParams.delete('q');
@@ -35,10 +36,9 @@ export function setQueryParam(
     searchParams.delete('radius');
   }
 
-  const newSearchParams = searchParams.toString();
-  const newUrl = `${window.location.pathname}${newSearchParams ? `?${newSearchParams}` : ''}`;
+  url.search = searchParams.toString();
 
-  return newUrl;
+  return url.toString();
 }
 
 export function createURL(path: string, params: Record<string, string>) {
