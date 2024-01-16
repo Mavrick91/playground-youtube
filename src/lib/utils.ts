@@ -51,3 +51,40 @@ export function arePublishedDatesValid(publishedAfter: string | undefined, publi
 
   return false;
 }
+
+export function parseISO8601Duration(duration: string): string {
+  const regex = /P(?:\d+Y)?(?:\d+M)?(?:\d+D)?T(?:\d+H)?(?:\d+M)?(?:\d+S)?/;
+  const matches = duration.match(regex);
+
+  if (!matches) {
+    return "00:00";
+  }
+
+  const isoDuration = matches[0];
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+
+  const hoursMatch = isoDuration.match(/(\d+)H/);
+  const minutesMatch = isoDuration.match(/(\d+)M/);
+  const secondsMatch = isoDuration.match(/(\d+)S/);
+
+  if (hoursMatch) {
+    hours = parseInt(hoursMatch[1], 10);
+  }
+  if (minutesMatch) {
+    minutes = parseInt(minutesMatch[1], 10);
+  }
+  if (secondsMatch) {
+    seconds = parseInt(secondsMatch[1], 10);
+  }
+
+  let formattedDuration = '';
+  if (hours > 0) {
+    formattedDuration += `${hours.toString().padStart(2, '0')  }:`;
+  }
+  formattedDuration += `${minutes.toString().padStart(2, '0')  }:`;
+  formattedDuration += seconds.toString().padStart(2, '0');
+
+  return formattedDuration;
+}

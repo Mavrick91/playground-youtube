@@ -38,7 +38,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const videoResponse: GaxiosResponse<youtube_v3.Schema$VideoListResponse> = await youtube.videos.list({
       id: videoIds,
-      part: ['snippet', 'statistics'],
+      part: ['snippet', 'statistics', 'contentDetails'],
     });
 
     if (!videoResponse.data.items) return NextResponse.json(null, { status: 200 });

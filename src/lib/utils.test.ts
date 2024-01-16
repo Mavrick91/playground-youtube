@@ -1,4 +1,4 @@
-import { arePublishedDatesValid, formatNumber, isValidDate } from './utils';
+import { arePublishedDatesValid, formatNumber, isValidDate, parseISO8601Duration } from './utils';
 
 describe('formatNumber', () => {
   it('should return "Invalid number" for non-numeric input', () => {
@@ -78,5 +78,21 @@ describe('isValidDate', () => {
   it('returns true when the date string is in the format YYYY-MM-DD and the date is valid', () => {
     const result = isValidDate('2024-01-01');
     expect(result).toBe(true);
+  });
+});
+
+
+describe('parseISO8601Duration', () => {
+  it('should correctly parse ISO 8601 duration strings', () => {
+    expect(parseISO8601Duration('PT1H')).toBe('01:00:00'); // 1 hour
+    expect(parseISO8601Duration('PT1M')).toBe('01:00'); // 1 minute
+    expect(parseISO8601Duration('PT1S')).toBe('00:01'); // 1 second
+    expect(parseISO8601Duration('PT1H1M1S')).toBe('01:01:01'); // 1 hour, 1 minute, 1 second
+    expect(parseISO8601Duration('PT2H30M')).toBe('02:30:00'); // 2 hours, 30 minutes
+  });
+
+  it('should return "00:00" for invalid or empty strings', () => {
+    expect(parseISO8601Duration('')).toBe('00:00');
+    expect(parseISO8601Duration('invalid')).toBe('00:00');
   });
 });

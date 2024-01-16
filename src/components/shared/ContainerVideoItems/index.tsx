@@ -1,5 +1,6 @@
 import React from 'react';
 import VideoItem from '~/components/VideoItem';
+import { parseISO8601Duration } from '~/lib/utils';
 import { ItemWithStatistics } from '~/types/searchVideos';
 
 type Props = {
@@ -21,6 +22,7 @@ export default function ContainerVideoItems({ data }: Props) {
             thumbnail={video.snippet?.thumbnails?.medium}
             videoTitle={video.snippet?.title || ''}
             viewCount={video.statistics?.viewCount}
+            duration={parseISO8601Duration(video.contentDetails?.duration || '')}
             id={video.id}
           />
         );

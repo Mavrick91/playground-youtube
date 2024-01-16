@@ -11,6 +11,7 @@ type Props = {
   videoTitle?: string | null;
   channelTitle?: string | null;
   viewCount?: string | null;
+  duration?: string | null;
   publishedAt?: string | null;
   thumbnail?: youtube_v3.Schema$Thumbnail;
   id?: string | youtube_v3.Schema$ResourceId | null | undefined;
@@ -23,6 +24,7 @@ export default function VideoItem({
   viewCount,
   publishedAt,
   thumbnail,
+  duration,
   id,
 }: Props) {
   if (!thumbnail?.height || !thumbnail?.width || !thumbnail?.url) return null;
@@ -31,7 +33,7 @@ export default function VideoItem({
 
   return (
     <div>
-      <Link href={`/watch?v=${videoId}`}>
+      <Link href={`/watch?v=${videoId}`} className="relative">
         <Image
           width={thumbnail.width}
           className="rounded-lg"
@@ -40,6 +42,9 @@ export default function VideoItem({
           alt="thumbails"
           quality={100}
         />
+        <div className="absolute bottom-2 right-5 text-white bg-black/60 text-xs py-px px-1 rounded-md font-bold">
+          {duration}
+        </div>
       </Link>
       <div className="mt-3">
         <div className="flex gap-2 items-start">
