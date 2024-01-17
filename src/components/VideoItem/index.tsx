@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { youtube_v3 } from 'googleapis';
 
 type Props = {
-  channelThumbnail?: string;
+  channelThumbnail?: string | null;
   videoTitle?: string | null;
   channelTitle?: string | null;
   viewCount?: string | null;

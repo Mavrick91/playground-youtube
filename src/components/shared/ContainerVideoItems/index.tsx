@@ -1,22 +1,21 @@
-import React from 'react';
 import VideoItem from '~/components/VideoItem';
 import { parseISO8601Duration } from '~/lib/utils';
-import { ItemWithStatistics } from '~/types/searchVideos';
+import { VideoListResponseWithChannel } from '~/types/searchVideos';
 
 type Props = {
-  data: ItemWithStatistics[];
+  data: VideoListResponseWithChannel;
 };
 
 export default function ContainerVideoItems({ data }: Props) {
   return (
     <div className="grid grid-cols-4 gap-y-10 gap-x-4">
-      {data.map(video => {
+      {data.items?.map(video => {
         if (video.kind === 'youtube#channel') return null;
 
         return (
           <VideoItem
             key={video.snippet?.title}
-            channelThumbnail={video.channelThumbnail}
+            channelThumbnail={video.channel?.snippet?.thumbnails?.high?.url}
             channelTitle={video.snippet?.channelTitle}
             publishedAt={video.snippet?.publishedAt}
             thumbnail={video.snippet?.thumbnails?.medium}

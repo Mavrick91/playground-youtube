@@ -1,44 +1,38 @@
+import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
 import CommentSection from '~/components/CommentSection';
 import DescriptionVideo from '~/components/DescriptionVideo';
 import { Separator } from '~/components/Separator';
 import YoutubePlayer from '~/components/YoutubePlayer';
-import { API } from '~/constants/apiUrl';
-import { fetchAllData, fetchData } from '~/lib/fetcher';
+import { getYouTubeClient } from '../services/oauthService';
 // import data from './data.json';
 
-async function getData(searchParams: Record<string, string>): Promise<{
-  video: youtube_v3.Schema$VideoListResponse;
-  channel: youtube_v3.Schema$ChannelListResponse;
-  commentThreads: youtube_v3.Schema$CommentThreadListResponse;
-}> {
-  const responses = await fetchAllData([
-    { endpoint: API.YOUTUBE.VIDEOS.LIST, params: { videoIds: searchParams.v } },
-    { endpoint: API.YOUTUBE.COMMENTS.LIST, params: { videoId: searchParams.v } },
-  ]);
+async function getData(videoId: string) {
+  const youtubeClient = getYouTubeClient();
 
-  const videoData = responses[0] as youtube_v3.Schema$VideoListResponse;
-  const commentThreadsData = responses[1] as youtube_v3.Schema$CommentThreadListResponse;
-
-  const channelId = videoData.items?.[0].snippet?.channelId;
-  if (!channelId) {
-    throw new Error('Channel not found');
-  }
-
-  const channelData = await fetchData<youtube_v3.Schema$ChannelListResponse>(API.YOUTUBE.CHANNELS.LIST, {
-    channelIds: channelId,
+  const { data: videoData }: GaxiosResponse<youtube_v3.Schema$VideoListResponse> = await youtubeClient.videos.list({
+    id: [videoId],
+    part: ['snippet', 'statistics', 'contentDetails'],
   });
 
-  return { video: videoData, channel: channelData, commentThreads: commentThreadsData };
+  const channelId = videoData.items?.[0].snippet?.channelId;
+
+  let channelData: youtube_v3.Schema$ChannelListResponse | null = null;
+  if (channelId) {
+    const { data } = await youtubeClient.channels.list({
+      part: ['snippet', 'statistics'],
+      id: [channelId],
+    });
+    channelData = data;
+  }
+
+  return { videoData, channelData };
 }
 
-export default async function WatchPage({ searchParams }: { searchParams: Record<string, string> }) {
-  const data = await getData(searchParams);
-  // console.log('🚀 ~ data:', JSON.stringify(data));
-  const video = data.video.items?.[0];
-  console.log('🚀 ~ video:', video);
-  const channel = data.channel.items?.[0];
-  const { commentThreads } = data;
+export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
+  const { videoData, channelData } = await getData(searchParams.v);
+  const video = videoData.items?.[0];
+  const channel = channelData?.items?.[0];
 
   return (
     <div className="overflow-auto">
@@ -51,7 +45,7 @@ export default async function WatchPage({ searchParams }: { searchParams: Record
             viewCount={video?.statistics?.viewCount || ''}
           />
           <Separator className="my-8" />
-          <CommentSection commentCount={video?.statistics?.commentCount || ''} commentThreads={commentThreads} />
+          <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={searchParams.v} />
         </div>
         <div className="border border-red-500 w-3/12">test</div>
       </div>
