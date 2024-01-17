@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '~/test-utils';
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import useQueryParams from '~/hooks/useUpdateQueryParams';
-import SearchBar from './index';
 import { ROUTES } from '~/constants/route';
+import SearchBar from './index';
 
 jest.mock('~/hooks/useUpdateQueryParams');
 jest.mock('next/navigation', () => ({

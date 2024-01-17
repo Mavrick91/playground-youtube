@@ -53,7 +53,9 @@ describe('url-utils', () => {
 
       const newUrl = setQueryParam(key, value, options);
 
-      expect(newUrl).toBe(`${process.env.NEXT_PUBLIC_APP_URL}${options.baseURL}${window.location.search}&${key}=${value}`);
+      expect(newUrl).toBe(
+        `${process.env.NEXT_PUBLIC_APP_URL}${options.baseURL}${window.location.search}&${key}=${value}`
+      );
     });
 
     it('should set multiple query parameters', () => {

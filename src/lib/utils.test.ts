@@ -81,7 +81,6 @@ describe('isValidDate', () => {
   });
 });
 
-
 describe('parseISO8601Duration', () => {
   it('should correctly parse ISO 8601 duration strings', () => {
     expect(parseISO8601Duration('PT1H')).toBe('01:00:00'); // 1 hour

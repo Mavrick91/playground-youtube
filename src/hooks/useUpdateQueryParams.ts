@@ -1,4 +1,4 @@
-import { useRouter , useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { setQueryParam } from '~/lib/url-utils';
 import { OptionsQueryParams } from '~/types/filters';

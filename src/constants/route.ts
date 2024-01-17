@@ -1,4 +1,4 @@
 export const ROUTES = {
-    WATCH: '/watch',
-    HOME: '/',
-  };
+  WATCH: '/watch',
+  HOME: '/',
+};

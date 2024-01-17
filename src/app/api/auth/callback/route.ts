@@ -11,13 +11,13 @@ export async function GET(req: NextRequest) {
   );
 
   const url: URL = new URL(req.nextUrl.toString());
-  const {searchParams} = url;
+  const { searchParams } = url;
 
   const code: string | null = searchParams.get('code');
   const error: string | null = searchParams.get('error');
 
   if (error) {
-    return NextResponse.json({ status: 401, message: `Unauthorized: ${  error}` });
+    return NextResponse.json({ status: 401, message: `Unauthorized: ${error}` });
   }
 
   if (!code) {

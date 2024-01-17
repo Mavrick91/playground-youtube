@@ -10,7 +10,9 @@ export function setQueryParam(
   value?: string | null,
   options?: OptionsQueryParams
 ): string {
-  const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${options?.baseURL ? options.baseURL : window.location.pathname}`);
+  const url = new URL(
+    `${process.env.NEXT_PUBLIC_APP_URL}${options?.baseURL ? options.baseURL : window.location.pathname}`
+  );
   const searchParams = new URLSearchParams(window.location.search);
 
   if (typeof key === 'object') {

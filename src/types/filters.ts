@@ -23,4 +23,4 @@ export type OptionsQueryParams = {
   baseURL?: string;
   deleteQ?: boolean;
   deleteFilters?: boolean;
-} 
+};

@@ -60,17 +60,17 @@ export default function CountryFilter() {
           </DropdownMenuItem>
         </div>
         {filteredCountries.slice(0, 10).map(country => (
-            <DropdownMenuItem
-              textValue="test"
-              key={country.id}
-              onClick={() => {
-                updateQueryParams('regionCode', country.id);
-                resetInputValue();
-              }}
-            >
-              {country.label}
-            </DropdownMenuItem>
-          ))}
+          <DropdownMenuItem
+            textValue="test"
+            key={country.id}
+            onClick={() => {
+              updateQueryParams('regionCode', country.id);
+              resetInputValue();
+            }}
+          >
+            {country.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

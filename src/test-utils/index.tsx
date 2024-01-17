@@ -17,9 +17,9 @@ export function AllTheProviders({ children }: { children: React.ReactNode }) {
 }
 
 const customRender = (ui: React.ReactElement, options?: RenderOptions) => ({
-    user: userEvent.setup(),
-    ...render(ui, { wrapper: AllTheProviders as ComponentType, ...options }),
-  });
+  user: userEvent.setup(),
+  ...render(ui, { wrapper: AllTheProviders as ComponentType, ...options }),
+});
 
 // re-export everything
 export * from '@testing-library/react';

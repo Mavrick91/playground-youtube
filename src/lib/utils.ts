@@ -15,15 +15,15 @@ export function formatNumber(numStr: string) {
 
   if (num < 1000) {
     return num.toString();
-  } if (num < 1000000) {
-    return `${(num / 1000).toFixed(1)  } K`;
-  } if (num < 1000000000) {
-    return `${(num / 1000000).toFixed(1)  } M`;
-  } 
-    return `${(num / 1000000000).toFixed(1)  } B`;
-  
+  }
+  if (num < 1000000) {
+    return `${(num / 1000).toFixed(1)} K`;
+  }
+  if (num < 1000000000) {
+    return `${(num / 1000000).toFixed(1)} M`;
+  }
+  return `${(num / 1000000000).toFixed(1)} B`;
 }
-
 
 export function isValidDate(dateString: string) {
   const dateFormat = 'yyyy-MM-dd';
@@ -46,7 +46,8 @@ export function arePublishedDatesValid(publishedAfter: string | undefined, publi
 
     if (afterDate && beforeDate) {
       return afterDate <= beforeDate;
-    } if (afterDate || beforeDate) return true;
+    }
+    if (afterDate || beforeDate) return true;
   }
 
   return false;
@@ -57,7 +58,7 @@ export function parseISO8601Duration(duration: string): string {
   const matches = duration.match(regex);
 
   if (!matches) {
-    return "00:00";
+    return '00:00';
   }
 
   const isoDuration = matches[0];
@@ -81,9 +82,9 @@ export function parseISO8601Duration(duration: string): string {
 
   let formattedDuration = '';
   if (hours > 0) {
-    formattedDuration += `${hours.toString().padStart(2, '0')  }:`;
+    formattedDuration += `${hours.toString().padStart(2, '0')}:`;
   }
-  formattedDuration += `${minutes.toString().padStart(2, '0')  }:`;
+  formattedDuration += `${minutes.toString().padStart(2, '0')}:`;
   formattedDuration += seconds.toString().padStart(2, '0');
 
   return formattedDuration;

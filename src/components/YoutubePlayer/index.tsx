@@ -46,8 +46,7 @@ export default function YoutubePlayer({ video, channel }: Props) {
             <div className="flex flex-col">
               <span className="text-black font-bold">{video?.snippet?.channelTitle}</span>
               <span className="text-xs text-gray-700 font-medium">
-                {formatNumber(channel?.statistics?.subscriberCount || '')}
-                subscribers
+                {formatNumber(channel?.statistics?.subscriberCount || '')} subscribers
               </span>
             </div>
           </div>
