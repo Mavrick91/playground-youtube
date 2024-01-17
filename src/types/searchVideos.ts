@@ -1,9 +1,9 @@
-import { youtube_v3 } from "googleapis";
+import { youtube_v3 } from 'googleapis';
 
-export interface ItemWithStatistics extends Omit<youtube_v3.Schema$SearchResult, 'id'> {
-    id?: youtube_v3.Schema$ResourceId | string | null;
-    statistics?: youtube_v3.Schema$VideoStatistics;
-    channelThumbnail?: string;
-    contentDetails?: youtube_v3.Schema$VideoContentDetails;
-  }
-  
+export type VideoWithChannel = youtube_v3.Schema$Video & {
+  channel: youtube_v3.Schema$Channel | undefined;
+};
+
+export interface VideoListResponseWithChannel extends Omit<youtube_v3.Schema$VideoListResponse, 'items'> {
+  items: VideoWithChannel[];
+};

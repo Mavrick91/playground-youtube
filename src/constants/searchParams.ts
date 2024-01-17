@@ -8,4 +8,4 @@ export const SEARCH_PARAMS = [
   'publishedBefore',
   'videoDuration',
   'order',
-];
+] as const;
