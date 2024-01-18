@@ -21,18 +21,15 @@ export function descriptionElements(str: string): JSX.Element[] {
             {word}
           </a>
         );
-      } if (word.startsWith('@@')) {
+      }
+      if (word.startsWith('@@')) {
         return (
-          <Link
-            href={`/channel/${word.substring(2)}`}
-            key={word}
-            className="text-blue-700 hover:underline"
-          >
+          <Link href={`/channel/${word.substring(2)}`} key={word} className="text-blue-700 hover:underline">
             {word.substring(1)}
           </Link>
         );
       }
-      
+
       return ` ${word} `;
     });
 

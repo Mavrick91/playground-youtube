@@ -85,9 +85,7 @@ const constructSearchQuery = (searchQuery: SearchQuery) => {
   return searchParams;
 };
 
-export const getSearchedVideos = async (
-  searchQuery: SearchQuery
-): Promise<youtube_v3.Schema$SearchListResponse> => {
+export const getSearchedVideos = async (searchQuery: SearchQuery): Promise<youtube_v3.Schema$SearchListResponse> => {
   const youtubeClient = await getYouTubeClient();
 
   const { data: searchData }: GaxiosResponse<youtube_v3.Schema$SearchListResponse> = await youtubeClient.search.list({

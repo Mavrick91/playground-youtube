@@ -5,9 +5,8 @@ import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
 import { getCommentThreads, getVideoDetailsWithChannels } from '../services/youtubeService';
 
-
 export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
-  const videoId = searchParams.v
+  const videoId = searchParams.v;
   const videoData = await getVideoDetailsWithChannels([videoId]);
   const commentThreads = await getCommentThreads(videoId, 'relevance');
   const video = videoData.items?.[0];

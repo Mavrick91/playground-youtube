@@ -21,7 +21,6 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<youtube_v3.Schema$Channel | null>(null);
   const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
   const { data: isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated?.isAuthenticated);
-  console.log('🚀 ~ UserProvider ~ isMe:', isMe);
 
   useEffect(() => {
     if (isMe && isMe.items && isMe.items.length > 0) {

@@ -13,9 +13,7 @@ const jestConfig: JestConfigWithTsJest = {
     '^~/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  transformIgnorePatterns: [
-    "node_modules/(?!(lucide-react)/)"
-  ]
+  transformIgnorePatterns: ['node_modules/(?!(lucide-react)/)'],
 };
 
 export default jestConfig;

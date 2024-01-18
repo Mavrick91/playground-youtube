@@ -11,7 +11,7 @@ export default function CommentList() {
   return (
     <div className="flex flex-col gap-y-4 relative" data-testid="comment-list">
       {isFetching && (
-        <div className="absolute inset-0 bg-white/50">
+        <div className="absolute inset-0 bg-white/50 z-50">
           <div className="mt-20">
             <Loading type="puff" size={40} />
           </div>

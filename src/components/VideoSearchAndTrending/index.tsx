@@ -4,7 +4,6 @@ import { hasSearchQueryOrFilters } from '~/lib/url-utils';
 import { VideoListResponseWithChannel } from '~/types/searchVideos';
 // import data from './data.json';
 
-
 async function getData(searchParams: Record<string, string>): Promise<VideoListResponseWithChannel> {
   let responseData: VideoListResponseWithChannel | null = null;
 
@@ -24,6 +23,6 @@ async function getData(searchParams: Record<string, string>): Promise<VideoListR
 
 export default async function SearchedVideos({ searchParams }: { searchParams: Record<string, string> }) {
   const data = await getData(searchParams);
-  
+
   return <ContainerVideoItems data={data} />;
 }

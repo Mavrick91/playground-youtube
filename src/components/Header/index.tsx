@@ -73,7 +73,7 @@ export default function Header() {
                     <Image
                       src={user.snippet?.thumbnails?.default?.url || ''}
                       className="rounded-full cursor-pointer"
-                      alt='avatar'
+                      alt="avatar"
                       quality={100}
                       width={40}
                       height={40}

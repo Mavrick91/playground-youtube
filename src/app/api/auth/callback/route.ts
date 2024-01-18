@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       path: '/',
       httpOnly: true,
     });
-    
+
     return response;
   } catch (error: unknown) {
     if (error instanceof Error) {

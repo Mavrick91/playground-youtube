@@ -6,4 +6,4 @@ export type VideoWithChannel = youtube_v3.Schema$Video & {
 
 export interface VideoListResponseWithChannel extends Omit<youtube_v3.Schema$VideoListResponse, 'items'> {
   items: VideoWithChannel[];
-};
+}

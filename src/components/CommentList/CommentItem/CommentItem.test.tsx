@@ -54,11 +54,11 @@ describe('CommentItem', () => {
 
   it('renders the author link and timestamp', () => {
     render(<CommentItem comment={comment} />);
-    
+
     const authorLink = screen.getByRole('link', { name: 'Test Author' });
     expect(authorLink).toBeInTheDocument();
     expect(authorLink).toHaveAttribute('href', '/channel/test-channel');
-  
+
     const timestamp = screen.getByText('about 2 years ago');
     expect(timestamp).toBeInTheDocument();
   });

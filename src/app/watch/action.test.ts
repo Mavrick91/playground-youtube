@@ -39,7 +39,6 @@ describe('postComment', () => {
   });
 });
 
-
 describe('formDataToObject', () => {
   it('should convert FormData to a plain JavaScript object', () => {
     const formData = new FormData();

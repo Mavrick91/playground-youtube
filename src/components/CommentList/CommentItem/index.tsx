@@ -82,7 +82,12 @@ export default function CommentItem({ comment, isCommentReply, parentCommentId }
         <CommentStats comment={commentSnippet} toggleReply={toggleReplyForm} />
         {showReplyForm && (
           <div className="mt-4">
-            <CommentForm commentId={parentCommentId} onCancel={toggleReplyForm} defaultValues={` ${commentSnippet?.authorDisplayName}`} />
+            <CommentForm
+              commentId={parentCommentId}
+              onCancel={toggleReplyForm}
+              size="sm"
+              defaultValues={` ${commentSnippet?.authorDisplayName}`}
+            />
           </div>
         )}
       </div>

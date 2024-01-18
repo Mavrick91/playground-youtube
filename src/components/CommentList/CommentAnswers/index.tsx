@@ -38,7 +38,9 @@ export default function CommentAnswers({ replyCount, parentCommentId }: Props) {
       )}
       {data && isExpanded && (
         <div className="flex flex-col gap-y-2 relative">
-          {data.items?.map(item => <CommentItem key={item.id} comment={item} isCommentReply parentCommentId={parentCommentId} />)}
+          {data.items?.map(item => (
+            <CommentItem key={item.id} comment={item} isCommentReply parentCommentId={parentCommentId} />
+          ))}
         </div>
       )}
     </div>

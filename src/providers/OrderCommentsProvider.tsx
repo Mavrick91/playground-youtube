@@ -43,11 +43,7 @@ export default function OrderCommentsProvider({ children, initialData, videoId }
     [data, isFetching, order]
   );
 
-  return (
-    <OrderCommentsContext.Provider value={value}>
-      {children}
-    </OrderCommentsContext.Provider>
-  );
+  return <OrderCommentsContext.Provider value={value}>{children}</OrderCommentsContext.Provider>;
 }
 
 export const useOrderComments = () => {
