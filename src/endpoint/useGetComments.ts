@@ -10,7 +10,7 @@ export const useGetComments = (
   useQuery({
     queryKey: ['comments', videoId, order],
     queryFn: async () =>
-      fetchData<youtube_v3.Schema$CommentThreadListResponse>(`/api/youtube/comments`, {
+      fetchData<youtube_v3.Schema$CommentThreadListResponse>(`/api/youtube/commentThreads`, {
         videoId,
         order,
       }),

@@ -11,9 +11,8 @@ type Props = CirclesLoaderPropsProps;
 
 function Loading({ type, ...loaderProps }: Props) {
   return (
-    <div className="w-full flex justify-center items-center">
-      {type === 'circles' && <CircleLoader {...loaderProps} />}{' '}
-      {type === 'puff' && <PuffLoader {...loaderProps} />}{' '}
+    <div className="w-full flex justify-center items-center" data-testid={`loader-${type}`}>
+      {type === 'circles' && <CircleLoader {...loaderProps} />} {type === 'puff' && <PuffLoader {...loaderProps} />}{' '}
     </div>
   );
 }

@@ -20,4 +20,12 @@ describe('descriptionElements', () => {
     render(<>{descriptionElements(str)}</>);
     expect(screen.getByTestId('line-break')).toBeInTheDocument();
   });
+
+  it('should render a link when given a string with @@', () => {
+    const str = '@@channel';
+    render(<>{descriptionElements(str)}</>);
+    const linkElement = screen.getByRole('link', { name: '@channel' });
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement).toHaveAttribute('href', '/channel/channel');
+  });
 });

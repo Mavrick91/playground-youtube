@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { getYouTubeClient } from '../services/oauthService';
 
@@ -8,9 +7,23 @@ const formDataSchema = z.object({
   comment: z.string().min(1, 'No comment provided'),
 });
 
-export const postComment = async (videoId: string, formData: FormData) => {
+type Params = {
+  videoId?: string;
+  commentId?: string | null;
+};
+
+export const formDataToObject = (formData: FormData): Record<string, unknown> => {
+  const object: Record<string, unknown> = {};
+  formData.forEach((value, key) => {
+    object[key] = value;
+  });
+  return object;
+};
+
+export const postComment = async (params: Params, formData: FormData) => {
   const youtubeClient = getYouTubeClient();
-  const parsedData = formDataSchema.safeParse(formData);
+  const formDataObject = formDataToObject(formData);
+  const parsedData = formDataSchema.safeParse(formDataObject);
 
   if (!parsedData.success) {
     return {
@@ -21,21 +34,30 @@ export const postComment = async (videoId: string, formData: FormData) => {
 
   const { comment } = parsedData.data;
 
-  youtubeClient.commentThreads.insert({
-    part: ['snippet'],
-    requestBody: {
-      snippet: {
-        videoId,
-        topLevelComment: {
-          snippet: {
-            textOriginal: comment,
+  if (params.videoId)
+    await youtubeClient.commentThreads.insert({
+      part: ['snippet'],
+      requestBody: {
+        snippet: {
+          videoId: params.videoId,
+          topLevelComment: {
+            snippet: {
+              textOriginal: comment,
+            },
           },
         },
       },
-    },
-  });
-
-  revalidatePath(`/watch?v=${videoId}`);
+    });
+  else if (params.commentId)
+    await youtubeClient.comments.insert({
+      part: ['snippet'],
+      requestBody: {
+        snippet: {
+          parentId: params.commentId,
+          textOriginal: comment,
+        },
+      },
+    });
 
   return null;
 };

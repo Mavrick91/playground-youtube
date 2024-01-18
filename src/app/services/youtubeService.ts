@@ -112,3 +112,15 @@ export async function getCommentThreads(videoId: string, order: 'time' | 'releva
 
   return commentThreadsData;
 }
+
+export async function getCommentReplies(parentCommentId: string) {
+  const youtubeClient = getYouTubeClient();
+
+  const { data: commentsData }: GaxiosResponse<youtube_v3.Schema$CommentListResponse> =
+    await youtubeClient.comments.list({
+      parentId: parentCommentId,
+      part: ['snippet'],
+    });
+
+  return commentsData;
+}

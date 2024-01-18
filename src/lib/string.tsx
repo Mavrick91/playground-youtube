@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import LinkifyIt from 'linkify-it';
+import Link from 'next/link';
 
 const linkify = LinkifyIt();
 
@@ -20,7 +21,18 @@ export function descriptionElements(str: string): JSX.Element[] {
             {word}
           </a>
         );
+      } if (word.startsWith('@@')) {
+        return (
+          <Link
+            href={`/channel/${word.substring(2)}`}
+            key={word}
+            className="text-blue-700 hover:underline"
+          >
+            {word.substring(1)}
+          </Link>
+        );
       }
+      
       return ` ${word} `;
     });
 
