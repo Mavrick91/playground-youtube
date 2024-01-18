@@ -1,5 +1,6 @@
 import { OAuth2Client } from 'google-auth-library';
 import { GetTokenResponse } from 'google-auth-library/build/src/auth/oauth2client';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { URL } from 'url';
 
@@ -26,15 +27,22 @@ export async function GET(req: NextRequest) {
 
   try {
     const { tokens }: GetTokenResponse = await oAuth2Client.getToken(code);
-    oAuth2Client.setCredentials(tokens);
 
     if (!tokens.access_token) {
       return NextResponse.json({ status: 400, message: 'No access token returned from Google' });
     }
 
     const response: NextResponse = NextResponse.redirect('http://localhost:3000/');
-    response.headers.set('Set-Cookie', `auth_token=${tokens.access_token}; Path=/; HttpOnly;`);
 
+    cookies().set('auth_token', tokens.access_token, {
+      path: '/',
+      httpOnly: true,
+    });
+    cookies().set('refresh_token', tokens.refresh_token!, {
+      path: '/',
+      httpOnly: true,
+    });
+    
     return response;
   } catch (error: unknown) {
     if (error instanceof Error) {

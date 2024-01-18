@@ -21,7 +21,7 @@ export const formDataToObject = (formData: FormData): Record<string, unknown> =>
 };
 
 export const postComment = async (params: Params, formData: FormData) => {
-  const youtubeClient = getYouTubeClient();
+  const youtubeClient = await getYouTubeClient();
   const formDataObject = formDataToObject(formData);
   const parsedData = formDataSchema.safeParse(formDataObject);
 

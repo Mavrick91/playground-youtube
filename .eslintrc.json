@@ -34,7 +34,8 @@
           "day_disabled",
           "day_range_middle",
           "day_hidden",
-          "people_v1"
+          "people_v1",
+          "refresh_token"
         ]
       }
     ],

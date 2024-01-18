@@ -7,7 +7,7 @@ import { VideoListResponseWithChannel, VideoWithChannel } from '~/types/searchVi
 import { getYouTubeClient } from './oauthService';
 
 export async function getVideoDetailsWithChannels(videoIds?: string[]): Promise<VideoListResponseWithChannel> {
-  const youtubeClient = getYouTubeClient();
+  const youtubeClient = await getYouTubeClient();
   const params = !videoIds
     ? {
         chart: 'mostPopular',
@@ -88,7 +88,7 @@ const constructSearchQuery = (searchQuery: SearchQuery) => {
 export const getSearchedVideos = async (
   searchQuery: SearchQuery
 ): Promise<youtube_v3.Schema$SearchListResponse> => {
-  const youtubeClient = getYouTubeClient();
+  const youtubeClient = await getYouTubeClient();
 
   const { data: searchData }: GaxiosResponse<youtube_v3.Schema$SearchListResponse> = await youtubeClient.search.list({
     part: ['snippet'],
@@ -101,7 +101,7 @@ export const getSearchedVideos = async (
 };
 
 export async function getCommentThreads(videoId: string, order: 'time' | 'relevance') {
-  const youtubeClient = getYouTubeClient();
+  const youtubeClient = await getYouTubeClient();
 
   const { data: commentThreadsData }: GaxiosResponse<youtube_v3.Schema$CommentThreadListResponse> =
     await youtubeClient.commentThreads.list({
@@ -114,7 +114,7 @@ export async function getCommentThreads(videoId: string, order: 'time' | 'releva
 }
 
 export async function getCommentReplies(parentCommentId: string) {
-  const youtubeClient = getYouTubeClient();
+  const youtubeClient = await getYouTubeClient();
 
   const { data: commentsData }: GaxiosResponse<youtube_v3.Schema$CommentListResponse> =
     await youtubeClient.comments.list({

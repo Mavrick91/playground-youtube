@@ -4,15 +4,11 @@ import React, { ReactNode, createContext, useContext, useEffect, useMemo, useSta
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
 import ClipLoader from 'react-spinners/ClipLoader';
-
-interface User {
-  displayName: string;
-  picture: string;
-}
+import { youtube_v3 } from 'googleapis';
 
 interface UserContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: youtube_v3.Schema$Channel | null;
+  setUser: React.Dispatch<React.SetStateAction<youtube_v3.Schema$Channel | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -22,16 +18,14 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<youtube_v3.Schema$Channel | null>(null);
   const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
   const { data: isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated?.isAuthenticated);
+  console.log('🚀 ~ UserProvider ~ isMe:', isMe);
 
   useEffect(() => {
-    if (isMe) {
-      setUser({
-        displayName: isMe.names[0].displayName,
-        picture: isMe.photos[0].url,
-      });
+    if (isMe && isMe.items && isMe.items.length > 0) {
+      setUser(isMe.items[0]);
     }
   }, [isMe]);
 
