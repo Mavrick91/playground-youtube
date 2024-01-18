@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import React from 'react';
 import AuthenticatedUserCheck from '~/components/AuthenticatedUserCheck';
 import Header from '~/components/Header';
@@ -8,8 +7,7 @@ import { cn } from '~/lib/utils';
 import { QueryProvider } from '~/providers/QueryProvider';
 import { UserProvider } from '~/providers/UserProvider';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import { roboto } from './font';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="h-full">
       <body
-        className={cn('relative h-full font-sans antialiased', inter.className)}
+        className={cn('relative h-full font-sans antialiased', roboto.className)}
         style={{
           backgroundImage: `url(/background.png)`,
           backgroundSize: 'cover',

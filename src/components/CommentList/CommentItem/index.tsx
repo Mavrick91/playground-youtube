@@ -70,7 +70,7 @@ export default function CommentItem({ comment, isCommentReply, parentCommentId }
         <div className="flex items-center gap-1 mb-1">
           <Link
             href={`/channel/${commentSnippet?.authorChannelUrl}`}
-            className={cn('text-black text-xs font-bold', {
+            className={cn('text-black text-[13px] font-bold', {
               'text-white bg-gray-400 p-1 px-1.5 rounded-full': isAuthorChannel,
             })}
           >
