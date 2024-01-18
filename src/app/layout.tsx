@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AuthenticatedUserCheck from '~/components/AuthenticatedUserCheck';
 import Header from '~/components/Header';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import { cn } from '~/lib/utils';
 import { QueryProvider } from '~/providers/QueryProvider';
 import { UserProvider } from '~/providers/UserProvider';
-import './globals.css';
 import { roboto } from './font';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -32,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <AuthenticatedUserCheck>
                 <MaxWidthWrapper>{children}</MaxWidthWrapper>
               </AuthenticatedUserCheck>
+              <ToastContainer />
             </div>
           </UserProvider>
         </QueryProvider>

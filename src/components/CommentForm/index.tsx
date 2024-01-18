@@ -8,6 +8,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import * as yup from 'yup';
 import { postComment } from '~/app/watch/action';
 import { cn } from '~/lib/utils';
+import { Bounce, toast } from 'react-toastify';
 import Button from '../shared/Button';
 
 interface Props {
@@ -53,19 +54,25 @@ export default function CommentForm({ videoId, commentId, onCancel, defaultValue
   const resetAndCancel = () => {
     reset({ comment: '' });
     setIsFocused(false);
+    toast('Your comment has been sent! (wait 1 minute to see it)', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce,
+    });
+
     if (onCancel) onCancel();
   };
 
   return (
     <form
       action={async formData => {
-        await postComment(
-          {
-            videoId,
-            commentId,
-          },
-          formData
-        );
+        await postComment({ videoId, commentId }, formData);
         resetAndCancel();
       }}
     >
