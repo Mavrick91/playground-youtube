@@ -1,7 +1,6 @@
-import { Suspense } from 'react';
 import CommentForm from '../CommentForm';
 import CommentList from '../CommentList';
-import Loading from '../shared/Loading';
+import UpdateOrderComments from '../UpdateOrderComments';
 
 type Props = {
   commentCount: string;
@@ -13,19 +12,12 @@ export default function CommentSection({ videoId, commentCount }: Props) {
 
   return (
     <div className="flex flex-col">
-      <div className="font-bold text-xl mb-10">{formattedCommentCount} comments</div>
+      <div className="flex items-center gap-9 mb-10">
+        <div className="font-bold text-xl">{formattedCommentCount} comments</div>
+        <UpdateOrderComments />
+      </div>
       <CommentForm videoId={videoId} />
-      <Suspense
-        fallback={
-          <Loading
-            type="puff"
-            size={40}
-            color="#000"
-          />
-        }
-      >
-        <CommentList videoId={videoId} />
-      </Suspense>
+      <CommentList />
     </div>
   );
 }

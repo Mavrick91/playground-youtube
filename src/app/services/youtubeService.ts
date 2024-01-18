@@ -99,3 +99,16 @@ export const getSearchedVideos = async (
 
   return searchData;
 };
+
+export async function getCommentThreads(videoId: string, order: 'time' | 'relevance') {
+  const youtubeClient = getYouTubeClient();
+
+  const { data: commentThreadsData }: GaxiosResponse<youtube_v3.Schema$CommentThreadListResponse> =
+    await youtubeClient.commentThreads.list({
+      videoId,
+      part: ['snippet'],
+      order,
+    });
+
+  return commentThreadsData;
+}

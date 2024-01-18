@@ -45,7 +45,7 @@ describe('url-utils', () => {
     });
 
     it('should set the query parameter correctly', () => {
-      window.location = { pathname: '/testPath', search: '?testKey=testValue' } as any;
+      window.location = { pathname: '/testPath', search: '?testKey=testValue' } as Location;
 
       const key = 'newKey';
       const value = 'newValue';

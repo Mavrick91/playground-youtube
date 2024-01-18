@@ -1,34 +1,30 @@
+'use client';
+
 import { formatDistanceToNow, parseISO } from 'date-fns';
-import { GaxiosResponse } from 'gaxios';
-import { youtube_v3 } from 'googleapis';
 import Link from 'next/link';
-import { getYouTubeClient } from '~/app/services/oauthService';
 import { descriptionElements } from '~/lib/string';
 import { cn } from '~/lib/utils';
+import { useOrderComments } from '~/providers/OrderCommentsProvider';
 import ClientImage from '../ClientImage';
+import Loading from '../shared/Loading';
 
-async function getData(videoId: string) {
-  const youtubeClient = getYouTubeClient();
-
-  const { data: commentThreadsData }: GaxiosResponse<youtube_v3.Schema$CommentThreadListResponse> =
-    await youtubeClient.commentThreads.list({
-      videoId,
-      part: ['snippet'],
-    });
-
-  return { commentThreadsData };
-}
-
-export default async function CommentList({ videoId }: { videoId: string }) {
-  const { commentThreadsData } = await getData(videoId);
+export default function CommentList() {
+  const { data, isFetching } = useOrderComments();
 
   return (
-    <div className="flex flex-col gap-y-4" data-testid='comment-list'>
-      {commentThreadsData?.items?.map(commentThread => {
+    <div className="flex flex-col gap-y-4 relative" data-testid="comment-list">
+      {isFetching && (
+        <div className="absolute inset-0 bg-white/50">
+          <div className="mt-20">
+            <Loading type="puff" size={40} />
+          </div>
+        </div>
+      )}
+      {data?.items?.map(item => {
         const isAuthorChannel =
-          commentThread.snippet?.topLevelComment?.snippet?.authorChannelId?.value ===
-          commentThread.snippet?.topLevelComment?.snippet?.channelId;
-        const comment = commentThread.snippet?.topLevelComment?.snippet;
+          item.snippet?.topLevelComment?.snippet?.authorChannelId?.value ===
+          item.snippet?.topLevelComment?.snippet?.channelId;
+        const comment = item.snippet?.topLevelComment?.snippet;
         const date = parseISO(comment?.publishedAt || '');
         const timeAgo = formatDistanceToNow(date, { addSuffix: true, includeSeconds: true });
 

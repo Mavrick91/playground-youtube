@@ -46,7 +46,6 @@ export default function CommentForm({ videoId }: Props): JSX.Element {
   });
   const comment = watch('comment');
   const [isFocused, setIsFocused] = useState(false);
-  console.log("🚀 ~ postComment:", postComment)
 
   return (
     <form

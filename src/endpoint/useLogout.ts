@@ -1,4 +1,7 @@
-import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
+import { fetchData } from '~/lib/fetcher';
 
-export const useLogout = () => useMutation(() => axios.post('/api/auth/logout'));
+export const useLogout = () =>
+  useMutation({
+    mutationFn: async () => fetchData<void>('/api/auth/logout', {}, { method: 'POST' }),
+  });

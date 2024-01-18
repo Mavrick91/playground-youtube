@@ -1,11 +1,11 @@
+import { QueryObserverResult, useQuery } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
-import { QueryObserverResult, useQuery } from 'react-query';
 import { GeocodingResponse } from '~/types/placeName';
 
 export const useGetPlaceName = (lat: string, lng: string): QueryObserverResult<GeocodingResponse, Error> =>
-  useQuery<GeocodingResponse, Error>(
-    ['place-name', lat, lng],
-    async () => {
+  useQuery({
+    queryKey: ['place-name', lat, lng],
+    queryFn: async () => {
       const response: AxiosResponse<GeocodingResponse> = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}`
       );
@@ -14,7 +14,5 @@ export const useGetPlaceName = (lat: string, lng: string): QueryObserverResult<G
       }
       throw new Error('No results found');
     },
-    {
-      enabled: false,
-    }
-  );
+    enabled: false,
+  });

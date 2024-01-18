@@ -29,7 +29,7 @@ export async function GET(): Promise<NextResponse> {
       personFields: 'names,photos,emailAddresses',
     });
 
-    return NextResponse.json(me.data, { status: 200 });
+    return NextResponse.json({ data: me.data }, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Google API error:', error?.message);

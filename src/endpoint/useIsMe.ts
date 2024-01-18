@@ -1,7 +1,7 @@
 'use client';
 
-import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
+import { fetchData } from '~/lib/fetcher';
 
 interface GoogleMeResponse {
   names: Array<{ displayName: string }>;
@@ -9,14 +9,8 @@ interface GoogleMeResponse {
 }
 
 export const useIsMe = (shouldFetch: boolean = false) =>
-  useQuery<GoogleMeResponse>(
-    'google-me',
-    async () => {
-      const response = await axios.get('/api/google/me');
-
-      return response.data;
-    },
-    {
-      enabled: shouldFetch,
-    }
-  );
+  useQuery({
+    queryKey: ['google-me'],
+    queryFn: async () => fetchData<GoogleMeResponse>('/api/google/me'),
+    enabled: shouldFetch,
+  });

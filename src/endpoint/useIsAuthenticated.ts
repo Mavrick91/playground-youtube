@@ -1,15 +1,14 @@
 'use client';
 
-import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
+import { fetchData } from '~/lib/fetcher';
 
 interface AuthStatusResponse {
   isAuthenticated: boolean;
 }
 
 export const useIsAuthenticated = () =>
-  useQuery<AuthStatusResponse>('auth-status', async () => {
-    const response = await axios.get('/api/auth/status');
-
-    return response.data;
+  useQuery({
+    queryKey: ['auth-status'],
+    queryFn: async () => fetchData<AuthStatusResponse>('/api/auth/status'),
   });

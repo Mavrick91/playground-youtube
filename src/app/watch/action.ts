@@ -37,5 +37,5 @@ export const postComment = async (videoId: string, formData: FormData) => {
 
   revalidatePath(`/watch?v=${videoId}`);
 
-  return null
+  return null;
 };
