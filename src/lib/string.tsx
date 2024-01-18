@@ -50,8 +50,7 @@ export function descriptionElements(str: string): JSX.Element[] {
             <>
               <Link href={`/channel/${username}`} key={username} className="text-blue-700 hover:underline">
                 {`@${username}`}
-              </Link>
-              {' '}
+              </Link>{' '}
               {urlElement}
               {rest.startsWith('://') ? null : rest}
             </>
@@ -62,8 +61,8 @@ export function descriptionElements(str: string): JSX.Element[] {
       return ` ${word} `;
     });
 
-    if (line === '') return <br data-testid="line-break" key={(lineIndex)} />;
+    if (line === '') return <br data-testid="line-break" key={lineIndex} />;
 
-    return <p key={(lineIndex)}>{words}</p>;
+    return <p key={lineIndex}>{words}</p>;
   });
 }
