@@ -109,7 +109,7 @@ export default function CommentForm({ videoId, commentId, onCancel, defaultValue
               <TextareaAutosize
                 {...field}
                 placeholder="Write a comment..."
-                className="w-full resize-none text-sm"
+                className="w-full resize-none text-sm bg-transparent"
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 autoFocus={!!defaultValues}

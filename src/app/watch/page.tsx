@@ -13,22 +13,20 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
   const channel = videoData?.items?.[0].channel;
 
   return (
-    <div className="overflow-auto">
-      <div className="flex pt-6">
-        <div className="pr-6 w-9/12">
-          <YoutubePlayer video={video} channel={channel} />
-          <DescriptionVideo
-            description={video?.snippet?.description || ''}
-            publishedAt={video?.snippet?.publishedAt || ''}
-            viewCount={video?.statistics?.viewCount || ''}
-          />
-          <Separator className="my-8" />
-          <OrderCommentsProvider initialData={commentThreads} videoId={videoId}>
-            <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={videoId} />
-          </OrderCommentsProvider>
-        </div>
-        <div className="border border-red-500 w-3/12">test</div>
+    <div className="flex pt-6">
+      <div className="pr-6 w-9/12">
+        <YoutubePlayer video={video} channel={channel} />
+        <DescriptionVideo
+          description={video?.snippet?.description || ''}
+          publishedAt={video?.snippet?.publishedAt || ''}
+          viewCount={video?.statistics?.viewCount || ''}
+        />
+        <Separator className="my-8" />
+        <OrderCommentsProvider initialData={commentThreads} videoId={videoId}>
+          <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={videoId} />
+        </OrderCommentsProvider>
       </div>
+      <div className="border border-red-500 w-3/12">test</div>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthenticatedUserCheck from '~/components/AuthenticatedUserCheck';
 import Header from '~/components/Header';
-import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import { cn } from '~/lib/utils';
 import { QueryProvider } from '~/providers/QueryProvider';
 import { UserProvider } from '~/providers/UserProvider';
@@ -20,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="h-full">
       <body
-        className={cn('relative h-full font-sans antialiased', roboto.className)}
+        className={cn('relative h-full font-sans antialiased overflow-hidden', roboto.className)}
         style={{
           backgroundImage: `url(/background.png)`,
           backgroundSize: 'cover',
@@ -31,9 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <UserProvider>
             <div className="flex flex-col">
               <Header />
-              <AuthenticatedUserCheck>
-                <MaxWidthWrapper>{children}</MaxWidthWrapper>
-              </AuthenticatedUserCheck>
+              <AuthenticatedUserCheck>{children}</AuthenticatedUserCheck>
               <ToastContainer />
             </div>
           </UserProvider>
