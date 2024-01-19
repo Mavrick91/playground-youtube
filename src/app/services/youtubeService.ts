@@ -1,3 +1,5 @@
+'use server';
+
 import { parseISO } from 'date-fns';
 import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
@@ -122,3 +124,25 @@ export async function getCommentReplies(parentCommentId: string) {
 
   return commentsData;
 }
+
+export async function rateYoutubeVideo(videoId: string, rating: 'like' | 'dislike' | 'none') {
+  const youtubeClient = await getYouTubeClient();
+
+  await youtubeClient.videos.rate({
+    id: videoId,
+    rating,
+  });
+
+  return null;
+}
+
+export const getVideoRating = async (videoId: string) => {
+  const youtubeClient = await getYouTubeClient();
+
+  const { data: videoRating }: GaxiosResponse<youtube_v3.Schema$VideoGetRatingResponse> =
+    await youtubeClient.videos.getRating({
+      id: [videoId],
+    });
+
+  return videoRating;
+};

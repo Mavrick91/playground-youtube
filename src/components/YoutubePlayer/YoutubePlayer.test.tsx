@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { formatNumber } from '~/lib/utils';
 import ReactPlayer from 'react-player';
 import { youtube_v3 } from 'googleapis';
 import YoutubePlayer from './index';

@@ -27,5 +27,6 @@ describe('ChannelSubscribeButton', () => {
     expect(img.getAttribute('src')).toContain(encodeURIComponent(mockChannel.snippet.thumbnails.high.url));
 
     expect(screen.getByText(mockVideo.snippet.channelTitle)).toBeInTheDocument();
-    expect(screen.getByText(/1.0 K.*/)).toBeInTheDocument();  });
+    expect(screen.getByText(/1.0 K.*/)).toBeInTheDocument();
+  });
 });

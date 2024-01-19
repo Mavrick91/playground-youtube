@@ -4,12 +4,13 @@ import { Separator } from '~/components/Separator';
 import VideoChannelHeader from '~/components/VideoChannelHeader';
 import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
-import { getCommentThreads, getVideoDetailsWithChannels } from '../services/youtubeService';
+import { getCommentThreads, getVideoDetailsWithChannels, getVideoRating } from '../services/youtubeService';
 
 export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
   const videoId = searchParams.v;
   const videoData = await getVideoDetailsWithChannels([videoId]);
   const commentThreads = await getCommentThreads(videoId, 'relevance');
+  const videoRating = await getVideoRating(videoId);
   const video = videoData.items?.[0];
   const channel = videoData?.items?.[0].channel;
 
@@ -17,7 +18,7 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
     <div className="flex pt-6">
       <div className="pr-6 w-9/12">
         <YoutubePlayer video={video} />
-        <VideoChannelHeader video={video} channel={channel} />
+        <VideoChannelHeader video={video} channel={channel} videoRating={videoRating} />
         <DescriptionVideo
           description={video?.snippet?.description || ''}
           publishedAt={video?.snippet?.publishedAt || ''}
