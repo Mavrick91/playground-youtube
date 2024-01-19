@@ -13,7 +13,7 @@ export default function UpdateOrderComments() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
-          <ListFilter />
+          <ListFilter strokeWidth={1.5} />
           Sort by
         </Button>
       </DropdownMenuTrigger>

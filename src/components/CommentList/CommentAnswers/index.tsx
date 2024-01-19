@@ -24,6 +24,7 @@ export default function CommentAnswers({ replyCount, parentCommentId }: Props) {
       <button type="button" onClick={handleClickExpand} className="mb-2">
         <div className="inline-flex items-center gap-1 font-bold text-blue-600 hover:bg-blue-100 p-2 rounded-full">
           <ChevronDown
+            strokeWidth={1.5}
             className={cn('transition-transform ', {
               'transform rotate-180': isExpanded,
             })}

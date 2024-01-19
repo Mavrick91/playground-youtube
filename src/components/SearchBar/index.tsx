@@ -43,7 +43,7 @@ export default function SearchBar() {
           className="rounded-none rounded-tr-3xl rounded-br-3xl focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
           data-testid="search-button"
         >
-          <Search />
+          <Search strokeWidth={1.5} />
         </Button>
       </form>
     </div>

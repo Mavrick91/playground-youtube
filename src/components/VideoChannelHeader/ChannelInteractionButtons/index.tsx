@@ -51,7 +51,7 @@ export default function ChannelInteractionButtons({ video, rateYoutubeVideo, vid
         type="button"
         className="shadow-sm flex px-3 pr-0 py-2 bg-gray-100 hover:bg-gray-200 items-center gap-2 font-bold text-sm rounded-tl-full rounded-bl-full"
       >
-        <ThumbsUp size={20} {...getIconProps('like', userRating)} />
+        <ThumbsUp strokeWidth={1.5} size={20} {...getIconProps('like', userRating)} />
         {formatNumber(video?.statistics?.likeCount || '')}
         <div className="h-full flex items-center">
           <div className="w-px bg-gray-300 h-[100%]" />
@@ -63,7 +63,7 @@ export default function ChannelInteractionButtons({ video, rateYoutubeVideo, vid
         type="button"
         className="px-3 py-2 shadow-sm bg-gray-100 rounded-tr-full rounded-br-full hover:bg-gray-200"
       >
-        <ThumbsDown size={20} {...getIconProps('dislike', userRating)} />
+        <ThumbsDown strokeWidth={1.5} size={20} {...getIconProps('dislike', userRating)} />
       </button>
     </div>
   );

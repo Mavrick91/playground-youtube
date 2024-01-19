@@ -38,6 +38,7 @@ export default function SearchInput({
           size={size || 24}
           color="#4d4f4e70"
           data-testid="search-input-delete"
+          strokeWidth={1.5}
         />
       ) : null}
     </div>

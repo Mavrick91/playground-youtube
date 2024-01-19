@@ -51,7 +51,7 @@ export default function DateFilter({ className }: { className?: string }) {
                 !publishedAfter && 'text-muted-foreground'
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+              <CalendarIcon strokeWidth={1.5} className="mr-2 h-4 w-4 shrink-0" />
               {publishedAfter ? format(publishedAfter, 'LLL dd, y') : <span>Published After</span>}
             </Button>
           </PopoverTrigger>

@@ -44,9 +44,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       }}
       components={{
         // eslint-disable-next-line react/no-unstable-nested-components
-        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+        IconLeft: () => <ChevronLeft strokeWidth={1.5} className="h-4 w-4" />,
         // eslint-disable-next-line react/no-unstable-nested-components
-        IconRight: () => <ChevronRight className="h-4 w-4" />,
+        IconRight: () => <ChevronRight strokeWidth={1.5} className="h-4 w-4" />,
       }}
       {...props}
     />
