@@ -20,7 +20,7 @@ export default function DescriptionVideo({ viewCount, publishedAt, description }
   return (
     <button
       type="button"
-      className="relative w-full text-left rounded-md bg-gray-200 hover:bg-gray-300 transition-all"
+      className="relative w-full text-left rounded-md bg-gray-100 hover:bg-gray-200 shadow-sm transition-all"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="p-3 flex flex-col">
