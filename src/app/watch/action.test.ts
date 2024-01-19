@@ -1,4 +1,4 @@
-import { getYouTubeClient } from '../services/oauthService';
+import { getYouTubeClient } from '../../services/oauthService';
 import { formDataToObject, postComment } from './action';
 
 jest.mock('../services/oauthService');

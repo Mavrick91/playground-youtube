@@ -1,4 +1,4 @@
-import { getSearchedVideos, getVideoDetailsWithChannels } from '~/app/services/youtubeService';
+import { getSearchedVideos, getVideoDetailsWithChannels } from '~/services/youtubeService';
 import ContainerVideoItems from '~/components/shared/ContainerVideoItems';
 import { hasSearchQueryOrFilters } from '~/lib/url-utils';
 import { VideoListResponseWithChannel } from '~/types/searchVideos';

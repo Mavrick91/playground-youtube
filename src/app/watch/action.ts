@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { getYouTubeClient } from '../services/oauthService';
+import { getYouTubeClient } from '../../services/oauthService';
 
 const formDataSchema = z.object({
   comment: z.string().min(1, 'No comment provided'),

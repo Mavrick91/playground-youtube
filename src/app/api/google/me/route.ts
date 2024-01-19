@@ -1,7 +1,7 @@
 import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
 import { NextResponse } from 'next/server';
-import { getYouTubeClient } from '~/app/services/oauthService';
+import { getYouTubeClient } from '~/services/oauthService';
 
 export async function GET(): Promise<NextResponse> {
   const youtubeClient = await getYouTubeClient();

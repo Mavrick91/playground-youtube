@@ -9,7 +9,7 @@ import {
   getVideoDetailsWithChannels,
   getVideoRating,
   getVideoSubscriptionStatus,
-} from '../services/youtubeService';
+} from '../../services/youtubeService';
 
 export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
   const videoId = searchParams.v;
