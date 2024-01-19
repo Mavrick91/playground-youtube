@@ -22,44 +22,12 @@ describe('YoutubePlayer', () => {
         },
       },
     },
-    channel: {
-      snippet: {
-        title: 'Test Channel Title',
-        thumbnails: {
-          high: {
-            url: 'http://example.com/channelThumbnail.jpg',
-            width: 480,
-            height: 360,
-          },
-        },
-      },
-      statistics: {
-        subscriberCount: '1234',
-      },
-    },
   } as unknown as youtube_v3.Schema$Video;
-  const channel = {
-    snippet: {
-      title: 'Test Channel Title',
-      thumbnails: {
-        high: {
-          url: 'http://example.com/channelThumbnail.jpg',
-          width: 480,
-          height: 360,
-        },
-      },
-    },
-    statistics: {
-      subscriberCount: '1234',
-    },
-  } as unknown as youtube_v3.Schema$Channel;
 
   it.only('renders the video player, video title, and channel information', () => {
-    render(<YoutubePlayer video={video} channel={channel} />);
+    render(<YoutubePlayer video={video} />);
 
     expect(ReactPlayer).toHaveBeenCalled();
     expect(screen.getByText('Test Video Title')).toBeInTheDocument();
-    expect(screen.getByText('Test Channel Title')).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(formatNumber('1234')))).toBeInTheDocument();
   });
 });

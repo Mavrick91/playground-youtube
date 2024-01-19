@@ -1,6 +1,7 @@
 import CommentSection from '~/components/CommentSection';
 import DescriptionVideo from '~/components/DescriptionVideo';
 import { Separator } from '~/components/Separator';
+import VideoChannelHeader from '~/components/VideoChannelHeader';
 import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
 import { getCommentThreads, getVideoDetailsWithChannels } from '../services/youtubeService';
@@ -15,7 +16,8 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
   return (
     <div className="flex pt-6">
       <div className="pr-6 w-9/12">
-        <YoutubePlayer video={video} channel={channel} />
+        <YoutubePlayer video={video} />
+        <VideoChannelHeader video={video} channel={channel} />
         <DescriptionVideo
           description={video?.snippet?.description || ''}
           publishedAt={video?.snippet?.publishedAt || ''}

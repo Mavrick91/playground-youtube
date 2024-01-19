@@ -22,6 +22,7 @@ const getOAuth2Client = async (): Promise<OAuth2Client> => {
     refresh_token: refreshToken.value,
   });
 
+  // @ts-expect-error - This is a private method
   if (oAuth2Client.isTokenExpiring()) {
     const { credentials } = await oAuth2Client.refreshAccessToken();
 
