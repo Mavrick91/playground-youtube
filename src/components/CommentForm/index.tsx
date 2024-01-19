@@ -54,7 +54,7 @@ export default function CommentForm({ videoId, commentId, onCancel, defaultValue
     resolver: yupResolver(schema),
   });
   const comment = watch('comment');
-  const [isFocused, setIsFocused] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
 
   const resetAndCancel = () => {
     reset({ comment: '' });
