@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCommentReplies } from '~/app/services/youtubeService';
+import { getCommentReplies } from '~/services/videoService';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const parentCommentId = req.nextUrl.searchParams.get('parentCommentId') as string;

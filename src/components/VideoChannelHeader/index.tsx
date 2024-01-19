@@ -1,5 +1,6 @@
 import { youtube_v3 } from 'googleapis';
-import { deleteYoutubeSubscription, rateYoutubeVideo, subscribeYoutubeChannel } from '~/app/services/youtubeService';
+import { deleteYoutubeSubscription, subscribeYoutubeChannel } from '~/services/channelService';
+import { rateYoutubeVideo } from '~/services/videoService';
 import ChannelInteractionButtons from './ChannelInteractionButtons';
 import ChannelSubscribeButton from './ChannelSubscribeButton';
 

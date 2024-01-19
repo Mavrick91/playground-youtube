@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCommentThreads } from '~/app/services/youtubeService';
+import { getCommentThreads } from '~/services/videoService';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const videoId = req.nextUrl.searchParams.get('videoId') as string;

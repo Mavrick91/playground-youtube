@@ -1,8 +1,7 @@
-import { getSearchedVideos, getVideoDetailsWithChannels } from '~/services/youtubeService';
 import ContainerVideoItems from '~/components/shared/ContainerVideoItems';
 import { hasSearchQueryOrFilters } from '~/lib/url-utils';
+import { getSearchedVideos, getVideoDetailsWithChannels } from '~/services/videoService';
 import { VideoListResponseWithChannel } from '~/types/searchVideos';
-// import data from './data.json';
 
 async function getData(searchParams: Record<string, string>): Promise<VideoListResponseWithChannel> {
   let responseData: VideoListResponseWithChannel | null = null;
@@ -21,7 +20,7 @@ async function getData(searchParams: Record<string, string>): Promise<VideoListR
   return responseData;
 }
 
-export default async function SearchedVideos({ searchParams }: { searchParams: Record<string, string> }) {
+export default async function VideoSearchAndTrending({ searchParams }: { searchParams: Record<string, string> }) {
   const data = await getData(searchParams);
 
   return <ContainerVideoItems data={data} />;

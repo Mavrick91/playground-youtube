@@ -1,7 +1,7 @@
-import { getYouTubeClient } from '../../services/oauthService';
+import { getYouTubeClient } from '~/services/oauthService';
 import { formDataToObject, postComment } from './action';
 
-jest.mock('../services/oauthService');
+jest.mock('~/services/oauthService');
 
 describe('postComment', () => {
   it('should call commentThreads.insert if videoId is provided', async () => {

@@ -4,12 +4,8 @@ import { Separator } from '~/components/Separator';
 import VideoChannelHeader from '~/components/VideoChannelHeader';
 import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
-import {
-  getCommentThreads,
-  getVideoDetailsWithChannels,
-  getVideoRating,
-  getVideoSubscriptionStatus,
-} from '../../services/youtubeService';
+import { getVideoSubscriptionStatus } from '~/services/channelService';
+import { getCommentThreads, getVideoDetailsWithChannels, getVideoRating } from '~/services/videoService';
 
 export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
   const videoId = searchParams.v;
