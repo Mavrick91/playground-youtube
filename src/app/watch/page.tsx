@@ -17,7 +17,7 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
   const video = videoData.items?.[0];
 
   return (
-    <div className="flex p-6 mb-16">
+    <div className="flex py-6 mb-16">
       <div className="pr-6 w-9/12">
         <YoutubePlayer video={video} />
         <VideoChannelHeader
