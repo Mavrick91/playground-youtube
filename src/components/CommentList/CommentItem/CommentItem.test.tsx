@@ -17,6 +17,9 @@ describe('CommentItem', () => {
           authorChannelUrl: 'http://www.youtube.com/@user-bc7mm9kz6h',
           authorDisplayName: '@Test_Author',
           publishedAt: '2022-01-01T00:00:00Z',
+          authorChannelId: {
+            value: '1234567890',
+          },
         },
       },
       totalReplyCount: 2,
@@ -49,7 +52,10 @@ describe('CommentItem', () => {
     render(<CommentItem comment={comment} />);
     const linkElement = screen.getByRole('link', { name: /channel/i });
     expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', '/channel/Test_Author');
+    expect(linkElement).toHaveAttribute(
+      'href',
+      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}`
+    );
   });
 
   it('renders the author link and timestamp', () => {
@@ -57,7 +63,10 @@ describe('CommentItem', () => {
 
     const authorLink = screen.getByRole('link', { name: '@Test_Author' });
     expect(authorLink).toBeInTheDocument();
-    expect(authorLink).toHaveAttribute('href', '/channel/Test_Author');
+    expect(authorLink).toHaveAttribute(
+      'href',
+      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}`
+    );
 
     const timestamp = screen.getByText('about 2 years ago');
     expect(timestamp).toBeInTheDocument();

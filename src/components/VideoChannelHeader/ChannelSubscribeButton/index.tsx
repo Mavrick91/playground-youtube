@@ -3,6 +3,7 @@
 import { youtube_v3 } from 'googleapis';
 import { Bell, ChevronDown, UserRoundMinus } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/DropdownMenu';
 import { formatNumber } from '~/lib/utils';
@@ -41,17 +42,21 @@ export default function ChannelSubscribeButton({
   return (
     <div>
       <div className="flex items-center gap-2">
-        <Image
-          src={channel?.snippet?.thumbnails?.high?.url || ''}
-          alt="channel"
-          className="rounded-full"
-          width={36}
-          height={36}
-          quality={100}
-        />
+        <Link href={`/channel/${video?.snippet?.channelId}`}>
+          <Image
+            src={channel?.snippet?.thumbnails?.high?.url || ''}
+            alt="channel"
+            className="rounded-full"
+            width={36}
+            height={36}
+            quality={100}
+          />
+        </Link>
         <div className="flex items-center">
           <div className="flex flex-col">
-            <span className="text-black font-bold">{video?.snippet?.channelTitle}</span>
+            <Link href={`/channel/${video?.snippet?.channelId}`}>
+              <span className="text-black font-bold">{video?.snippet?.channelTitle}</span>
+            </Link>
             <span className="text-xs text-gray-700 font-medium">
               {formatNumber(channel?.statistics?.subscriberCount || '')} subscribers
             </span>

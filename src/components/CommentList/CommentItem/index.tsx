@@ -56,7 +56,7 @@ export default function CommentItem({ comment, isCommentReply, parentCommentId }
 
   return (
     <div key={commentSnippet?.textOriginal} className="flex gap-1 items-start">
-      <Link href={`/channel/${commentSnippet?.authorDisplayName?.slice(1)}`} className="shrink-0">
+      <Link href={`/channel/${commentSnippet?.authorChannelId?.value}`} className="shrink-0">
         <ClientImage
           src={commentSnippet?.authorProfileImageUrl || ''}
           alt="channel"
@@ -69,7 +69,7 @@ export default function CommentItem({ comment, isCommentReply, parentCommentId }
       <div className="flex flex-col ml-4 w-full">
         <div className="flex items-center gap-1 mb-1">
           <Link
-            href={`/channel/${commentSnippet?.authorDisplayName?.slice(1)}`}
+            href={`/channel/${commentSnippet?.authorChannelId?.value}`}
             className={cn('text-black text-[13px] font-bold', {
               'text-white bg-gray-400 p-1 px-1.5 rounded-full': isAuthorChannel,
             })}

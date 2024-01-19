@@ -123,4 +123,22 @@ describe('ChannelSubscribeButton', () => {
 
     await waitFor(() => expect(deleteYoutubeSubscription).toHaveBeenCalledWith(videoSubscription.items![0].id!));
   });
+
+  it('renders correct links', () => {
+    const { getByRole } = render(
+      <ChannelSubscribeButton
+        video={video}
+        channel={channel}
+        videoSubscription={{ items: [] }}
+        subscribeYoutubeChannel={subscribeYoutubeChannel}
+        deleteYoutubeSubscription={deleteYoutubeSubscription}
+      />
+    );
+
+    const channelLink = getByRole('link', { name: video.snippet?.channelTitle as string });
+    expect(channelLink).toHaveAttribute('href', `/channel/${video.snippet?.channelId}`);
+
+    const channelImageLink = getByRole('link', { name: 'channel' });
+    expect(channelImageLink).toHaveAttribute('href', `/channel/${video.snippet?.channelId}`);
+  });
 });
