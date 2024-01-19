@@ -14,8 +14,8 @@ describe('CommentItem', () => {
         snippet: {
           textOriginal: 'Test comment',
           authorProfileImageUrl: 'http://example.com/image.jpg',
-          authorChannelUrl: 'test-channel',
-          authorDisplayName: 'Test Author',
+          authorChannelUrl: 'http://www.youtube.com/@user-bc7mm9kz6h',
+          authorDisplayName: '@Test_Author',
           publishedAt: '2022-01-01T00:00:00Z',
         },
       },
@@ -34,7 +34,7 @@ describe('CommentItem', () => {
     const timeAgo = formatDistanceToNow(date, { addSuffix: true, includeSeconds: true });
 
     expect(screen.getByText('Test comment')).toBeInTheDocument();
-    expect(screen.getByText('Test Author')).toBeInTheDocument();
+    expect(screen.getByText('@Test_Author')).toBeInTheDocument();
     expect(screen.getByText(timeAgo)).toBeInTheDocument();
   });
 
@@ -49,15 +49,15 @@ describe('CommentItem', () => {
     render(<CommentItem comment={comment} />);
     const linkElement = screen.getByRole('link', { name: /channel/i });
     expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', '/channel/test-channel');
+    expect(linkElement).toHaveAttribute('href', '/channel/Test_Author');
   });
 
   it('renders the author link and timestamp', () => {
     render(<CommentItem comment={comment} />);
 
-    const authorLink = screen.getByRole('link', { name: 'Test Author' });
+    const authorLink = screen.getByRole('link', { name: '@Test_Author' });
     expect(authorLink).toBeInTheDocument();
-    expect(authorLink).toHaveAttribute('href', '/channel/test-channel');
+    expect(authorLink).toHaveAttribute('href', '/channel/Test_Author');
 
     const timestamp = screen.getByText('about 2 years ago');
     expect(timestamp).toBeInTheDocument();
