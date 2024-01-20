@@ -3,7 +3,7 @@ export const SEARCH_PARAMS = [
   'topicId',
   'regionCode',
   'location',
-  'radius',
+  'locationRadius',
   'publishedAfter',
   'publishedBefore',
   'videoDuration',

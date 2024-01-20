@@ -22,7 +22,7 @@ export default function LocationFilter() {
     label: '',
     lat: '',
     lng: '',
-    radius: DEFAULT_RADIUS,
+    locationRadius: DEFAULT_RADIUS,
   });
   const { refetch, isFetching } = useGetPlaceName(selectedLocation.lat, selectedLocation.lng);
 
@@ -56,20 +56,23 @@ export default function LocationFilter() {
 
       updateQueryParams({
         location: `${selectedLocation.lat},${selectedLocation.lng}`,
-        radius: selectedLocation.radius,
+        locationRadius: selectedLocation.locationRadius,
       });
 
       setOpen(false);
     } catch (error) {
       console.error('Error saving location:', error);
     }
-  }, [refetch, selectedLocation.lat, selectedLocation.lng, selectedLocation.radius, updateQueryParams]);
+  }, [refetch, selectedLocation.lat, selectedLocation.lng, selectedLocation.locationRadius, updateQueryParams]);
 
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" {...activeFilterButton(!!getQueryParam('location') && !!getQueryParam('radius'))}>
+          <Button
+            variant="outline"
+            {...activeFilterButton(!!getQueryParam('location') && !!getQueryParam('locationRadius'))}
+          >
             Location
           </Button>
         </DialogTrigger>
@@ -82,7 +85,7 @@ export default function LocationFilter() {
               onClickMap={onClickMap}
               lat={parseFloat(selectedLocation.lat)}
               lng={parseFloat(selectedLocation.lng)}
-              radius={(parseFloat(selectedLocation.radius) || 0) * 1000}
+              locationRadius={(parseFloat(selectedLocation.locationRadius) || 0) * 1000}
             />
             <div className="w-3/12 flex flex-col justify-between">
               <CustomLatLng selectedLocation={selectedLocation} handleUpdateLocation={handleUpdateLocation} />

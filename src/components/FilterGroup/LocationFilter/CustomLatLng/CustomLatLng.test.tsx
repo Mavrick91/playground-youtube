@@ -7,7 +7,7 @@ describe('CustomLatLng', () => {
     const handleUpdateLocationMock = jest.fn();
     render(
       <CustomLatLng
-        selectedLocation={{ lat: '0', lng: '0', radius: '0' }}
+        selectedLocation={{ lat: '0', lng: '0', locationRadius: '0' }}
         handleUpdateLocation={handleUpdateLocationMock}
       />
     );
@@ -23,7 +23,7 @@ describe('CustomLatLng', () => {
     const handleUpdateLocationMock = jest.fn();
     render(
       <CustomLatLng
-        selectedLocation={{ lat: '0', lng: '0', radius: '0' }}
+        selectedLocation={{ lat: '0', lng: '0', locationRadius: '0' }}
         handleUpdateLocation={handleUpdateLocationMock}
       />
     );
@@ -39,7 +39,7 @@ describe('CustomLatLng', () => {
     const handleUpdateLocationMock = jest.fn();
     render(
       <CustomLatLng
-        selectedLocation={{ lat: '0', lng: '0', radius: '0' }}
+        selectedLocation={{ lat: '0', lng: '0', locationRadius: '0' }}
         handleUpdateLocation={handleUpdateLocationMock}
       />
     );
@@ -56,7 +56,7 @@ it('calls handleUpdateLocation with the new radius when the radius input changes
   const handleUpdateLocationMock = jest.fn();
   render(
     <CustomLatLng
-      selectedLocation={{ lat: '0', lng: '0', radius: '0' }}
+      selectedLocation={{ lat: '0', lng: '0', locationRadius: '0' }}
       handleUpdateLocation={handleUpdateLocationMock}
     />
   );
@@ -65,5 +65,5 @@ it('calls handleUpdateLocation with the new radius when the radius input changes
 
   fireEvent.change(radiusInput, { target: { value: '10' } });
 
-  expect(handleUpdateLocationMock).toHaveBeenCalledWith('radius', '10');
+  expect(handleUpdateLocationMock).toHaveBeenCalledWith('locationRadius', '10');
 });

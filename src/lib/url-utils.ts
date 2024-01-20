@@ -35,7 +35,7 @@ export function setQueryParam(
     searchParams.delete('topicId');
     searchParams.delete('regionCode');
     searchParams.delete('location');
-    searchParams.delete('radius');
+    searchParams.delete('locationRadius');
   }
 
   url.search = searchParams.toString();

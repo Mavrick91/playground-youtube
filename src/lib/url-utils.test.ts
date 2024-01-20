@@ -9,7 +9,7 @@ describe('url-utils', () => {
         topicId: '1',
         regionCode: 'US',
         location: 'New York',
-        radius: '100',
+        locationRadius: '100',
       };
       expect(hasSearchQueryOrFilters(searchParams)).toBe(true);
     });
@@ -86,7 +86,7 @@ describe('url-utils', () => {
     it('should delete the filter query parameters if "deleteFilters" is in options', () => {
       window.location = {
         ...originalLocation,
-        search: '?q=test&topicId=1&regionCode=US&location=New%20York&radius=100',
+        search: '?q=test&topicId=1&regionCode=US&location=New%20York&locationRadius=100',
         pathname: '/test',
       } as Location;
       const newUrl = setQueryParam('testKey', 'testValue', {

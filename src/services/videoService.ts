@@ -40,10 +40,6 @@ export async function getVideoDetailsWithChannels(videoIds?: string[]): Promise<
   };
 }
 
-type SearchQuery = {
-  [K in (typeof SEARCH_PARAMS)[number]]?: string;
-};
-
 const constructSearchQuery = ({
   q,
   topicId,
@@ -51,10 +47,10 @@ const constructSearchQuery = ({
   order,
   regionCode,
   location,
-  radius,
+  locationRadius,
   publishedAfter,
   publishedBefore,
-}: SearchQuery) => {
+}: youtube_v3.Params$Resource$Search$List) => {
   const hasValidPublishedDates =
     publishedAfter && publishedBefore && arePublishedDatesValid(publishedAfter, publishedBefore);
 
@@ -67,7 +63,7 @@ const constructSearchQuery = ({
     videoDuration,
     order,
     regionCode,
-    ...(location && radius && { location, locationRadius: `${radius}km` }),
+    ...(location && locationRadius && { location, locationRadius: `${locationRadius}km` }),
     ...(hasValidPublishedDates && {
       publishedAfter: isValidDate(publishedAfter) ? parseISO(publishedAfter).toISOString() : undefined,
       publishedBefore: isValidDate(publishedBefore) ? parseISO(publishedBefore).toISOString() : undefined,
@@ -75,7 +71,9 @@ const constructSearchQuery = ({
   };
 };
 
-export const getSearchedVideos = async (searchQuery: SearchQuery): Promise<youtube_v3.Schema$SearchListResponse> => {
+export const getSearchedVideos = async (
+  searchQuery: youtube_v3.Params$Resource$Search$List
+): Promise<youtube_v3.Schema$SearchListResponse> => {
   const youtubeClient = await getYouTubeClient();
 
   const { data: searchData }: GaxiosResponse<youtube_v3.Schema$SearchListResponse> = await youtubeClient.search.list(

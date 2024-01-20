@@ -25,12 +25,12 @@ const mapOptions: google.maps.MapOptions = {
 
 type Props = {
   onClickMap: (lat: string, lng: string, placeName?: string) => void;
-  radius: number;
+  locationRadius: number;
   lat: number;
   lng: number;
 };
 
-export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
+export default function GoogleMap({ onClickMap, lat, lng, locationRadius }: Props) {
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [autocompleteValue, setAutocompleteValue] = useState('');
   const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -102,8 +102,8 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
         const latRadian = lat * (Math.PI / 180);
         const degLatKm = 110.574235;
         const degLongKm = 110.572833 * Math.cos(latRadian);
-        const deltaLat = radius / 1000.0 / degLatKm;
-        const deltaLong = radius / 1000.0 / degLongKm;
+        const deltaLat = locationRadius / 1000.0 / degLatKm;
+        const deltaLong = locationRadius / 1000.0 / degLongKm;
 
         const minLat = lat - deltaLat;
         const minLong = lng - deltaLong;
@@ -116,7 +116,7 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
         mapRef.current.fitBounds(bounds);
       }
     },
-    [radius]
+    [locationRadius]
   );
 
   const createMarkerAndCircle = useCallback(
@@ -138,7 +138,7 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
           lat,
           lng,
         },
-        radius,
+        radius: locationRadius,
         map: mapRef.current,
         strokeColor: '#ab39ff',
         strokeOpacity: 0.8,
@@ -161,16 +161,16 @@ export default function GoogleMap({ onClickMap, lat, lng, radius }: Props) {
       circleRef.current = circle;
       markerRef.current = marker;
     },
-    // don't pass radius as dependency because it will cause infinite loop
+    // don't pass locationRadius as dependency because it will cause infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [onClickMap]
   );
 
   useEffect(() => {
     if (circleRef.current) {
-      circleRef.current.setRadius(radius);
+      circleRef.current.setRadius(locationRadius);
     }
-  }, [radius, lat, lng]);
+  }, [locationRadius, lat, lng]);
 
   useEffect(() => {
     loader

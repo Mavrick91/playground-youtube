@@ -14,7 +14,7 @@ export type FilterLocation = {
   label: string;
   lat: string;
   lng: string;
-  radius: string;
+  locationRadius: string;
 };
 
 export type Filters = FilterCategory | FilterCountry | FilterLocation;

@@ -7,7 +7,7 @@ type Props = {
   selectedLocation: {
     lat: string;
     lng: string;
-    radius: string;
+    locationRadius: string;
   };
   handleUpdateLocation: (key: string, value: string) => void;
 };
@@ -34,19 +34,19 @@ export default function CustomLatLng({ selectedLocation, handleUpdateLocation }:
       />
       <Label className="font-bold text-sm text-gray-700">Radius</Label>
       <Slider
-        onValueChange={value => handleUpdateLocation('radius', value[0].toString())}
+        onValueChange={value => handleUpdateLocation('locationRadius', value[0].toString())}
         max={1000}
-        value={[parseFloat(selectedLocation.radius)]}
+        value={[parseFloat(selectedLocation.locationRadius)]}
         step={50}
-        defaultValue={[parseFloat(selectedLocation.radius)]}
+        defaultValue={[parseFloat(selectedLocation.locationRadius)]}
       />
       <Input
         data-testid="radius-input"
         type="number"
         max={1000}
         className="w-3/6 ml-auto"
-        value={selectedLocation.radius}
-        onChange={e => handleUpdateLocation('radius', e.target.value)}
+        value={selectedLocation.locationRadius}
+        onChange={e => handleUpdateLocation('locationRadius', e.target.value)}
       />
     </div>
   );
