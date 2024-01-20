@@ -7,7 +7,7 @@ import { formatNumber } from '~/lib/utils';
 
 type Props = {
   video: youtube_v3.Schema$Video;
-  rateYoutubeVideo: (videoId: string, rating: 'like' | 'dislike' | 'none') => Promise<void>;
+  rateYoutubeVideo: (videoId: string, rating: 'like' | 'dislike' | 'none') => Promise<null>;
   videoRating: youtube_v3.Schema$VideoGetRatingResponse;
 };
 
