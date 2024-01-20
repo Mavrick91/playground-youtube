@@ -28,7 +28,7 @@ export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoP
           <span>{formatNumber(channel?.statistics?.subscriberCount as string)} Subscriber ‧ </span>
           <span>{formatNumber(channel?.statistics?.videoCount as string)} videos</span>
         </div>
-        <div className="text-gray-600 text-sm mb-3">{descriptionElements(channel?.snippet?.description)}</div>
+        <div className="text-gray-600 text-sm mb-3">{descriptionElements(channel?.snippet?.description || '')}</div>
         <ChannelSubscribeButton
           channelId={channel?.id}
           subscribeYoutubeChannel={subscribeYoutubeChannel}
