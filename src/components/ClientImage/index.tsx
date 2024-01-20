@@ -3,6 +3,10 @@
 import React from 'react';
 import Image, { ImageProps } from 'next/image';
 
-export default function ClientImage(props: ImageProps) {
+type Props = {
+  className?: string;
+} & ImageProps;
+
+export default function ClientImage(props: Props) {
   return <Image {...props} />;
 }

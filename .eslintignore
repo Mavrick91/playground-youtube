@@ -1,2 +1,6 @@
 tailwind.config.ts
 setupTests.ts
+.next/
+node_modules/
+coverage/
+public/
