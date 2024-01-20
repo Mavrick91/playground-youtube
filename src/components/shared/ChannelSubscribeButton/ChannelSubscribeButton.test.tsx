@@ -36,42 +36,6 @@ describe('ChannelSubscribeButton', () => {
     jest.clearAllMocks();
   });
 
-  it('renders the channel image, channel title, and subscriber count', () => {
-    const mockVideo = {
-      snippet: {
-        channelTitle: 'Test Channel',
-      },
-    };
-    const mockChannel = {
-      snippet: {
-        thumbnails: {
-          high: {
-            url: 'http://test.com',
-          },
-        },
-      },
-      statistics: {
-        subscriberCount: '1000',
-      },
-    };
-
-    render(
-      <ChannelSubscribeButton
-        video={video}
-        channel={channel}
-        videoSubscription={{ items: [] }}
-        subscribeYoutubeChannel={subscribeYoutubeChannel}
-        deleteYoutubeSubscription={deleteYoutubeSubscription}
-      />
-    );
-
-    const img = screen.getByRole('img', { name: /channel/i });
-    expect(img.getAttribute('src')).toContain(encodeURIComponent(mockChannel.snippet.thumbnails.high.url));
-
-    expect(screen.getByText(mockVideo.snippet.channelTitle)).toBeInTheDocument();
-    expect(screen.getByText(/1.0 K.*/)).toBeInTheDocument();
-  });
-
   it('handles subscribe correctly', async () => {
     const videoSubscription: youtube_v3.Schema$SubscriptionListResponse = {
       items: [],
@@ -79,8 +43,7 @@ describe('ChannelSubscribeButton', () => {
 
     render(
       <ChannelSubscribeButton
-        video={video}
-        channel={channel}
+        channelId={channel.id}
         videoSubscription={videoSubscription}
         subscribeYoutubeChannel={subscribeYoutubeChannel}
         deleteYoutubeSubscription={deleteYoutubeSubscription}
@@ -106,8 +69,7 @@ describe('ChannelSubscribeButton', () => {
 
     const { user } = render(
       <ChannelSubscribeButton
-        video={video}
-        channel={channel}
+        channelId={channel.id}
         videoSubscription={videoSubscription}
         subscribeYoutubeChannel={subscribeYoutubeChannel}
         deleteYoutubeSubscription={deleteYoutubeSubscription}
@@ -122,23 +84,5 @@ describe('ChannelSubscribeButton', () => {
     fireEvent.click(unsubscribeButton);
 
     await waitFor(() => expect(deleteYoutubeSubscription).toHaveBeenCalledWith(videoSubscription.items![0].id!));
-  });
-
-  it('renders correct links', () => {
-    const { getByRole } = render(
-      <ChannelSubscribeButton
-        video={video}
-        channel={channel}
-        videoSubscription={{ items: [] }}
-        subscribeYoutubeChannel={subscribeYoutubeChannel}
-        deleteYoutubeSubscription={deleteYoutubeSubscription}
-      />
-    );
-
-    const channelLink = getByRole('link', { name: video.snippet?.channelTitle as string });
-    expect(channelLink).toHaveAttribute('href', `/channel/${video.snippet?.channelId}`);
-
-    const channelImageLink = getByRole('link', { name: 'channel' });
-    expect(channelImageLink).toHaveAttribute('href', `/channel/${video.snippet?.channelId}`);
   });
 });
