@@ -50,6 +50,7 @@ const constructSearchQuery = ({
   locationRadius,
   publishedAfter,
   publishedBefore,
+  ...rest
 }: youtube_v3.Params$Resource$Search$List) => {
   const hasValidPublishedDates =
     publishedAfter && publishedBefore && arePublishedDatesValid(publishedAfter, publishedBefore);
@@ -68,6 +69,7 @@ const constructSearchQuery = ({
       publishedAfter: isValidDate(publishedAfter) ? parseISO(publishedAfter).toISOString() : undefined,
       publishedBefore: isValidDate(publishedBefore) ? parseISO(publishedBefore).toISOString() : undefined,
     }),
+    ...rest,
   };
 };
 
