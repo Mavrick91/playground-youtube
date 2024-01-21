@@ -1,15 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
-import { TabsProvider } from '~/providers/TabsProvider';
 import Tabs from '.';
 
 describe('Tabs', () => {
-  const renderTabs = () =>
-    render(
-      <TabsProvider>
-        <Tabs />
-      </TabsProvider>
-    );
+  const renderTabs = () => render(<Tabs />);
 
   it('renders all tabs', () => {
     renderTabs();

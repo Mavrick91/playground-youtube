@@ -1,18 +1,15 @@
-import React from 'react';
 import ChannelBanner from '~/components/ChannelBanner';
 import ChannelInfo from '~/components/ChannelInfo';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import { Separator } from '~/components/Separator';
 import Tabs from '~/components/Tabs';
-import { TabsProvider } from '~/providers/TabsProvider';
 import { getChannelDetails, getVideoSubscriptionStatus } from '~/services/channelService';
 
-export default async function ChannelPage({
+export default async function ChannelLayout({
+  children,
   params,
 }: {
-  params: {
-    channelId: string;
-  };
+  children: React.ReactNode;
+  params: { channelId: string };
 }) {
   const channelDetails = await getChannelDetails({
     id: [params.channelId],
@@ -22,19 +19,15 @@ export default async function ChannelPage({
   const videoSubscription = await getVideoSubscriptionStatus(channel!.id!);
 
   return (
-    <div>
-      <MaxWidthWrapper>
-        <ChannelBanner url={channel?.brandingSettings?.image?.bannerExternalUrl} />
-        <ChannelInfo channel={channel} videoSubscription={videoSubscription} />
-      </MaxWidthWrapper>
-      <TabsProvider>
+    <section className="pb-10">
+      <div className="overflow-auto h-screen">
         <MaxWidthWrapper>
-          <div className="mt-1">
-            <Tabs />
-          </div>
+          <ChannelBanner url={channel?.brandingSettings?.image?.bannerExternalUrl} />
+          <ChannelInfo channel={channel} videoSubscription={videoSubscription} />
         </MaxWidthWrapper>
-        <Separator />
-      </TabsProvider>
-    </div>
+        <Tabs />
+        {children}
+      </div>
+    </section>
   );
 }

@@ -70,3 +70,7 @@
 .resize-none {
   resize: none;
 }
+
+.blurry-background {
+  backdrop-filter: blur(20px);
+}
