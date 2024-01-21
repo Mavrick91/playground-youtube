@@ -1,6 +1,6 @@
 export const CHANNEL_TABS = [
   {
-    id: 'home',
+    id: 'featured',
     title: 'Home',
   },
   {

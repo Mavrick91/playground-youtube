@@ -1,8 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useRouter } from 'next/navigation';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import Tabs from '.';
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+
 describe('Tabs', () => {
+  const mockPush = jest.fn();
+  (useRouter as jest.Mock).mockReturnValue({
+    push: mockPush,
+  });
+
   const renderTabs = () => render(<Tabs />);
 
   it('renders all tabs', () => {
@@ -26,5 +36,6 @@ describe('Tabs', () => {
     fireEvent.click(secondTab);
 
     expect(secondTab).toHaveClass('text-opacity-100');
+    expect(mockPush).toHaveBeenCalled();
   });
 });

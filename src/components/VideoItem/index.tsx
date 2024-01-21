@@ -48,14 +48,16 @@ export default function VideoItem({
       </Link>
       <div className="mt-3">
         <div className="flex gap-2 items-start">
-          <Image
-            src={channelThumbnail || ''}
-            alt="channel"
-            className="rounded-full"
-            width={36}
-            height={36}
-            quality={100}
-          />
+          {!channelThumbnail && (
+            <Image
+              src={channelThumbnail || ''}
+              alt="channel"
+              className="rounded-full"
+              width={36}
+              height={36}
+              quality={100}
+            />
+          )}
           <div className="flex flex-col">
             <h1 className="font-bold mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
             <div className="text-gray-600 text-sm font-medium flex flex-col">

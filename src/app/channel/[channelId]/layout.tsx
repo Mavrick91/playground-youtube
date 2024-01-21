@@ -19,13 +19,13 @@ export default async function ChannelLayout({
   const videoSubscription = await getVideoSubscriptionStatus(channel!.id!);
 
   return (
-    <section className="pb-10">
+    <section className="mb-52">
       <div className="overflow-auto h-screen">
         <MaxWidthWrapper>
           <ChannelBanner url={channel?.brandingSettings?.image?.bannerExternalUrl} />
           <ChannelInfo channel={channel} videoSubscription={videoSubscription} />
         </MaxWidthWrapper>
-        <Tabs />
+        <Tabs channelId={channel?.id} />
         {children}
       </div>
     </section>

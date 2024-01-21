@@ -1,18 +1,24 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import { cn } from '~/lib/utils';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { Separator } from '../Separator';
 
-type Tabs = 'home' | 'videos' | 'shorts' | 'live' | 'playlist' | 'community' | 'shop';
+type Tabs = 'featured' | 'videos' | 'shorts' | 'live' | 'playlist' | 'community' | 'shop';
 
-export default function Tabs() {
-  const [activeTab, setActiveTab] = useState<Tabs>('home');
+type Props = {
+  channelId?: string | null;
+};
+
+export default function Tabs({ channelId }: Props) {
+  const [activeTab, setActiveTab] = useState<Tabs>('featured');
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useLayoutEffect(() => {
     const currentRef = stickyRef.current;
@@ -49,6 +55,11 @@ export default function Tabs() {
     }
   }, [activeTab]);
 
+  const handleClickTab = (tab: Tabs) => {
+    setActiveTab(tab);
+    router.push(`/channel/${channelId}/${tab}`);
+  };
+
   return (
     <div ref={stickyRef} className="sticky top-0 z-50">
       <MaxWidthWrapper>
@@ -62,7 +73,7 @@ export default function Tabs() {
                   'text-opacity-50': activeTab !== tab.id,
                 })}
                 key={tab.title}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleClickTab(tab.id)}
                 ref={activeTab === tab.id ? activeTabRef : null}
               >
                 {tab.title}
@@ -76,6 +87,7 @@ export default function Tabs() {
         </div>
       </MaxWidthWrapper>
       <Separator />
+      <div />
     </div>
   );
 }
