@@ -3,7 +3,6 @@
 import { parseISO } from 'date-fns';
 import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
-import { SEARCH_PARAMS } from '~/constants/searchParams';
 import { arePublishedDatesValid, isValidDate } from '~/lib/utils';
 import { VideoListResponseWithChannel } from '~/types/searchVideos';
 import { mapVideosToChannels } from '~/utils/format-video';
