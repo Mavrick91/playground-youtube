@@ -61,7 +61,7 @@ export default function Tabs({ channelId }: Props) {
   };
 
   return (
-    <div ref={stickyRef} className="sticky top-0 z-50">
+    <div ref={stickyRef} className="sticky top-0 z-20">
       <MaxWidthWrapper>
         <div className="mt-1">
           <div className="relative flex items-center gap-5">

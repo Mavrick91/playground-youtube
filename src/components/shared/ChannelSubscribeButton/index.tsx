@@ -18,7 +18,7 @@ export default function ChannelSubscribeButton({
   subscribeYoutubeChannel,
   deleteYoutubeSubscription,
 }: Props) {
-  const [isSubscribed, setIsSubscribed] = useState(!!(videoSubscription.items!.length! > 0));
+  const [isSubscribed, setIsSubscribed] = useState((videoSubscription.items!.length! > 0));
 
   const handleSubscribe = async () => {
     if (!isSubscribed && channelId) {
@@ -53,7 +53,7 @@ export default function ChannelSubscribeButton({
                 </div>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="rounded-xl py-2 px-0">
+            <DropdownMenuContent align="start" className="rounded-xl py-2 px-0 z-50">
               <DropdownMenuItem className="w-full pl-5 pr-10 font-medium" onClick={handleUnsubscribe}>
                 <UserRoundMinus size={20} strokeWidth={1.5} className="mr-3" /> Unsubscribe
               </DropdownMenuItem>
