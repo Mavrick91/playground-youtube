@@ -1,6 +1,12 @@
-import type { JestConfigWithTsJest } from 'ts-jest';
+import type { Config } from 'jest';
+import nextJest from 'next/jest';
 
-const jestConfig: JestConfigWithTsJest = {
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+const jestConfig: Config = {
   roots: ['<rootDir>/src'],
   transform: {
     '^.+\\.(ts|tsx|js|jsx)$': '@swc/jest',
@@ -16,4 +22,4 @@ const jestConfig: JestConfigWithTsJest = {
   transformIgnorePatterns: ['node_modules/(?!(lucide-react)/)'],
 };
 
-export default jestConfig;
+export default createJestConfig(jestConfig);
