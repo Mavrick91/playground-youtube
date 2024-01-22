@@ -13,7 +13,7 @@ export default function PlaylistCard({ playlist }: Props) {
           <ClientImage
             fill
             src={playlist.snippet?.thumbnails?.medium?.url || ''}
-            alt="Thumbnail playlist"
+            alt="Thumbnail playlist bg"
             className="rounded-lg blur-[10px]"
           />
         </div>
