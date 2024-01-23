@@ -24,6 +24,10 @@ export async function getVideoDetailsWithChannels(videoIds?: string[]): Promise<
   const params = !videoIds ? { chart: 'mostPopular', regionCode: 'US' } : { id: videoIds };
   const videosData = await getVideosDetails(params);
 
+  if (!videosData.items?.length) {
+    throw new Error('Unable to retrieve video data.');
+  }
+
   const channelIds = videosData.items?.map(item => item.snippet?.channelId) as string[];
   if (!channelIds.length) {
     throw new Error('Unable to retrieve channel IDs from video data.');
