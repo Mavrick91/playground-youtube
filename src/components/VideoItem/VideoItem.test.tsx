@@ -94,4 +94,25 @@ describe('VideoItem', () => {
 
     expect(screen.queryByAltText('channel')).not.toBeInTheDocument();
   });
+
+  it('does not render channel title when it is not provided', () => {
+    const props = {
+      ...baseProps,
+      channelTitle: null,
+    };
+
+    render(<VideoItem {...props} />);
+
+    expect(screen.queryByText('Test Channel Title')).not.toBeInTheDocument();
+  });
+
+  it('does render channel title when it is provided', () => {
+    const props = {
+      ...baseProps,
+    };
+
+    render(<VideoItem {...props} />);
+
+    expect(screen.queryByText('Test Channel Title')).toBeInTheDocument();
+  });
 });
