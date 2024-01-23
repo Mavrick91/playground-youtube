@@ -83,4 +83,15 @@ describe('VideoItem', () => {
 
     expect(container.firstChild).toBeNull();
   });
+
+  it('does not render when channel thumbnail not provided', () => {
+    const props = {
+      ...baseProps,
+      channelThumbnail: null,
+    };
+
+    render(<VideoItem {...props} />);
+
+    expect(screen.queryByAltText('channel')).not.toBeInTheDocument();
+  });
 });

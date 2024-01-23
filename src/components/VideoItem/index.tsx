@@ -28,38 +28,29 @@ export default function VideoItem({
   id,
 }: Props) {
   if (!thumbnail?.height || !thumbnail?.width || !thumbnail?.url) return null;
-
   const videoId = typeof id === 'string' ? id : id?.videoId;
 
   return (
-    <div>
-      <Link href={`/watch?v=${videoId}`} className="relative">
-        <Image
-          width={thumbnail.width}
-          className="rounded-lg"
-          height={thumbnail.height}
-          src={thumbnail.url}
-          alt="thumbails"
-          quality={100}
-        />
+    <>
+      <Link
+        href={`/watch?v=${videoId}`}
+        className="relative w-full block"
+        style={{
+          height: thumbnail.height,
+        }}
+      >
+        <Image fill className="rounded-lg" src={thumbnail.url} alt="thumbails" quality={100} />
         <div className="absolute bottom-2 right-5 text-white bg-black/60 text-xs py-px px-1 rounded-md font-bold">
           {duration}
         </div>
       </Link>
       <div className="mt-3">
         <div className="flex gap-2 items-start">
-          {!channelThumbnail && (
-            <Image
-              src={channelThumbnail || ''}
-              alt="channel"
-              className="rounded-full"
-              width={36}
-              height={36}
-              quality={100}
-            />
+          {channelThumbnail && (
+            <Image src={channelThumbnail} alt="channel" className="rounded-full" width={36} height={36} quality={100} />
           )}
           <div className="flex flex-col">
-            <h1 className="font-bold mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
+            <h1 className="font-medium text-sm mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
             <div className="text-gray-600 text-sm font-medium flex flex-col">
               <p>{channelTitle}</p>
               <p>
@@ -69,6 +60,6 @@ export default function VideoItem({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

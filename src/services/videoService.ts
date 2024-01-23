@@ -25,7 +25,7 @@ export async function getVideoDetailsWithChannels(videoIds?: string[]): Promise<
   const videosData = await getVideosDetails(params);
 
   const channelIds = videosData.items?.map(item => item.snippet?.channelId) as string[];
-  if (!channelIds) {
+  if (!channelIds.length) {
     throw new Error('Unable to retrieve channel IDs from video data.');
   }
 
