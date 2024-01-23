@@ -10,7 +10,9 @@ type Props = {
 };
 
 export default async function PlaylistCard({ playlist }: Props) {
-  const playlistItems = await getPlaylistItems(playlist.id || '');
+  const playlistItems = await getPlaylistItems({
+    playlistId: playlist.id || '',
+  });
   const playlistItemsCount = playlist.contentDetails?.itemCount || 0;
 
   return (

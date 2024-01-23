@@ -1,9 +1,11 @@
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import { getPlaylistByChannel } from '~/services/playlistService';
+import { getPlaylist } from '~/services/playlistService';
 import PlaylistCard from '~/components/PlaylistCard';
 
 async function PlaylistPage({ channelId }: { channelId: string }) {
-  const playlists = await getPlaylistByChannel(channelId);
+  const playlists = await getPlaylist({
+    channelId,
+  });
 
   return (
     <MaxWidthWrapper className="mb-32">

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { getPlaylistByChannel } from '~/services/playlistService';
+import { getPlaylist } from '~/services/playlistService';
 import PlaylistCard from '~/components/PlaylistCard';
 import PlaylistPage from '.';
 
@@ -16,7 +16,7 @@ describe('PlaylistPage function', () => {
     const mockPlaylists = {
       items: [{ id: '1' }, { id: '2' }],
     };
-    (getPlaylistByChannel as jest.Mock).mockResolvedValue(mockPlaylists);
+    (getPlaylist as jest.Mock).mockResolvedValue(mockPlaylists);
 
     const jsx = await PlaylistPage({ channelId: mockChannelId });
     render(jsx);
