@@ -31,7 +31,7 @@ export default function VideoItem({
   const videoId = typeof id === 'string' ? id : id?.videoId;
 
   return (
-    <>
+    <div>
       <Link
         href={`/watch?v=${videoId}`}
         className="relative w-full block"
@@ -52,7 +52,7 @@ export default function VideoItem({
           <div className="flex flex-col">
             <h1 className="font-medium text-sm mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
             <div className="text-gray-600 text-sm font-medium flex flex-col">
-              <p>{channelTitle}</p>
+              {channelTitle && <p>{channelTitle}</p>}
               <p>
                 {formatNumber(viewCount || '')} views • {moment(publishedAt).fromNow()}
               </p>
@@ -60,6 +60,6 @@ export default function VideoItem({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
