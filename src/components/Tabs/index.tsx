@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import { cn } from '~/lib/utils';
@@ -14,11 +14,13 @@ type Props = {
 };
 
 export default function Tabs({ channelId }: Props) {
-  const [activeTab, setActiveTab] = useState<Tabs>('featured');
+  const router = useRouter();
+  const pathname = usePathname();
+  const [currentTab] = pathname.split('/').slice(-1);
+  const [activeTab, setActiveTab] = useState<Tabs>(currentTab as Tabs);
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useLayoutEffect(() => {
     const currentRef = stickyRef.current;

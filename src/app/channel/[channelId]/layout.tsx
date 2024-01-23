@@ -3,12 +3,13 @@ import ChannelInfo from '~/components/ChannelInfo';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import Tabs from '~/components/Tabs';
 import { getChannelDetails, getVideoSubscriptionStatus } from '~/services/channelService';
+import { ReactNode } from 'react';
 
 export default async function ChannelLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { channelId: string };
 }) {
   const channelDetails = await getChannelDetails({
