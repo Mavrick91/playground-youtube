@@ -1,22 +1,20 @@
-export const CHANNEL_TABS = [
+export enum ChannelTabIds {
+  VIDEOS = 'videos',
+  PLAYLIST = 'playlist',
+}
+
+export interface ChannelTab {
+  id: ChannelTabIds;
+  title: string;
+}
+
+export const CHANNEL_TABS: ChannelTab[] = [
   {
-    id: 'featured',
-    title: 'Home',
-  },
-  {
-    id: 'videos',
+    id: ChannelTabIds.VIDEOS,
     title: 'Videos',
   },
   {
-    id: 'shorts',
-    title: 'Shorts',
-  },
-  {
-    id: 'live',
-    title: 'Live',
-  },
-  {
-    id: 'playlist',
+    id: ChannelTabIds.PLAYLIST,
     title: 'Playlist',
   },
-] as const;
+];

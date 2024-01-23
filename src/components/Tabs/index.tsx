@@ -1,13 +1,13 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import { cn } from '~/lib/utils';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { Separator } from '../Separator';
 
-type Tabs = 'featured' | 'videos' | 'shorts' | 'live' | 'playlist';
+type Tabs = 'videos' | 'playlist';
 
 type Props = {
   channelId?: string | null;
@@ -22,30 +22,29 @@ export default function Tabs({ channelId }: Props) {
   const borderRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
 
+  const checkScroll = useCallback(() => {
+    const currentRef = stickyRef.current;
+    if (!currentRef) return;
+
+    const rect = currentRef.getBoundingClientRect();
+    if (rect.top <= 60) {
+      currentRef.classList.add('blurry-background');
+    } else {
+      currentRef.classList.remove('blurry-background');
+    }
+  }, []);
+
   useLayoutEffect(() => {
     const currentRef = stickyRef.current;
-
     if (currentRef && currentRef.parentElement) {
       const parentDiv = currentRef.parentElement;
-
-      const checkScroll = () => {
-        const rect = currentRef.getBoundingClientRect();
-        if (rect.top <= 60) {
-          currentRef.classList.add('blurry-background');
-        } else {
-          currentRef.classList.remove('blurry-background');
-        }
-      };
-
       parentDiv.addEventListener('scroll', checkScroll);
-
       return () => {
         parentDiv.removeEventListener('scroll', checkScroll);
       };
     }
-
     return undefined;
-  }, []);
+  }, [checkScroll]);
 
   useEffect(() => {
     const activeTabElement = activeTabRef.current;
