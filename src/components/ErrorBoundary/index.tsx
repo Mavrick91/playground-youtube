@@ -4,6 +4,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  callback?: () => void;
 }
 
 interface State {
@@ -23,13 +24,22 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    const { callback } = this.props;
     // eslint-disable-next-line no-console
     console.error('Uncaught error:', error, errorInfo);
+
+    if (callback) {
+      callback();
+    }
   }
 
   public render() {
     const { hasError } = this.state;
-    const { children } = this.props;
+    const { children, callback } = this.props;
+
+    if (hasError && callback) {
+      return null;
+    }
 
     if (hasError) {
       return (

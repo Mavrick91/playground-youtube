@@ -6,9 +6,14 @@ import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
 import { getVideoSubscriptionStatus } from '~/services/channelService';
 import { getCommentThreads, getVideoDetailsWithChannels, getVideoRating } from '~/services/videoService';
+import PlaylistVideoList from '~/components/PlaylistVideoList';
+import { Suspense } from 'react';
+import ErrorBoundary from '~/components/ErrorBoundary';
+import { navigate } from '~/app/action';
 
-export default async function WatchPage({ searchParams }: { searchParams: { v: string } }) {
+export default async function WatchPage({ searchParams }: { searchParams: { v: string; list: string } }) {
   const videoId = searchParams.v;
+  const playlistId = searchParams.list;
   const videoData = await getVideoDetailsWithChannels([videoId]);
   const channel = videoData?.items?.[0].channel;
   const video = videoData.items?.[0];
@@ -39,7 +44,21 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
           <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={videoId} />
         </OrderCommentsProvider>
       </div>
-      <div className="border border-red-500 w-3/12">test</div>
+      {playlistId && (
+        <div className="w-3/12">
+          <ErrorBoundary
+            callback={async () => {
+              'use server';
+
+              return navigate(`/watch?v=${searchParams.v}`);
+            }}
+          >
+            <Suspense>
+              <PlaylistVideoList playlistId={playlistId} />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      )}
     </div>
   );
 }
