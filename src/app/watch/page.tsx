@@ -11,10 +11,13 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
   const videoId = searchParams.v;
   const videoData = await getVideoDetailsWithChannels([videoId]);
   const channel = videoData?.items?.[0].channel;
-  const commentThreads = await getCommentThreads(videoId, 'relevance');
-  const videoRating = await getVideoRating(videoId);
-  const videoSubscription = await getVideoSubscriptionStatus(channel!.id!);
   const video = videoData.items?.[0];
+
+  const [commentThreads, videoRating, videoSubscription] = await Promise.all([
+    getCommentThreads(videoId, 'relevance'),
+    getVideoRating(videoId),
+    getVideoSubscriptionStatus(channel!.id!),
+  ]);
 
   return (
     <div className="flex py-6 mb-16">
