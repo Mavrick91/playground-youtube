@@ -20,10 +20,6 @@ export const CHANNEL_TABS = [
     title: 'Playlist',
   },
   {
-    id: 'community',
-    title: 'Community',
-  },
-  {
     id: 'shop',
     title: 'Shop',
   },

@@ -7,7 +7,7 @@ import { cn } from '~/lib/utils';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { Separator } from '../Separator';
 
-type Tabs = 'featured' | 'videos' | 'shorts' | 'live' | 'playlist' | 'community' | 'shop';
+type Tabs = 'featured' | 'videos' | 'shorts' | 'live' | 'playlist' | 'shop';
 
 type Props = {
   channelId?: string | null;
