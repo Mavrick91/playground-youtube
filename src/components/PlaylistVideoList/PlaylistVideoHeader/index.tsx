@@ -32,7 +32,7 @@ export default function PlaylistVideoHeader({ playlistTitle, channelTitle, video
       [buttonName]: !prevState[buttonName],
     }));
 
-    let toastMessage = '';
+    let toastMessage: string;
     switch (buttonName) {
       case ButtonType.REPEAT:
         toastMessage = isButtonCurrentlySelected ? 'Mode loop deactivated!' : 'Mode loop activated!';
