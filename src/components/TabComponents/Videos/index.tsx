@@ -3,19 +3,27 @@ import { getActivityByChannel } from '~/services/activityService';
 import VideoItem from '~/components/VideoItem';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import { parseISO8601Duration } from '~/lib/utils';
+import { youtube_v3 } from 'googleapis';
 
 type Props = {
   channelId: string;
 };
 
+function getVideoIdFromItemContentDetails(item: youtube_v3.Schema$Activity) {
+  if (item.contentDetails?.upload?.videoId) return item.contentDetails.upload.videoId;
+  return item.contentDetails?.playlistItem?.resourceId?.videoId;
+}
+
 async function VideoPage({ channelId }: Props) {
   const channelActivities = await getActivityByChannel({
     channelId,
-    maxResults: 20,
+    maxResults: 10,
   });
-  const videoIds = channelActivities.items
-    ?.map(item => item.contentDetails?.upload?.videoId)
-    .filter(Boolean) as string[];
+
+  const videoIds = Array.from(
+    new Set(channelActivities.items?.map(getVideoIdFromItemContentDetails).filter(Boolean))
+  ) as string[];
+
   const videosWithStatistics = await getVideoDetailsWithChannels(videoIds);
 
   return (
@@ -25,7 +33,6 @@ async function VideoPage({ channelId }: Props) {
           <div key={video.id} className="col-span-3">
             <VideoItem
               videoTitle={video.snippet?.title}
-              channelTitle={video.snippet?.channelTitle}
               duration={parseISO8601Duration(video.contentDetails?.duration || '')}
               publishedAt={video.snippet?.publishedAt}
               thumbnail={video.snippet?.thumbnails?.medium}
