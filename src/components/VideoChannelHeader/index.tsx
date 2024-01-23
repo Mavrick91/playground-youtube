@@ -19,7 +19,7 @@ export default function VideoPlatformChannelHeader({ video, channel, videoRating
     <div className="flex justify-between items-center w-full my-3">
       <div>
         <div className="flex items-center gap-2">
-          <Link href={`/channel/${video?.snippet?.channelId}`}>
+          <Link href={`/channel/${video?.snippet?.channelId}/videos`}>
             <ClientImage
               src={channel?.snippet?.thumbnails?.high?.url || ''}
               alt="channel"
@@ -31,7 +31,7 @@ export default function VideoPlatformChannelHeader({ video, channel, videoRating
           </Link>
           <div className="flex items-center">
             <div className="flex flex-col mr-6">
-              <Link href={`/channel/${video?.snippet?.channelId}`}>
+              <Link href={`/channel/${video?.snippet?.channelId}/videos`}>
                 <span className="text-black font-bold">{video?.snippet?.channelTitle}</span>
               </Link>
               <span className="text-xs text-gray-700 font-medium">
