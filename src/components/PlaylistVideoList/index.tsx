@@ -15,6 +15,7 @@ export default async function PlaylistVideoList({ playlistId }: Props) {
     getPlaylistItems({
       playlistId,
       part: ['snippet'],
+      maxResults: 50,
     }),
   ]);
 
@@ -26,25 +27,27 @@ export default async function PlaylistVideoList({ playlistId }: Props) {
   return (
     <div className="border rounded-xl border-black pb-3">
       <PlaylistVideoHeader playlistTitle={playlistTitle} channelTitle={channelTitle} videosCount={videosCount} />
-      {playlistItems.items?.map((item, index) => {
-        const videoItemSnippet = item.snippet;
-        const videoId = videoItemSnippet?.resourceId?.videoId as string;
-        const thumbnail = videoItemSnippet?.thumbnails?.medium?.url as string;
-        const title = videoItemSnippet?.title as string;
-        const videoChannelTitle = videoItemSnippet?.channelTitle as string;
+      <div className="max-h-[27.2rem] overflow-y-auto">
+        {playlistItems.items?.map((item, index) => {
+          const videoItemSnippet = item.snippet;
+          const videoId = videoItemSnippet?.resourceId?.videoId as string;
+          const thumbnail = videoItemSnippet?.thumbnails?.medium?.url as string;
+          const title = videoItemSnippet?.title as string;
+          const videoChannelTitle = videoItemSnippet?.channelTitle as string;
 
-        return (
-          <PlaylistVideoListItem
-            playlistId={playlistId}
-            key={item.id}
-            index={index}
-            videoId={videoId}
-            thumbnail={thumbnail}
-            title={title}
-            channelTitle={videoChannelTitle}
-          />
-        );
-      })}
+          return (
+            <PlaylistVideoListItem
+              playlistId={playlistId}
+              key={item.id}
+              index={index}
+              videoId={videoId}
+              thumbnail={thumbnail}
+              title={title}
+              channelTitle={videoChannelTitle}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
