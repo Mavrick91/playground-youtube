@@ -54,7 +54,6 @@ describe('VideoPage', () => {
         {
           channelThumbnail: null,
           videoTitle: 'Test Video',
-          channelTitle: 'Test Channel',
           viewCount: '1000',
           publishedAt: '2022-01-01T00:00:00Z',
           thumbnail: {
