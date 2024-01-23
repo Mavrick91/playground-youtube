@@ -1,25 +1,25 @@
 'use client';
 
 import { useEffect } from 'react';
+import { VideoOff } from 'lucide-react';
+import Link from 'next/link';
+import { buttonVariants } from '~/components/shared/Button';
+import { cn } from '~/lib/utils';
 
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function Error({ error }: { error: Error & { digest?: string } }) {
+  console.error(error.message);
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        type="button"
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again {error.message}
-      </button>
+    <div className="h-[500px] mb-32 flex flex-col items-center justify-center p-4">
+      <VideoOff className="h-12 w-12 text-gray-500 dark:text-gray-400" />
+      <h1 className="text-2xl font-bold text-gray-600 dark:text-gray-300 mt-4">Video Not Found</h1>
+      <p className="text-gray-500 dark:text-gray-400 mt-2">The video you are looking for could not be found.</p>
+      <Link className={cn(buttonVariants(), 'mt-4')} href="/">
+        Return to Homepage
+      </Link>
     </div>
   );
 }
