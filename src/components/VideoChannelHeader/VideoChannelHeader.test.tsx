@@ -65,10 +65,10 @@ describe('VideoPlatformChannelHeader', () => {
     );
 
     const channelLink = screen.getByRole('link', { name: mockVideo.snippet?.channelTitle as string });
-    expect(channelLink).toHaveAttribute('href', `/channel/${mockVideo.snippet?.channelId}`);
+    expect(channelLink).toHaveAttribute('href', `/channel/${mockVideo.snippet?.channelId}/videos`);
 
     const channelImageLink = screen.getByRole('link', { name: 'channel' });
-    expect(channelImageLink).toHaveAttribute('href', `/channel/${mockVideo.snippet?.channelId}`);
+    expect(channelImageLink).toHaveAttribute('href', `/channel/${mockVideo.snippet?.channelId}/videos`);
   });
 
   it('renders the channel image, channel title, and subscriber count', () => {
