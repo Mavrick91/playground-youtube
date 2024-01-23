@@ -19,8 +19,4 @@ export const CHANNEL_TABS = [
     id: 'playlist',
     title: 'Playlist',
   },
-  {
-    id: 'shop',
-    title: 'Shop',
-  },
 ] as const;
