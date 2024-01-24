@@ -17,7 +17,7 @@ describe('Tabs', () => {
   (usePathname as jest.Mock).mockReturnValue(`/channel/UCRE9cpOPYEBMx4V6vTzfOWQ/${CHANNEL_TABS[1].id}`);
 
   it('renders all tabs', () => {
-    render(<Tabs defaultTabId="videos" />);
+    render(<Tabs activeTab="videos" />);
 
     CHANNEL_TABS.forEach(tab => {
       expect(screen.getByText(tab.title)).toBeInTheDocument();
@@ -25,13 +25,13 @@ describe('Tabs', () => {
   });
 
   it('sets the first corresponding tab as active', () => {
-    render(<Tabs defaultTabId="playlist" />);
+    render(<Tabs activeTab="playlist" />);
 
     expect(screen.getByText(CHANNEL_TABS[1].title)).toHaveClass('text-opacity-100');
   });
 
   it('updates the active tab when a tab is clicked', () => {
-    render(<Tabs defaultTabId="videos" />);
+    render(<Tabs activeTab="videos" />);
 
     const secondTab = screen.getByText(CHANNEL_TABS[1].title);
     fireEvent.click(secondTab);

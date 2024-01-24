@@ -25,7 +25,7 @@ export default async function ChannelLayout({ children, params }: { children: Re
           <ChannelBanner url={channel?.brandingSettings?.image?.bannerExternalUrl} />
           <ChannelInfo channel={channel} videoSubscription={videoSubscription} />
         </MaxWidthWrapper>
-        <Tabs channelId={channel?.id} defaultTabId={(tabId || 'videos') as TabIds} />
+        <Tabs channelId={channel?.id} activeTab={(tabId || 'videos') as TabIds} />
         {children}
       </div>
     </section>
