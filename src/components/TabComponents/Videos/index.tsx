@@ -1,5 +1,5 @@
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import { getActivityByChannel } from '~/services/activityService';
+import { getActivities } from '~/services/activityService';
 import VideoItem from '~/components/VideoItem';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import { parseISO8601Duration } from '~/lib/utils';
@@ -15,7 +15,7 @@ function getVideoIdFromItemContentDetails(item: youtube_v3.Schema$Activity) {
 }
 
 async function VideoPage({ channelId }: Props) {
-  const channelActivities = await getActivityByChannel({
+  const channelActivities = await getActivities({
     channelId,
     maxResults: 10,
   });

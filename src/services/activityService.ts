@@ -4,7 +4,7 @@ import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
 import { getYouTubeClient } from './oauthService';
 
-export async function getActivityByChannel(params: youtube_v3.Params$Resource$Activities$List) {
+export async function getActivities(params: youtube_v3.Params$Resource$Activities$List) {
   const youtubeClient = await getYouTubeClient();
 
   const response: GaxiosResponse<youtube_v3.Schema$ActivityListResponse> = await youtubeClient.activities.list({

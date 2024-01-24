@@ -1,5 +1,5 @@
 import { render, waitFor } from '@testing-library/react';
-import { getActivityByChannel } from '~/services/activityService';
+import { getActivities } from '~/services/activityService';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import VideoItem from '~/components/VideoItem';
 import VideoPage from '.';
@@ -10,7 +10,7 @@ jest.mock('~/components/VideoItem');
 
 describe('VideoPage', () => {
   beforeEach(() => {
-    (getActivityByChannel as jest.Mock).mockClear();
+    (getActivities as jest.Mock).mockClear();
     (getVideoDetailsWithChannels as jest.Mock).mockClear();
   });
 
@@ -20,7 +20,7 @@ describe('VideoPage', () => {
   };
 
   it('does not render video items when no data is available', async () => {
-    (getActivityByChannel as jest.Mock).mockResolvedValue({ items: [] });
+    (getActivities as jest.Mock).mockResolvedValue({ items: [] });
     (getVideoDetailsWithChannels as jest.Mock).mockResolvedValue({ items: [] });
 
     await renderComponent({ channelId: 'test' });
@@ -40,7 +40,7 @@ describe('VideoPage', () => {
       statistics: { viewCount: '1000' },
     };
 
-    (getActivityByChannel as jest.Mock).mockResolvedValue({
+    (getActivities as jest.Mock).mockResolvedValue({
       items: [{ contentDetails: { upload: { videoId: '123' } } }],
     });
     (getVideoDetailsWithChannels as jest.Mock).mockResolvedValue({
