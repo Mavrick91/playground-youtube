@@ -54,7 +54,7 @@ describe('CommentItem', () => {
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute(
       'href',
-      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}`
+      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}/videos`
     );
   });
 
@@ -65,7 +65,7 @@ describe('CommentItem', () => {
     expect(authorLink).toBeInTheDocument();
     expect(authorLink).toHaveAttribute(
       'href',
-      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}`
+      `/channel/${comment.snippet?.topLevelComment?.snippet?.authorChannelId?.value}/videos`
     );
 
     const timestamp = screen.getByText('about 2 years ago');
