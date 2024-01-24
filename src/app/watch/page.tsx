@@ -10,6 +10,7 @@ import PlaylistVideoList from '~/components/PlaylistVideoList';
 import { Suspense } from 'react';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { navigate } from '~/app/action';
+import LoadingPlaylistVideoList from '~/components/PlaylistVideoList/loading';
 
 export default async function WatchPage({ searchParams }: { searchParams: { v: string; list: string } }) {
   const videoId = searchParams.v;
@@ -53,7 +54,7 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
               return navigate(`/watch?v=${searchParams.v}`);
             }}
           >
-            <Suspense>
+            <Suspense fallback={<LoadingPlaylistVideoList />}>
               <PlaylistVideoList playlistId={playlistId} />
             </Suspense>
           </ErrorBoundary>
