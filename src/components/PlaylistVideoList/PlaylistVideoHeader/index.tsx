@@ -1,8 +1,8 @@
 'use client';
 
 import { Repeat, Shuffle } from 'lucide-react';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { usePlaylistControl } from '~/providers/PlaylistControlProvider';
 
 type Props = {
   playlistTitle: string;
@@ -15,34 +15,20 @@ export enum ButtonType {
   SHUFFLE = 'shuffle',
 }
 
-type ButtonState = {
-  [ButtonType.REPEAT]?: boolean;
-  [ButtonType.SHUFFLE]?: boolean;
-};
-
 export default function PlaylistVideoHeader({ playlistTitle, channelTitle, videosCount }: Props) {
-  const [selectedButtons, setSelectedButtons] = useState<ButtonState>({});
-  const strokeWidth = (buttonName: ButtonType) => (selectedButtons[buttonName] ? 2.5 : 1.5);
+  const { isShuffling, toggleShuffle, toggleRepeat, isRepeating } = usePlaylistControl();
 
-  const handleButtonClick = (buttonName: ButtonType) => () => {
-    const isButtonCurrentlySelected = selectedButtons[buttonName];
+  const handleButtonClick = (buttonType: ButtonType) => {
+    let toastMessage: string = '';
 
-    setSelectedButtons(prevState => ({
-      ...prevState,
-      [buttonName]: !prevState[buttonName],
-    }));
-
-    let toastMessage: string;
-    switch (buttonName) {
-      case ButtonType.REPEAT:
-        toastMessage = isButtonCurrentlySelected ? 'Mode loop deactivated!' : 'Mode loop activated!';
-        break;
-      case ButtonType.SHUFFLE:
-        toastMessage = isButtonCurrentlySelected ? 'Mode Shuffle deactivated!' : 'Mode Shuffle activated!';
-        break;
-      default:
-        toastMessage = 'Button was clicked!';
+    if (buttonType === ButtonType.REPEAT) {
+      toggleRepeat();
+      toastMessage = isRepeating ? 'Mode loop deactivated!' : 'Mode loop activated!';
+    } else if (buttonType === ButtonType.SHUFFLE) {
+      toggleShuffle();
+      toastMessage = isShuffling ? 'Shuffle mode deactivated!' : 'Shuffle mode activated!';
     }
+
     toast(toastMessage, {
       hideProgressBar: true,
       autoClose: 2000,
@@ -62,17 +48,17 @@ export default function PlaylistVideoHeader({ playlistTitle, channelTitle, video
           type="button"
           aria-label={ButtonType.REPEAT}
           className="aspect-square p-1 hover:rounded-full hover:bg-black/10"
-          onClick={handleButtonClick(ButtonType.REPEAT)}
+          onClick={() => handleButtonClick(ButtonType.REPEAT)}
         >
-          <Repeat width={20} height={20} strokeWidth={strokeWidth(ButtonType.REPEAT)} />
+          <Repeat width={20} height={20} strokeWidth={isRepeating ? 2.5 : 1.5} />
         </button>
         <button
           type="button"
           aria-label={ButtonType.SHUFFLE}
           className="aspect-square p-1 hover:rounded-full hover:bg-black/10"
-          onClick={handleButtonClick(ButtonType.SHUFFLE)}
+          onClick={() => handleButtonClick(ButtonType.SHUFFLE)}
         >
-          <Shuffle width={20} height={20} strokeWidth={strokeWidth(ButtonType.SHUFFLE)} />
+          <Shuffle width={20} height={20} strokeWidth={isShuffling ? 2.5 : 1.5} />
         </button>
       </div>
     </div>
