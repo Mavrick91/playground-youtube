@@ -29,16 +29,18 @@ export default function PlaylistVideoListItem({ thumbnail, title, channelTitle, 
           list: playlistId,
         },
       }}
-      className={cn('flex items-center space-x-2 p-2 hover:bg-black/10', {
+      className={cn('flex items-center py-2 pr-2 hover:bg-black/10', {
         'bg-black/20': videoParamsId === videoId,
       })}
     >
-      {videoParamsId === videoId ? (
-        <Play data-testid="lucide-play" width={20} fill="black" stroke="none" />
-      ) : (
-        <div className="text-xs text-gray-600">{index}</div>
-      )}
-      <div className="flex-shrink-0 w-28 h-16 relative">
+      <div className="shrink-0 w-6 flex items-center justify-center">
+        {videoParamsId === videoId ? (
+          <Play data-testid="lucide-play" width={10} fill="black" stroke="none" />
+        ) : (
+          <div className="text-xs text-gray-600">{index}</div>
+        )}
+      </div>
+      <div className="flex-shrink-0 w-28 h-16 relative mr-2">
         <ClientImage alt="Video thumbnail" src={thumbnail} fill className=" rounded-lg" />
       </div>
       <div className="flex flex-col space-y-1">
