@@ -2,12 +2,15 @@
 
 import { youtube_v3 } from 'googleapis';
 import ReactPlayer from 'react-player';
+import { usePlaylist } from '~/providers/PlaylistProvider';
 
 type Props = {
   video?: youtube_v3.Schema$Video;
 };
 
 export default function YoutubePlayer({ video }: Props) {
+  const { nextVideo } = usePlaylist();
+
   if (!video?.id) return null;
 
   return (
@@ -18,10 +21,11 @@ export default function YoutubePlayer({ video }: Props) {
           controls
           width="100%"
           height="100%"
+          onEnded={nextVideo}
           config={{
             youtube: {
               playerVars: {
-                // autoplay: 1,
+                autoplay: 1,
               },
             },
           }}

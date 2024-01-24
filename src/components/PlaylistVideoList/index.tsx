@@ -23,10 +23,16 @@ export default async function PlaylistVideoList({ playlistId }: Props) {
   const playlistTitle = playlistSnippet?.title as string;
   const channelTitle = playlistSnippet?.channelTitle as string;
   const videosCount = playlistItems.items?.length as number;
+  const videoIds = playlistItems.items?.map(item => item.snippet?.resourceId?.videoId as string) as string[];
 
   return (
     <div className="border rounded-xl border-black pb-3">
-      <PlaylistVideoHeader playlistTitle={playlistTitle} channelTitle={channelTitle} videosCount={videosCount} />
+      <PlaylistVideoHeader
+        videoIds={videoIds}
+        playlistTitle={playlistTitle}
+        channelTitle={channelTitle}
+        videosCount={videosCount}
+      />
       <div className="max-h-[27.2rem] overflow-y-auto">
         {playlistItems.items?.map((item, index) => {
           const videoItemSnippet = item.snippet;

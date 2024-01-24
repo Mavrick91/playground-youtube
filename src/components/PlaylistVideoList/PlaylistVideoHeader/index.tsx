@@ -3,11 +3,14 @@
 import { Repeat, Shuffle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { usePlaylistControl } from '~/providers/PlaylistControlProvider';
+import { usePlaylist } from '~/providers/PlaylistProvider';
+import { useEffect } from 'react';
 
 type Props = {
   playlistTitle: string;
   channelTitle: string;
   videosCount: number;
+  videoIds: string[];
 };
 
 export enum ButtonType {
@@ -15,8 +18,9 @@ export enum ButtonType {
   SHUFFLE = 'shuffle',
 }
 
-export default function PlaylistVideoHeader({ playlistTitle, channelTitle, videosCount }: Props) {
+export default function PlaylistVideoHeader({ playlistTitle, channelTitle, videosCount, videoIds }: Props) {
   const { isShuffling, toggleShuffle, toggleRepeat, isRepeating } = usePlaylistControl();
+  const { setPlaylist } = usePlaylist();
 
   const handleButtonClick = (buttonType: ButtonType) => {
     let toastMessage: string = '';
@@ -34,6 +38,10 @@ export default function PlaylistVideoHeader({ playlistTitle, channelTitle, video
       autoClose: 2000,
     });
   };
+
+  useEffect(() => {
+    setPlaylist(videoIds);
+  }, [setPlaylist, videoIds]);
 
   return (
     <div className="px-6 py-4">
