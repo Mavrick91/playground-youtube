@@ -2,6 +2,8 @@ import React from 'react';
 import ClientImage from '../ClientImage';
 
 export default function ChannelBanner({ url }: { url?: string | null }) {
+  if (!url) return null;
+
   return (
     <div className="w-[1284px] h-[206px] relative object-fill rounded-xl overflow-hidden">
       <ClientImage
