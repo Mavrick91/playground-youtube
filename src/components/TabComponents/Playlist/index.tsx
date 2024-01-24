@@ -8,17 +8,26 @@ async function PlaylistPage({ channelId }: { channelId: string }) {
     channelId,
   });
 
-  if (!playlists.items?.length) {
+  const hasItems = playlists.items?.some(playlist => (playlist.contentDetails?.itemCount || 0) > 0);
+
+  if (!playlists.items?.length || !hasItems) {
     return <ContentNoItems />;
   }
+
   return (
     <MaxWidthWrapper className="mb-32">
       <div className="grid grid-cols-12 gap-x-1 gap-y-11 mt-11">
-        {playlists.items?.map(playlist => (
-          <div key={playlist.id} className="col-span-2">
-            <PlaylistCard playlist={playlist} />
-          </div>
-        ))}
+        {playlists.items?.map(playlist => {
+          const playlistItemsCount = playlist.contentDetails?.itemCount || 0;
+
+          if (!playlistItemsCount) return null;
+
+          return (
+            <div key={playlist.id} className="col-span-2">
+              <PlaylistCard playlist={playlist} />
+            </div>
+          );
+        })}
       </div>
     </MaxWidthWrapper>
   );

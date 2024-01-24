@@ -11,19 +11,6 @@ beforeEach(() => {
 });
 
 describe('PlaylistPage function', () => {
-  it('renders playlists correctly', async () => {
-    const mockChannelId = 'ABC123';
-    const mockPlaylists = {
-      items: [{ id: '1' }, { id: '2' }],
-    };
-    (getPlaylist as jest.Mock).mockResolvedValue(mockPlaylists);
-
-    const jsx = await PlaylistPage({ channelId: mockChannelId });
-    render(jsx);
-
-    expect(PlaylistCard).toHaveBeenCalledTimes(2);
-  });
-
   test('renders ContentNoItems when there are no playlist items', async () => {
     const mockChannelId = 'ABC123';
     const mockPlaylists = {
@@ -35,5 +22,49 @@ describe('PlaylistPage function', () => {
     render(jsx);
 
     expect(screen.getByTestId('content-no-items')).toBeInTheDocument();
+  });
+
+  test('renders ContentNoItems when no playlists have itemCount > 0', async () => {
+    const mockChannelId = 'ABC123';
+    (getPlaylist as jest.Mock).mockResolvedValue({
+      items: [
+        { id: '1', contentDetails: { itemCount: 0 } },
+        { id: '2', contentDetails: { itemCount: 0 } },
+      ],
+    });
+
+    const jsx = await PlaylistPage({ channelId: mockChannelId });
+    render(jsx);
+
+    expect(PlaylistCard).not.toHaveBeenCalled();
+    expect(screen.getByTestId('content-no-items')).toBeInTheDocument();
+  });
+
+  test('renders PlaylistCard when there are playlists with itemCount > 0', async () => {
+    const mockChannelId = 'ABC123';
+    (getPlaylist as jest.Mock).mockResolvedValue({
+      items: [
+        { id: '1', contentDetails: { itemCount: 2 } },
+        { id: '2', contentDetails: { itemCount: 0 } },
+      ],
+    });
+
+    const jsx = await PlaylistPage({ channelId: mockChannelId });
+    render(jsx);
+
+    expect(PlaylistCard).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not render any playlist when itemCount is 0', async () => {
+    const mockChannelId = 'ABC123';
+    const mockPlaylists = {
+      items: [{ id: '1', contentDetails: { itemCount: 0 } }],
+    };
+    (getPlaylist as jest.Mock).mockResolvedValue(mockPlaylists);
+
+    const jsx = await PlaylistPage({ channelId: mockChannelId });
+    render(jsx);
+
+    expect(PlaylistCard).not.toHaveBeenCalled();
   });
 });
