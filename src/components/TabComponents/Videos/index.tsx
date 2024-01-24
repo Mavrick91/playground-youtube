@@ -4,6 +4,7 @@ import VideoItem from '~/components/VideoItem';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import { parseISO8601Duration } from '~/lib/utils';
 import { youtube_v3 } from 'googleapis';
+import ContentNoItems from '~/components/ContentNoItems';
 
 type Props = {
   channelId: string;
@@ -23,6 +24,8 @@ async function VideoPage({ channelId }: Props) {
   const videoIds = Array.from(
     new Set(channelActivities.items?.map(getVideoIdFromItemContentDetails).filter(Boolean))
   ) as string[];
+
+  if (!videoIds.length) return <ContentNoItems />;
 
   const videosWithStatistics = await getVideoDetailsWithChannels(videoIds);
 

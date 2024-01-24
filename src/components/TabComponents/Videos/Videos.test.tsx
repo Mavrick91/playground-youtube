@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { getActivities } from '~/services/activityService';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import VideoItem from '~/components/VideoItem';
@@ -19,12 +19,13 @@ describe('VideoPage', () => {
     render(jsx);
   };
 
-  it('does not render video items when no data is available', async () => {
+  it('renders ContentNoItems when there are no videos items', async () => {
     (getActivities as jest.Mock).mockResolvedValue({ items: [] });
     (getVideoDetailsWithChannels as jest.Mock).mockResolvedValue({ items: [] });
 
     await renderComponent({ channelId: 'test' });
-    await waitFor(() => expect(VideoItem).not.toHaveBeenCalled());
+
+    expect(screen.getByTestId('content-no-items')).toBeInTheDocument();
   });
 
   it('VideoItem is called with correct props', async () => {
