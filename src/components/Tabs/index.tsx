@@ -1,23 +1,22 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import { cn } from '~/lib/utils';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { Separator } from '../Separator';
 
-type Tabs = 'videos' | 'playlist';
+export type TabIds = 'videos' | 'playlist';
 
 type Props = {
   channelId?: string | null;
+  defaultTabId: TabIds;
 };
 
-export default function Tabs({ channelId }: Props) {
+export default function Tabs({ channelId, defaultTabId }: Props) {
   const router = useRouter();
-  const pathname = usePathname();
-  const [currentTab] = pathname.split('/').slice(-1);
-  const [activeTab, setActiveTab] = useState<Tabs>(currentTab as Tabs);
+  const [activeTab, setActiveTab] = useState<TabIds>(defaultTabId);
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -56,7 +55,7 @@ export default function Tabs({ channelId }: Props) {
     }
   }, [activeTab]);
 
-  const handleClickTab = (tab: Tabs) => {
+  const handleClickTab = (tab: TabIds) => {
     setActiveTab(tab);
     router.push(`/channel/${channelId}/${tab}`);
   };

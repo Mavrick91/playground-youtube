@@ -10,21 +10,22 @@ jest.mock('~/components/TabComponents/Playlist', () => jest.fn(() => null));
 
 describe('Page Component', () => {
   test('Renders PlaylistPage when tabId is Playlist', () => {
-    render(<Page params={{ tabId: 'playlist', channelId: 'channel1' }} />);
+    render(<Page params={{ slug: ['channel1', 'playlist'] }} />);
     expect(PlaylistPage).toHaveBeenCalled();
   });
 
   test('renders VideoPage when tabId is Videos', () => {
-    render(<Page params={{ tabId: 'videos', channelId: 'channel1' }} />);
+    render(<Page params={{ slug: ['channel1', 'videos'] }} />);
     expect(VideosPage).toHaveBeenCalled();
   });
 
-  test('Throws an error when tabId is not valid', () => {
-    const consoleError = console.error;
-    console.error = jest.fn(); // Temporarily turn off console error
+  test('renders VideoPage when tabId is undefined', () => {
+    render(<Page params={{ slug: ['channel1'] }} />);
+    expect(VideosPage).toHaveBeenCalled();
+  });
 
-    expect(() => render(<Page params={{ tabId: 'invalid', channelId: 'channel1' }} />)).toThrow('Tab not found');
-
-    console.error = consoleError; // Turn console error back on
+  test('render VideoPage when tabId is invalid', () => {
+    render(<Page params={{ slug: ['channel1', 'invalid'] }} />);
+    expect(VideosPage).toHaveBeenCalled();
   });
 });

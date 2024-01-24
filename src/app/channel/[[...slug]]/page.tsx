@@ -7,8 +7,7 @@ import VideoLoading from '~/components/TabComponents/Videos/loading';
 
 type Props = {
   params: {
-    channelId: string;
-    tabId: string;
+    slug: string[];
   };
 };
 
@@ -27,11 +26,13 @@ const TAB_COMPONENTS: ComponentMap = {
 
 const isValidTab = (tabId: string): boolean => CHANNEL_TABS.some(tab => tab.id === tabId);
 
-export default function Page({ params }: Props) {
-  const { tabId, channelId } = params;
+export default function ChannelPage({ params }: Props) {
+  const [channelId, tabId] = params.slug;
 
-  if (!isValidTab(tabId)) {
-    throw new Error('Tab not found');
+  if (!isValidTab(tabId) || !tabId) {
+    const DefaultPageComponent = TAB_COMPONENTS.videos;
+
+    return <DefaultPageComponent channelId={channelId} />;
   }
 
   const PageComponent = TAB_COMPONENTS[tabId];
