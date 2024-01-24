@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
 import { CHANNEL_TABS } from '~/constants/channe_tabs';
 import { cn } from '~/lib/utils';
+import Link from 'next/link';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import { Separator } from '../Separator';
 
@@ -15,9 +15,6 @@ type Props = {
 };
 
 export default function Tabs({ channelId, activeTab }: Props) {
-  const router = useRouter();
-  const activeTabRef = useRef<HTMLButtonElement>(null);
-  const borderRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
 
   const checkScroll = useCallback(() => {
@@ -44,34 +41,25 @@ export default function Tabs({ channelId, activeTab }: Props) {
     return undefined;
   }, [checkScroll]);
 
-  const handleClickTab = (tab: TabIds) => {
-    router.push(`/channel/${channelId}/${tab}`);
-  };
-
   return (
     <div ref={stickyRef} className="sticky top-0 z-20">
       <MaxWidthWrapper>
         <div className="mt-1">
           <div className="relative flex items-center gap-5">
             {CHANNEL_TABS.map(tab => (
-              <button
-                type="button"
+              <Link
+                href={`/channel/${channelId}/${tab.id}`}
                 className={cn('text-black py-5 font-bold relative', {
                   'text-opacity-100': activeTab === tab.id,
                   'text-opacity-50': activeTab !== tab.id,
                 })}
                 key={tab.title}
-                onClick={() => handleClickTab(tab.id)}
-                ref={activeTab === tab.id ? activeTabRef : null}
               >
                 {tab.title}
                 {activeTab === tab.id && (
-                  <div
-                    className="absolute bottom-0 inset-x-0 h-1 bg-black transition-all duration-200 ease-out"
-                    ref={borderRef}
-                  />
+                  <div className="absolute bottom-0 inset-x-0 h-1 bg-black transition-all duration-200 ease-out" />
                 )}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
