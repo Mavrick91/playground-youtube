@@ -18,7 +18,7 @@ export default function ChannelSubscribeButton({
   subscribeYoutubeChannel,
   deleteYoutubeSubscription,
 }: Props) {
-  const [isSubscribed, setIsSubscribed] = useState((videoSubscription.items!.length! > 0));
+  const [isSubscribed, setIsSubscribed] = useState(videoSubscription.items!.length! > 0);
 
   const handleSubscribe = async () => {
     if (!isSubscribed && channelId) {

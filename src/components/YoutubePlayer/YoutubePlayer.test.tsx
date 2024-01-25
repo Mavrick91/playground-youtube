@@ -2,9 +2,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ReactPlayer from 'react-player';
 import { youtube_v3 } from 'googleapis';
-import YoutubePlayer from './index';
+import { usePlaylist } from '~/providers/PlaylistProvider';
+import YoutubePlayer from '.';
 
 jest.mock('react-player', () => jest.fn(() => null));
+jest.mock('~/providers/PlaylistProvider', () => ({
+  usePlaylist: jest.fn(),
+}));
 
 describe('YoutubePlayer', () => {
   const video = {
@@ -23,7 +27,13 @@ describe('YoutubePlayer', () => {
     },
   } as unknown as youtube_v3.Schema$Video;
 
-  it.only('renders the video player, video title, and channel information', () => {
+  beforeEach(() => {
+    (usePlaylist as jest.Mock).mockReturnValue({
+      nextVideo: jest.fn(),
+    });
+  });
+
+  it('renders the video player, video title, and channel information', () => {
     render(<YoutubePlayer video={video} />);
 
     expect(ReactPlayer).toHaveBeenCalled();
