@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { CHANNEL_TABS } from '~/constants/channe_tabs';
+import { CHANNEL_TABS } from '~/constants/channel_tabs';
 import { cn } from '~/lib/utils';
 import Link from 'next/link';
 import MaxWidthWrapper from '../MaxWidthWrapper';

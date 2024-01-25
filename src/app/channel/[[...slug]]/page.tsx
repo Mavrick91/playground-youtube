@@ -1,4 +1,4 @@
-import { CHANNEL_TABS } from '~/constants/channe_tabs';
+import { CHANNEL_TABS } from '~/constants/channel_tabs';
 import { FC, ReactElement, Suspense } from 'react';
 import PlaylistPage from '~/components/TabComponents/Playlist';
 import PlaylistLoading from '~/components/TabComponents/Playlist/loading';
