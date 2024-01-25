@@ -10,7 +10,7 @@ type Props = {
   playlistTitle: string;
   channelTitle: string;
   videosCount: number;
-  videoIds: string[];
+  videoIds?: string[];
 };
 
 export enum ButtonType {
@@ -40,7 +40,7 @@ export default function PlaylistVideoHeader({ playlistTitle, channelTitle, video
   };
 
   useEffect(() => {
-    setPlaylist(videoIds);
+    if (videoIds && videoIds.length > 0) setPlaylist(videoIds);
   }, [setPlaylist, videoIds]);
 
   return (
