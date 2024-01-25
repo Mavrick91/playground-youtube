@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# VidVenture
 
-## Getting Started
+This application is a streamlined YouTube clone built using the YouTube API. It replicates key YouTube functionalities, providing an intuitive interface for seamless video browsing, interaction, and channel management.
 
-First, run the development server:
+## Features
+
+- **Video Discovery**: Search videos by category, availability, location, duration, order, and date.
+- **Video Playback**: Stream videos with user-friendly controls.
+- **Channel Interaction**: Subscribe to channels and access user-specific content, including videos and playlists.
+- **Video Engagement**: Like or dislike videos to tailor content recommendations.
+- **Comment System**: Engage with the community through comments, replies, and sort options.
+- **Playlist Management**: Create, access, and manage playlists with shuffle and repeat features.
+
+## Getting started
+
+The steps below use `npm`, but you may use `yarn` or `pnpm` if you prefer.
+
+### Prerequisites
+
+Ensure you have the following installed before proceeding:
+
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+
+### Installation
+
+Install the Dependencies
+
+In your terminal, navigate to the project directory and run:
+
+```bash
+npm install
+```
+
+This command installs all the necessary packages required to run the application.
+
+## Running the Application
+
+### 1. Start the Development Server
+
+For local development with hot-reloading, run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This starts the development server, making the application accessible at http://localhost:3000 (or the port you've configured).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. Start the Production Server
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+For production, build the application first, then start the server
 
-## Learn More
+Build the application:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After the build is complete, start the application:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm start
+```
 
-## Deploy on Vercel
+This command starts the application in production mode, optimized for performance and reliability.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To run this application, you need to set up the required environment variables. Create a file named `.env.local` in the root of your project and add the following content, replacing the placeholder values with your actual credentials:
+
+```bash
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:3000/api/auth/callback
+
+# Application URLs and API Keys
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_YOUTUBE_DATA=your_youtube_data_api_key
+NEXT_PUBLIC_GOOGLE_MAP_KEY=your_google_map_api_key
+```
+
+Important: Never commit your `.env.local` file or any sensitive credentials to your version control system. Ensure that `.env.local` is included in your `.gitignore` file to prevent it from being accidentally pushed to your repository.
+
+### Obtaining Google Credentials
+
+- **Google Client ID and Secret**: Create a project in the Google Developers Console and obtain your OAuth 2.0 credentials (GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET).
+
+- **YouTube Data API Key**: Enable the YouTube Data API for your project in the Google Developers Console and generate an API key (NEXT_PUBLIC_YOUTUBE_DATA).
+
+- **Google Maps API Key**: Enable the Google Maps API for your project and generate an API key (NEXT_PUBLIC_GOOGLE_MAP_KEY).
+
+After setting up your `.env.local` file with the appropriate values, the application should be able to access these environment variables and function properly.
