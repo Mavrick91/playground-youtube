@@ -10,6 +10,7 @@ type Props = {
   channelThumbnail?: string | null;
   videoTitle?: string | null;
   channelTitle?: string | null;
+  channelId?: string | null;
   viewCount?: string | null;
   duration?: string | null;
   publishedAt?: string | null;
@@ -21,6 +22,7 @@ export default function VideoItem({
   channelThumbnail,
   videoTitle,
   channelTitle,
+  channelId,
   viewCount,
   publishedAt,
   thumbnail,
@@ -47,12 +49,25 @@ export default function VideoItem({
       <div className="mt-3">
         <div className="flex gap-2 items-start">
           {channelThumbnail && (
-            <Image src={channelThumbnail} alt="channel" className="rounded-full" width={36} height={36} quality={100} />
+            <Link href={`/channel/${channelId}/videos`}>
+              <Image
+                src={channelThumbnail}
+                alt="channel"
+                className="rounded-full"
+                width={36}
+                height={36}
+                quality={100}
+              />
+            </Link>
           )}
           <div className="flex flex-col">
             <h1 className="font-medium text-sm mb-1 line-clamp-2">{he.decode(videoTitle || '')}</h1>
             <div className="text-gray-600 text-sm font-medium flex flex-col">
-              {channelTitle && <p>{channelTitle}</p>}
+              {channelTitle && (
+                <Link href={`/channel/${channelId}/videos`}>
+                  <p className="hover:underline underline-offset-1">{channelTitle}</p>
+                </Link>
+              )}
               <p>
                 {formatNumber(viewCount || '')} views • {moment(publishedAt).fromNow()}
               </p>

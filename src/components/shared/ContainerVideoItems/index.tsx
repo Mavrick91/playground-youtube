@@ -17,6 +17,7 @@ export default function ContainerVideoItems({ data }: Props) {
             key={video.snippet?.title}
             channelThumbnail={video.channel?.snippet?.thumbnails?.high?.url}
             channelTitle={video.snippet?.channelTitle}
+            channelId={video.snippet?.channelId}
             publishedAt={video.snippet?.publishedAt}
             thumbnail={video.snippet?.thumbnails?.medium}
             videoTitle={video.snippet?.title || ''}
