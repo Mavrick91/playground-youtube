@@ -75,7 +75,6 @@ GOOGLE_REDIRECT_URI=http://localhost:3000/api/auth/callback
 
 # Application URLs and API Keys
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_YOUTUBE_DATA=your_youtube_data_api_key
 NEXT_PUBLIC_GOOGLE_MAP_KEY=your_google_map_api_key
 ```
 
