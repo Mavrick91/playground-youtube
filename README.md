@@ -84,8 +84,6 @@ Important: Never commit your `.env.local` file or any sensitive credentials to y
 
 - **Google Client ID and Secret**: Create a project in the Google Developers Console and obtain your OAuth 2.0 credentials (GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET).
 
-- **YouTube Data API Key**: Enable the YouTube Data API for your project in the Google Developers Console and generate an API key (NEXT_PUBLIC_YOUTUBE_DATA).
-
 - **Google Maps API Key**: Enable the Google Maps API for your project and generate an API key (NEXT_PUBLIC_GOOGLE_MAP_KEY).
 
 After setting up your `.env.local` file with the appropriate values, the application should be able to access these environment variables and function properly.
