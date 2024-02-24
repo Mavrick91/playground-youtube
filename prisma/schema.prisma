@@ -1,0 +1,57 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  youtubeId  String  @unique
+  username   String?
+  profilePic String?
+
+  videos        Video[]
+  likes         Like[]
+  subscriptions Channel[] @relation(name: "UserSubscriptions")
+}
+
+model Video {
+  id          Int      @id @default(autoincrement())
+  youtubeId   String   @unique
+  title       String
+  description String?
+  viewCount   Int      @default(0)
+  publishedAt DateTime
+  thumbnail   String?
+
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
+  likes     Like[]
+  Channel   Channel?  @relation(fields: [channelId], references: [id])
+  channelId Int?
+}
+
+model Channel {
+  id          Int     @id @default(autoincrement())
+  youtubeId   String  @unique
+  name        String
+  description String?
+  customUrl   String?
+  subscribers User[]  @relation(name: "UserSubscriptions")
+  videos      Video[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  video   Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId Int
+
+  @@unique([userId, videoId])
+}

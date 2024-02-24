@@ -1,14 +1,14 @@
 'use client';
 
-import React, { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { youtube_v3 } from 'googleapis';
+import { User } from '@prisma/client';
 
 interface UserContextType {
-  user: youtube_v3.Schema$Channel | null;
-  setUser: React.Dispatch<React.SetStateAction<youtube_v3.Schema$Channel | null>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -18,13 +18,14 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState<youtube_v3.Schema$Channel | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
   const { data: isMe, isLoading: isMeLoading } = useIsMe(isAuthenticated?.isAuthenticated);
+  console.log({ isMe });
 
   useEffect(() => {
-    if (isMe && isMe.items && isMe.items.length > 0) {
-      setUser(isMe.items[0]);
+    if (isMe) {
+      setUser(isMe);
     }
   }, [isMe]);
 
