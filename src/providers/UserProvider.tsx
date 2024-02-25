@@ -19,18 +19,18 @@ interface UserProviderProps {
 
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const { data: isAuthenticated, isLoading: isAuthLoading } = useIsAuthenticated();
-  const { data: me, isLoading: meLoading } = useIsMe(isAuthenticated?.isAuthenticated);
+  const { data: dataAuth, isLoading: isAuthLoading } = useIsAuthenticated();
+  const { data: dataMe, isLoading: isMeLoading } = useIsMe(dataAuth?.isAuthenticated);
 
   useEffect(() => {
-    if (me) {
-      setUser(me);
+    if (dataMe) {
+      setUser(dataMe);
     }
-  }, [me]);
+  }, [dataMe]);
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 
-  if (isAuthLoading || meLoading) {
+  if (isAuthLoading || isMeLoading) {
     return (
       <div className="h-full flex items-center justify-center">
         <ClipLoader size={150} />

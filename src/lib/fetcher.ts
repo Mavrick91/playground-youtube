@@ -30,8 +30,7 @@ export async function fetchData<T>(
   if (!response.ok) {
     throw new Error('HTTP error');
   }
-  const jsonResponse = await response.json();
-  return jsonResponse.data;
+  return response.json();
 }
 
 export async function fetchAllData<T>(endpoints: Endpoint[], options: RequestInit = {}): Promise<T[]> {
