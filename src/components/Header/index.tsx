@@ -71,7 +71,7 @@ export default function Header() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Image
-                      src={user.profilePic || ''}
+                      src={user?.snippet?.thumbnails?.default?.url || ''}
                       className="rounded-full cursor-pointer"
                       alt="avatar"
                       quality={100}
@@ -80,7 +80,7 @@ export default function Header() {
                     />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56 absolute top-1 -right-5">
-                    <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
+                    <DropdownMenuLabel>{user.snippet?.customUrl}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleClickSignOut}>Log out</DropdownMenuItem>
                   </DropdownMenuContent>

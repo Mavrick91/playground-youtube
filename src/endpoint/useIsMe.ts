@@ -1,12 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { youtube_v3 } from 'googleapis';
 import { fetchData } from '~/lib/fetcher';
-import { User } from '@prisma/client';
 
 export const useIsMe = (shouldFetch: boolean = false) =>
   useQuery({
     queryKey: ['google-me'],
-    queryFn: async () => fetchData<User>('/api/google/me'),
+    queryFn: async () => fetchData<youtube_v3.Schema$Channel>('/api/google/me'),
     enabled: shouldFetch,
   });

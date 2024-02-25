@@ -4,11 +4,11 @@ import React, { createContext, ReactNode, useContext, useEffect, useMemo, useSta
 import { useIsAuthenticated } from '~/endpoint/useIsAuthenticated';
 import { useIsMe } from '~/endpoint/useIsMe';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { User } from '@prisma/client';
+import { youtube_v3 } from 'googleapis';
 
 interface UserContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  user: youtube_v3.Schema$Channel | null;
+  setUser: React.Dispatch<React.SetStateAction<youtube_v3.Schema$Channel | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -18,7 +18,7 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<youtube_v3.Schema$Channel | null>(null);
   const { data: dataAuth, isLoading: isAuthLoading } = useIsAuthenticated();
   const { data: dataMe, isLoading: isMeLoading } = useIsMe(dataAuth?.isAuthenticated);
 
