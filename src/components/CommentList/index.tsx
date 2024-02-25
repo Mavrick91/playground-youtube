@@ -10,7 +10,7 @@ export default function CommentList() {
   const { data, isFetching } = useOrderComments();
 
   return (
-    <div className="frelative" data-testid="comment-list">
+    <div className="relative" data-testid="comment-list">
       {isFetching && (
         <div className="absolute inset-0">
           <div className="mt-20">

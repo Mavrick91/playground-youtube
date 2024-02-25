@@ -10,7 +10,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (!commentThreads.items) return NextResponse.json(null, { status: 200 });
 
-    return NextResponse.json({ data: commentThreads }, { status: 200 });
+    return NextResponse.json(commentThreads, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('YouTube API error:', error.message);
