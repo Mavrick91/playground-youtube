@@ -70,7 +70,7 @@ export default function CommentForm({ videoId, commentId, onCancel, defaultValue
       })}
     >
       <ClientImage
-        src={user?.snippet?.thumbnails?.default?.url || ''}
+        src={user?.profilePic || ''}
         className="rounded-full cursor-pointer"
         alt="avatar"
         quality={100}
