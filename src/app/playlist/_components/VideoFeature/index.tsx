@@ -1,6 +1,6 @@
 import { Play } from 'lucide-react';
-import { formatNumber } from '~/lib/utils';
-import Button from '~/components/shared/Button';
+import { cn, formatNumber } from '~/lib/utils';
+import Button, { buttonVariants } from '~/components/shared/Button';
 import React from 'react';
 import { youtube_v3 } from 'googleapis';
 import Link from 'next/link';
@@ -33,7 +33,6 @@ function VideoFeature({ video, selectedChoice }: VideoFeatureProps) {
         <div className="space-y-6 z-10 relative">
           <Link
             href={`/watch?v=${video?.items?.[0].id}${selectedChoice === 'liked' ? '&list=LL' : ''}`}
-            type="button"
             className="aspect-w-16 aspect-h-9 relative"
           >
             <ClientImage
@@ -62,7 +61,14 @@ function VideoFeature({ video, selectedChoice }: VideoFeatureProps) {
             <p className="font-bold block">WonderWhizzes</p>
             <p>{formatNumber(`${video?.pageInfo?.totalResults}`)} vidéos • Aucune vue</p>
           </div>
-          {selectedChoice === 'liked' && <Button variant="outline">Read all</Button>}
+          {selectedChoice === 'liked' && (
+            <Link
+              className={cn(buttonVariants({ variant: 'outline' }), 'mt-4')}
+              href={`/watch?v=${video?.items?.[0].id}&list=LL`}
+            >
+              Read all
+            </Link>
+          )}
         </div>
       </div>
     </div>

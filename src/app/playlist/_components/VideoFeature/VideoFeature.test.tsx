@@ -38,7 +38,7 @@ describe('VideoFeature', () => {
 
   it('renders the correct link when selectedChoice is "liked"', () => {
     render(<VideoFeature video={mockVideo} selectedChoice="liked" />);
-    expect(screen.getByRole('link')).toHaveAttribute('href', '/watch?v=1&list=LL');
+    expect(screen.getAllByRole('link')[0]).toHaveAttribute('href', '/watch?v=1&list=LL');
   });
 
   it('renders the correct link when selectedChoice is "disliked"', () => {
@@ -56,12 +56,13 @@ describe('VideoFeature', () => {
     expect(screen.queryByTestId('read-all')).not.toBeInTheDocument();
   });
 
-  it('renders the "Tout lire" button when selectedChoice is "liked"', () => {
+  it('renders the "Read all" link when selectedChoice is "liked"', () => {
     render(<VideoFeature video={mockVideo} selectedChoice="liked" />);
     expect(screen.getByText('Read all')).toBeInTheDocument();
+    expect(screen.getByText('Read all')).toHaveAttribute('href', '/watch?v=1&list=LL');
   });
 
-  it('does not render the "Tout lire" button when selectedChoice is "disliked"', () => {
+  it('does not render the "Read all" link when selectedChoice is "disliked"', () => {
     render(<VideoFeature video={mockVideo} selectedChoice="disliked" />);
     expect(screen.queryByText('Read all')).not.toBeInTheDocument();
   });
