@@ -33,7 +33,7 @@ export default async function PlaylistCard({ playlist }: Props) {
             alt="Thumbnail playlist"
             className="rounded-lg border border-white"
           />
-          <div className="absolute opacity-0 hover:opacity-100 inset-0 rounded-lg text-white flex items-center justify-center gap-2 bg-black/60 h-full">
+          <div className="absolute opacity-0 hover:opacity-100 transition-opacity inset-0 rounded-lg text-white flex items-center justify-center gap-2 bg-black/60 h-full">
             <Play width={20} fill="white" stroke="none" />
 
             <span className="text-xs font-medium">Read All</span>

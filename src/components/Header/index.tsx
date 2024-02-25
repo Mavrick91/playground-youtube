@@ -16,10 +16,12 @@ import {
 import Button from '../shared/Button';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import SearchBar from '../SearchBar';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const { user, setUser } = useUser();
   const { mutate: logout } = useLogout();
+  const router = useRouter();
 
   const handleClickSignOut = async () => {
     logout();
@@ -81,6 +83,10 @@ export default function Header() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56 absolute top-1 -right-5">
                     <DropdownMenuLabel>{user.snippet?.customUrl}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => router.push('/playlist?list=LL')}>
+                      Video reactions
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleClickSignOut}>Log out</DropdownMenuItem>
                   </DropdownMenuContent>
