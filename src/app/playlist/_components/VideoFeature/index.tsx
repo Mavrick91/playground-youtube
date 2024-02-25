@@ -3,6 +3,8 @@ import { formatNumber } from '~/lib/utils';
 import Button from '~/components/shared/Button';
 import React from 'react';
 import { youtube_v3 } from 'googleapis';
+import Link from 'next/link';
+import ClientImage from '~/components/ClientImage';
 
 type VideoFeatureProps = {
   video?: youtube_v3.Schema$VideoListResponse;
@@ -29,8 +31,12 @@ function VideoFeature({ video, selectedChoice }: VideoFeatureProps) {
         }}
       >
         <div className="space-y-6 z-10 relative">
-          <button type="button" className="aspect-w-16 aspect-h-9 relative">
-            <img
+          <Link
+            href={`/watch?v=${video?.items?.[0].id}${selectedChoice === 'liked' ? '&list=LL' : ''}`}
+            type="button"
+            className="aspect-w-16 aspect-h-9 relative"
+          >
+            <ClientImage
               alt="Featured video"
               className="object-cover rounded-lg"
               height="202"
@@ -40,21 +46,23 @@ function VideoFeature({ video, selectedChoice }: VideoFeatureProps) {
               }}
               width="360"
             />
-            <div className="absolute opacity-0 hover:opacity-100 transition-opacity inset-0 rounded-lg text-white flex items-center justify-center gap-2 bg-black/60 h-full">
-              <Play width={20} fill="white" stroke="none" />
+            {selectedChoice === 'liked' && (
+              <div
+                data-testid="read-all"
+                className="absolute opacity-0 hover:opacity-100 transition-opacity inset-0 rounded-lg text-white flex items-center justify-center gap-2 bg-black/60 h-full"
+              >
+                <Play width={20} fill="white" stroke="none" />
 
-              <span className="text-xs font-medium">Read All</span>
-            </div>
-          </button>
-          <h2 className="text-2xl font-bold text-slate-900">Videos "{selectedChoice}"</h2>
+                <span className="text-xs font-medium">Read All</span>
+              </div>
+            )}
+          </Link>
+          <h2 className="text-2xl font-bold text-slate-900">{`Videos "${selectedChoice}"`}</h2>
           <div className="text-sm text-slate-900 flex flex-col gap-2">
             <p className="font-bold block">WonderWhizzes</p>
             <p>{formatNumber(`${video?.pageInfo?.totalResults}`)} vidéos • Aucune vue</p>
           </div>
-          <div className="flex space-x-4">
-            <Button className="bg-white text-black">Tout lire</Button>
-            <Button className="bg-gray-600 text-white">Aléatoire</Button>
-          </div>
+          {selectedChoice === 'liked' && <Button variant="outline">Read all</Button>}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { formatNumber } from '~/lib/utils';
 import moment from 'moment';
 import React from 'react';
 import Link from 'next/link';
+import ClientImage from '~/components/ClientImage';
 
 type VideoProps = {
   video?: youtube_v3.Schema$Video;
@@ -14,7 +15,7 @@ function Video({ video, index }: VideoProps) {
     <Link href={`/watch?v=${video?.id}`} className="flex text-left space-x-4 hover:bg-slate-900/20 py-1 rounded-lg">
       <div className="flex items-center">
         <span className="text-gray-500 px-2 min-w-[30px] text-sm font-medium">{index}</span>
-        <img
+        <ClientImage
           alt="Video thumbnail"
           className="object-cover shrink-0 w-40 h-[90px] rounded-lg"
           height="90"

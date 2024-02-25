@@ -12,7 +12,6 @@ type Props = {
 };
 
 function VideoRatingsDisplay({ likedVideos, dislikedVideos, defaultChoice = 'liked' }: Props) {
-  console.log({ dislikedVideos });
   const [selectedChoice, setSelectedChoice] = useState<'liked' | 'disliked'>(defaultChoice);
 
   const handleUpdateChoice = (choice: 'liked' | 'disliked') => {

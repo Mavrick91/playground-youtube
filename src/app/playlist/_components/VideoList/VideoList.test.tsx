@@ -4,8 +4,28 @@ import VideoList from './index';
 
 describe('VideoList', () => {
   const mockVideos = [
-    { id: '1', snippet: { title: 'Video 1' } },
-    { id: '2', snippet: { title: 'Video 2' } },
+    {
+      id: '1',
+      snippet: {
+        title: 'Video 1',
+        thumbnails: {
+          high: {
+            url: 'http://example.com/video1.jpg',
+          },
+        },
+      },
+    },
+    {
+      id: '2',
+      snippet: {
+        title: 'Video 2',
+        thumbnails: {
+          high: {
+            url: 'http://example.com/video2.jpg',
+          },
+        },
+      },
+    },
   ];
 
   const handleUpdateChoice = jest.fn();

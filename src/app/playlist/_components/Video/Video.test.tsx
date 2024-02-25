@@ -28,7 +28,9 @@ describe('Video', () => {
 
   it('displays the correct video thumbnail', () => {
     render(<Video video={mockVideo} index={1} />);
-    expect(screen.getByAltText('Video thumbnail')).toHaveAttribute('src', 'http://example.com/video1.jpg');
+    const expectedUrl = 'http://example.com/video1.jpg';
+    const encodedUrl = encodeURIComponent(expectedUrl);
+    expect((screen.getByAltText('Video thumbnail') as HTMLImageElement).src).toContain(encodedUrl);
   });
 
   it('displays the correct index', () => {
