@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useUser } from '~/providers/UserProvider';
 import { useLogout } from '~/endpoint/useLogout';
@@ -16,7 +17,6 @@ import {
 import Button from '../shared/Button';
 import MaxWidthWrapper from '../MaxWidthWrapper';
 import SearchBar from '../SearchBar';
-import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const { user, setUser } = useUser();
@@ -37,11 +37,9 @@ export default function Header() {
       'https://www.googleapis.com/auth/youtube.force-ssl',
     ].join(' ');
 
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${encodeURIComponent(
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${encodeURIComponent(
       scope
     )}&access_type=offline&prompt=consent`;
-
-    window.location.href = url;
   };
 
   return (
@@ -84,9 +82,7 @@ export default function Header() {
                   <DropdownMenuContent className="w-56 absolute top-1 -right-5">
                     <DropdownMenuLabel>{user.snippet?.customUrl}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => router.push('/playlist?list=LL')}>
-                      Video reactions
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push('/playlist')}>Video reactions</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleClickSignOut}>Log out</DropdownMenuItem>
                   </DropdownMenuContent>
