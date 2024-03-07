@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         <QueryProvider>
           <UserProvider>
-            <div className="flex flex-col">
+            <div className="flex flex-col h-full">
               <Header />
               <AuthenticatedUserCheck>{children}</AuthenticatedUserCheck>
               <ToastContainer />

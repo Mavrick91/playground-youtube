@@ -1,16 +1,11 @@
 import React from 'react';
 import { getSubscriptionList } from '~/services/subscriptions';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import SubscriptionsGrid from '~/app/subscriptions/_components/SubscriptionsGrid';
+import SubscriptionsGrid, { ApiParams } from '~/app/subscriptions/_components/SubscriptionsGrid';
 import { SUBSCRIPTIONS_ORDER_OPTIONS } from '~/constants/order';
 import FilterSubscriptions from '~/app/subscriptions/_components/FilterSubscriptions';
-
-type ApiParams = {
-  order: string;
-  mine?: boolean;
-  myRecentSubscribers?: boolean;
-  mySubscribers?: boolean;
-};
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { youtube_v3 } from 'googleapis';
 
 function buildApiParams(searchParams: Record<string, string>): ApiParams {
   const validOrders = SUBSCRIPTIONS_ORDER_OPTIONS.map(option => option.value);
@@ -36,15 +31,29 @@ function buildApiParams(searchParams: Record<string, string>): ApiParams {
 }
 
 async function subscriptionsPage({ searchParams }: { searchParams: Record<string, string> }) {
+  const queryClient = new QueryClient();
   const apiParams = buildApiParams(searchParams);
-  const subscriptions = await getSubscriptionList(apiParams);
+  const queryKey = ['subscriptions', ...Object.entries(searchParams).flat()];
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: queryKey,
+    queryFn: async ({ pageParam = '' }) => getSubscriptionList({ ...apiParams, pageToken: pageParam }),
+    getNextPageParam: (lastPage: youtube_v3.Schema$SubscriptionListResponse) => lastPage.nextPageToken ?? undefined,
+    initialPageParam: '',
+  });
 
   return (
-    <MaxWidthWrapper>
-      <FilterSubscriptions />
+    <>
+      <MaxWidthWrapper>
+        <FilterSubscriptions />
+      </MaxWidthWrapper>
 
-      <SubscriptionsGrid subscriptions={subscriptions || []} />
-    </MaxWidthWrapper>
+      <MaxWidthWrapper className="overflow-y-auto grow h-0">
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <SubscriptionsGrid queryKey={queryKey} apiParams={apiParams} />
+        </HydrationBoundary>
+      </MaxWidthWrapper>
+    </>
   );
 }
 
