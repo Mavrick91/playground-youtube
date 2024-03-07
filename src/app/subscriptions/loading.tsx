@@ -6,7 +6,7 @@ function SubscriptionLoading() {
     <MaxWidthWrapper>
       <div className="grid grid-cols-3 gap-6 p-4">
         {Array.from({ length: 7 }, (_, i) => i).map(num => (
-          <div key={{ num }} className="flex gap-3 items-center bg-white p-4 rounded-lg shadow-md space-y-2">
+          <div key={num} className="flex gap-3 items-center bg-white p-4 rounded-lg shadow-md space-y-2">
             <div className="animate-pulse h-[100px] w-[100px] rounded-full bg-gray-300" />
 
             <div className="grow">
