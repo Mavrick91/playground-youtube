@@ -30,8 +30,8 @@ describe('DateFilter', () => {
     const today = new Date();
     const date = dateToSelect || today.getDate();
 
-    const dateElement = await screen.findByText(date.toString());
-    fireEvent.click(dateElement);
+    const dateElement = await screen.findAllByText(date.toString());
+    fireEvent.click(dateElement[0]);
 
     today.setDate(date);
 
