@@ -1,5 +1,17 @@
 import { render, screen } from '@testing-library/react';
+import ChannelSubscribeButton from '~/components/shared/ChannelSubscribeButton';
+import { useUser } from '~/providers/UserProvider';
 import SubscriptionCard from '.';
+
+jest.mock('~/providers/UserProvider', () => ({
+  useUser: jest.fn().mockReturnValue({
+    user: {
+      id: '1',
+    },
+  }),
+}));
+
+jest.mock('~/components/shared/ChannelSubscribeButton', () => jest.fn(() => null));
 
 const mockSubscription = {
   id: '1',
@@ -35,9 +47,26 @@ describe('SubscriptionCard', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', '/channel/123');
   });
 
-  it('renders Button with correct text', () => {
+  it('calls ChannelSubscribeButton with correct props', () => {
     render(<SubscriptionCard subscription={mockSubscription} />);
-    expect(screen.getByRole('button')).toHaveTextContent('Subscribe');
+
+    expect(ChannelSubscribeButton).toHaveBeenCalledWith(
+      expect.objectContaining({
+        channelId: mockSubscription.snippet.resourceId.channelId,
+        videoSubscription: { items: [mockSubscription] },
+      }),
+      {}
+    );
+  });
+
+  it('does not render ChannelSubscribeButton if channel belongs to current user', () => {
+    (useUser as jest.Mock).mockReturnValue({
+      user: { id: '123' },
+    });
+
+    render(<SubscriptionCard subscription={mockSubscription} />);
+
+    expect(ChannelSubscribeButton).not.toHaveBeenCalled();
   });
 
   it('renders title and description correctly', () => {

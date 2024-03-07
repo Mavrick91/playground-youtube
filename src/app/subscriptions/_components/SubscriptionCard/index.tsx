@@ -1,19 +1,23 @@
 import React from 'react';
-import Link from 'next/link';
 import ClientImage from '~/components/ClientImage';
-import Button from '~/components/shared/Button';
 import { youtube_v3 } from 'googleapis';
+import ChannelSubscribeButton from '~/components/shared/ChannelSubscribeButton';
+import { deleteYoutubeSubscription, subscribeYoutubeChannel } from '~/services/channelService';
+import { useUser } from '~/providers/UserProvider';
+import Link from 'next/link';
 
 type SubscriptionCardProps = {
   subscription?: youtube_v3.Schema$Subscription;
 };
 
 function SubscriptionCard({ subscription }: SubscriptionCardProps) {
+  const { user } = useUser();
+
   return (
     <Link
       href={`/channel/${subscription?.snippet?.resourceId?.channelId}`}
       key={subscription?.id}
-      className="flex gap-3 items-center bg-white hover:bg-purple-100 p-4 transition-colors rounded-lg shadow-md space-y-2"
+      className="flex gap-3 text-left items-center bg-white hover:bg-purple-100 p-4 transition-colors rounded-lg shadow-md space-y-2"
     >
       <ClientImage
         alt={subscription?.snippet?.title || 'Subscriber avatar'}
@@ -35,9 +39,15 @@ function SubscriptionCard({ subscription }: SubscriptionCardProps) {
             </p>
           )}
         </div>
-        <Button className="mt-4" size="sm">
-          Subscribe
-        </Button>
+        {user?.id !== subscription?.snippet?.resourceId?.channelId && (
+          <ChannelSubscribeButton
+            className="mt-4"
+            channelId={subscription?.snippet?.resourceId?.channelId}
+            videoSubscription={{ items: [subscription!] }}
+            subscribeYoutubeChannel={subscribeYoutubeChannel}
+            deleteYoutubeSubscription={deleteYoutubeSubscription}
+          />
+        )}
       </div>
     </Link>
   );
