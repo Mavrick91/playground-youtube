@@ -1,9 +1,12 @@
+'use client';
+
 import { youtube_v3 } from 'googleapis';
 import ClientImage from '~/components/ClientImage';
 import ChannelSubscribeButton from '~/components/shared/ChannelSubscribeButton';
 import { descriptionElements } from '~/lib/string';
 import { formatNumber } from '~/lib/utils';
 import { deleteYoutubeSubscription, subscribeYoutubeChannel } from '~/services/channelService';
+import { useUser } from '~/providers/UserProvider';
 
 type ChannelInfoProps = {
   channel?: youtube_v3.Schema$Channel;
@@ -11,6 +14,8 @@ type ChannelInfoProps = {
 };
 
 export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoProps) {
+  const { user } = useUser();
+
   return (
     <div className="pt-4 flex items-center">
       <div className="relative h-[160px] aspect-square mr-6">
@@ -28,13 +33,17 @@ export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoP
           <span>{formatNumber(channel?.statistics?.subscriberCount as string)} Subscriber ‧ </span>
           <span>{formatNumber(channel?.statistics?.videoCount as string)} videos</span>
         </div>
-        <div className="text-gray-600 text-sm mb-3">{descriptionElements(channel?.snippet?.description || '')}</div>
-        <ChannelSubscribeButton
-          channelId={channel?.id}
-          subscribeYoutubeChannel={subscribeYoutubeChannel}
-          deleteYoutubeSubscription={deleteYoutubeSubscription}
-          videoSubscription={videoSubscription}
-        />
+        <div className="text-gray-600 text-sm mb-3 line-clamp-4">
+          {descriptionElements(channel?.snippet?.description || '')}
+        </div>
+        {user?.id !== channel?.id && (
+          <ChannelSubscribeButton
+            channelId={channel?.id}
+            subscribeYoutubeChannel={subscribeYoutubeChannel}
+            deleteYoutubeSubscription={deleteYoutubeSubscription}
+            videoSubscription={videoSubscription}
+          />
+        )}
       </div>
     </div>
   );
