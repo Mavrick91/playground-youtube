@@ -30,6 +30,10 @@ const mockSubscription = {
 };
 
 describe('SubscriptionCard', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     render(<SubscriptionCard subscription={mockSubscription} />);
     expect(screen.getByRole('link')).toBeInTheDocument();
