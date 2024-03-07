@@ -1,51 +1,49 @@
 import React from 'react';
 import { getSubscriptionList } from '~/services/subscriptions';
-import Button from '~/components/shared/Button';
-import ClientImage from '~/components/ClientImage';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import Link from 'next/link';
+import SubscriptionsGrid from '~/app/subscriptions/_components/SubscriptionsGrid';
+import { SUBSCRIPTIONS_ORDER_OPTIONS } from '~/constants/order';
+import FilterSubscriptions from '~/app/subscriptions/_components/FilterSubscriptions';
 
-async function subscriptionsPage() {
-  const subscriptions = await getSubscriptionList({
-    mine: true,
-  });
+type ApiParams = {
+  order: string;
+  mine?: boolean;
+  myRecentSubscribers?: boolean;
+  mySubscribers?: boolean;
+};
 
-  if (!subscriptions.items) {
-    return <div>Loading...</div>;
+function buildApiParams(searchParams: Record<string, string>): ApiParams {
+  const validOrders = SUBSCRIPTIONS_ORDER_OPTIONS.map(option => option.value);
+  const order = validOrders.includes(searchParams.order) ? searchParams.order : 'relevance';
+  const myRecentSubscribers = searchParams.myRecentSubscribers === 'true';
+  const mySubscribers = searchParams.mySubscribers === 'true';
+
+  const apiParams: ApiParams = { order };
+
+  if (!myRecentSubscribers && !mySubscribers) {
+    apiParams.mine = true;
   }
+
+  if (myRecentSubscribers) {
+    apiParams.myRecentSubscribers = true;
+  }
+
+  if (mySubscribers) {
+    apiParams.mySubscribers = true;
+  }
+
+  return apiParams;
+}
+
+async function subscriptionsPage({ searchParams }: { searchParams: Record<string, string> }) {
+  const apiParams = buildApiParams(searchParams);
+  const subscriptions = await getSubscriptionList(apiParams);
 
   return (
     <MaxWidthWrapper>
-      <div className="grid grid-cols-3 gap-6 p-4">
-        {subscriptions.items.map(subscription => (
-          <Link
-            href={`/channel/${subscription.snippet?.resourceId?.channelId}`}
-            key={subscription.id}
-            className="flex gap-3 items-center bg-white hover:bg-purple-100 p-4 transition-colors rounded-lg shadow-md space-y-2"
-          >
-            <ClientImage
-              alt="Channel 1"
-              className="rounded-full shadow-sm"
-              height={100}
-              src={subscription.snippet?.thumbnails?.high?.url || ''}
-              style={{
-                aspectRatio: '100/100',
-                objectFit: 'cover',
-              }}
-              width={100}
-            />
-            <div>
-              <div className="flex flex-col shrink grow gap-1">
-                <h3 className="text-lg font-semibold leading-none">{subscription.snippet?.title}</h3>
-                <p className="text-sm text-gray-500 line-clamp-2 min-h-[40px]">{subscription.snippet?.description}</p>
-              </div>
-              <Button className="mt-4" size="sm">
-                Subscribe
-              </Button>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <FilterSubscriptions />
+
+      <SubscriptionsGrid subscriptions={subscriptions || []} />
     </MaxWidthWrapper>
   );
 }
