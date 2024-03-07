@@ -82,7 +82,11 @@ export default function Header() {
                   <DropdownMenuContent className="w-56 absolute top-1 -right-5">
                     <DropdownMenuLabel>{user.snippet?.customUrl}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => router.push(`/channel/${user?.id}/videos`)}>
+                      My channel
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => router.push('/playlist')}>Video reactions</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push('/subscriptions')}>Subscriptions</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleClickSignOut}>Log out</DropdownMenuItem>
                   </DropdownMenuContent>
