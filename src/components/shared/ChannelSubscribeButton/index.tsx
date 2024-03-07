@@ -2,7 +2,7 @@
 
 import { youtube_v3 } from 'googleapis';
 import { Bell, ChevronDown, UserRoundMinus } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/DropdownMenu';
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
   videoSubscription: youtube_v3.Schema$SubscriptionListResponse;
   subscribeYoutubeChannel: (channelId: string) => Promise<null>;
   deleteYoutubeSubscription: (subscriptionId: string) => Promise<null>;
+  className?: string;
 };
 
 export default function ChannelSubscribeButton({
@@ -17,17 +18,20 @@ export default function ChannelSubscribeButton({
   videoSubscription,
   subscribeYoutubeChannel,
   deleteYoutubeSubscription,
+  className,
 }: Props) {
   const [isSubscribed, setIsSubscribed] = useState(videoSubscription.items!.length! > 0);
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     if (!isSubscribed && channelId) {
       setIsSubscribed(true);
       await subscribeYoutubeChannel(channelId);
     }
   };
 
-  const handleUnsubscribe = async () => {
+  const handleUnsubscribe = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
     if (isSubscribed) {
       setIsSubscribed(false);
       await deleteYoutubeSubscription(videoSubscription.items![0].id!);
@@ -35,7 +39,7 @@ export default function ChannelSubscribeButton({
   };
 
   return (
-    <div>
+    <div className={className}>
       <div className="flex items-center">
         {!isSubscribed && (
           <button type="button" onClick={handleSubscribe}>
