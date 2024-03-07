@@ -26,12 +26,14 @@ function SubscriptionCard({ subscription }: SubscriptionCardProps) {
         }}
         width={100}
       />
-      <div>
+      <div className="min-w-0">
         <div className="flex flex-col shrink grow gap-1">
           <h3 className="text-lg font-semibold leading-none">{subscription?.snippet?.title}</h3>
-          <p className="text-sm text-gray-500 whitespace-pre-wrap truncate line-clamp-2 min-h-[40px]">
-            {subscription?.snippet?.description}
-          </p>
+          {subscription?.snippet?.description && (
+            <p className="text-sm text-gray-500 whitespace-pre-wrap truncate line-clamp-2 min-h-[40px]">
+              {subscription?.snippet?.description}
+            </p>
+          )}
         </div>
         <Button className="mt-4" size="sm">
           Subscribe
