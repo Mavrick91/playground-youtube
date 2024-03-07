@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import SubscriptionCard from '../SubscriptionCard';
 import { getSubscriptionList } from '~/services/subscriptions';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Button from '~/components/shared/Button';
+import SubscriptionCard from '../SubscriptionCard';
 
 export type ApiParams = {
   order: string;
@@ -25,7 +25,7 @@ function SubscriptionsGrid({ queryKey, apiParams }: SubscriptionsGridProps) {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: queryKey,
+    queryKey,
     queryFn: async ({ pageParam = '' }) => getSubscriptionList({ ...apiParams, pageToken: pageParam }),
     getNextPageParam: lastPage => lastPage.nextPageToken ?? undefined,
     initialPageParam: '',
