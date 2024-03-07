@@ -27,7 +27,7 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
 
   return (
     <div className="flex py-6 mb-16">
-      <div className="pr-6 w-9/12">
+      <div className="lg:pr-6 w-full lg:w-9/12">
         <YoutubePlayer video={video} />
         <VideoChannelHeader
           video={video}
@@ -40,13 +40,13 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
           publishedAt={video?.snippet?.publishedAt || ''}
           viewCount={video?.statistics?.viewCount || ''}
         />
-        <Separator className="my-8" />
+        <Separator className="my-4 md:my-8" />
         <OrderCommentsProvider initialData={commentThreads} videoId={videoId}>
           <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={videoId} />
         </OrderCommentsProvider>
       </div>
       {playlistId && (
-        <div className="w-3/12">
+        <div className="lg:w-3/12">
           <ErrorBoundary
             callback={async () => {
               'use server';
