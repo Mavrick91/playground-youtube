@@ -25,6 +25,7 @@ export default async function PlaylistCard({ playlist }: Props) {
               src={playlist.snippet?.thumbnails?.medium?.url || ''}
               alt="Thumbnail playlist bg"
               className="rounded-lg blur-[10px]"
+              sizes="(min-width: 1204px) 203px 114px, (min-width: 768px) 302px 170px, 355px 200px"
             />
           </div>
           <ClientImage
