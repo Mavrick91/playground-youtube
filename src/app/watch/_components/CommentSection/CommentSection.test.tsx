@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import CommentSection from '.';
-import CommentForm from '../CommentForm';
-import CommentList from '../CommentList';
-import UpdateOrderComments from '../UpdateOrderComments';
+import CommentSection from './index';
+import CommentForm from '../../../../components/CommentForm';
+import CommentList from '../../../../components/CommentList';
+import UpdateOrderComments from '../../../../components/UpdateOrderComments';
 
-jest.mock('../UpdateOrderComments', () => jest.fn(() => null));
-jest.mock('../CommentForm', () => jest.fn(() => null));
-jest.mock('../CommentList', () => jest.fn(() => null));
+jest.mock('../../../../components/UpdateOrderComments', () => jest.fn(() => null));
+jest.mock('../../../../components/CommentForm', () => jest.fn(() => null));
+jest.mock('../../../../components/CommentList', () => jest.fn(() => null));
 
 describe('CommentSection', () => {
   test('renders comment count, CommentForm, and CommentList', async () => {

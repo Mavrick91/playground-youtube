@@ -1,6 +1,6 @@
-import PlaylistVideoHeader from '~/components/PlaylistVideoList/PlaylistVideoHeader';
+import PlaylistVideoHeader from '~/app/watch/_components/PlaylistVideoList/PlaylistVideoHeader';
 import { getPlaylist, getPlaylistItems } from '~/services/playlistService';
-import PlaylistVideoListItem from '~/components/PlaylistVideoList/PlaylistVideoListItem';
+import PlaylistVideoListItem from '~/app/watch/_components/PlaylistVideoList/PlaylistVideoListItem';
 
 type Props = {
   playlistId: string;

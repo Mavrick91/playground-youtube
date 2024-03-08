@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { CHANNEL_TABS } from '~/constants/channel_tabs';
-import Tabs from '.';
+import Tabs from './index';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),

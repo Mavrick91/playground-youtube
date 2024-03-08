@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { getPlaylist } from '~/services/playlistService';
 import PlaylistCard from '~/components/PlaylistCard';
-import PlaylistPage from '.';
+import PlaylistPage from './index';
 
 jest.mock('~/services/playlistService');
 jest.mock('~/components/PlaylistCard', () => jest.fn());

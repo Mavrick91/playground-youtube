@@ -1,16 +1,16 @@
-import CommentSection from '~/components/CommentSection';
-import DescriptionVideo from '~/components/DescriptionVideo';
 import { Separator } from '~/components/Separator';
-import VideoChannelHeader from '~/components/VideoChannelHeader';
-import YoutubePlayer from '~/components/YoutubePlayer';
 import OrderCommentsProvider from '~/providers/OrderCommentsProvider';
 import { getVideoSubscriptionStatus } from '~/services/channelService';
 import { getCommentThreads, getVideoDetailsWithChannels, getVideoRating } from '~/services/videoService';
-import PlaylistVideoList from '~/components/PlaylistVideoList';
 import { Suspense } from 'react';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { navigate } from '~/app/action';
-import LoadingPlaylistVideoList from '~/components/PlaylistVideoList/loading';
+import YoutubePlayer from './_components/YoutubePlayer';
+import VideoChannelHeader from './_components/VideoChannelHeader';
+import DescriptionVideo from './_components/DescriptionVideo';
+import CommentSection from './_components/CommentSection';
+import PlaylistVideoList from './_components/PlaylistVideoList';
+import LoadingPlaylistVideoList from './_components/PlaylistVideoList/loading';
 
 export default async function WatchPage({ searchParams }: { searchParams: { v: string; list: string } }) {
   const videoId = searchParams.v;

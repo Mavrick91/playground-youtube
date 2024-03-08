@@ -1,7 +1,7 @@
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import { getPlaylist } from '~/services/playlistService';
 import PlaylistCard from '~/components/PlaylistCard';
-import ContentNoItems from '../../ContentNoItems';
+import ContentNoItems from '../../../../../components/ContentNoItems';
 
 async function PlaylistPage({ channelId }: { channelId: string }) {
   const playlists = await getPlaylist({

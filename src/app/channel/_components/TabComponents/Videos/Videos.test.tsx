@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { getActivities } from '~/services/activityService';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import VideoItem from '~/components/VideoItem';
-import VideoPage from '.';
+import VideoPage from './index';
 
 jest.mock('~/services/activityService');
 jest.mock('~/services/videoService');

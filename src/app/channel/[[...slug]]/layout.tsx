@@ -1,9 +1,9 @@
-import ChannelBanner from '~/components/ChannelBanner';
-import ChannelInfo from '~/components/ChannelInfo';
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import Tabs, { TabIds } from '~/components/Tabs';
 import { getChannelDetails, getVideoSubscriptionStatus } from '~/services/channelService';
 import { ReactNode } from 'react';
+import ChannelBanner from '../_components/ChannelBanner';
+import ChannelInfo from '../_components/ChannelInfo';
+import Tabs, { TabIds } from '../_components/Tabs';
 
 export default async function ChannelLayout({ children, params }: { children: ReactNode; params: { slug: string[] } }) {
   const [channelId, tabId] = params.slug;

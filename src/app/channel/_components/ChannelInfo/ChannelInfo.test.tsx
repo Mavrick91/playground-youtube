@@ -3,7 +3,7 @@ import { youtube_v3 } from 'googleapis';
 import { formatNumber } from '~/lib/utils';
 import ChannelSubscribeButton from '~/components/shared/ChannelSubscribeButton';
 import { useUser } from '~/providers/UserProvider';
-import ChannelInfo from '.';
+import ChannelInfo from './index';
 
 jest.mock('~/providers/UserProvider', () => ({
   useUser: jest.fn().mockReturnValue({

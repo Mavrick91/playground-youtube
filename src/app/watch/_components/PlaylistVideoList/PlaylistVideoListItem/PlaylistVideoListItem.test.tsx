@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
-import PlaylistVideoListItem from '.';
+import PlaylistVideoListItem from './index';
 
 jest.mock('next/navigation', () => ({
   ...jest.requireActual('next/navigation'),

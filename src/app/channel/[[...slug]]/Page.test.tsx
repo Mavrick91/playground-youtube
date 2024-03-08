@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import PlaylistPage from '~/components/TabComponents/Playlist';
-import VideosPage from '~/components/TabComponents/Videos';
+import PlaylistPage from '~/app/channel/_components/TabComponents/Playlist';
+import VideosPage from '~/app/channel/_components/TabComponents/Videos';
 import Page from './page';
 
-jest.mock('~/components/TabComponents/Videos', () => jest.fn(() => null));
-jest.mock('~/components/TabComponents/Playlist', () => jest.fn(() => null));
+jest.mock('~/app/channel/_components/TabComponents/Videos', () => jest.fn(() => null));
+jest.mock('~/app/channel/_components/TabComponents/Playlist', () => jest.fn(() => null));
 
 describe('Page Component', () => {
   test('Renders PlaylistPage when tabId is Playlist', () => {

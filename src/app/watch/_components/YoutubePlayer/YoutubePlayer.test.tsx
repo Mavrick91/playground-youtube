@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import ReactPlayer from 'react-player';
 import { youtube_v3 } from 'googleapis';
 import { usePlaylist } from '~/providers/PlaylistProvider';
-import YoutubePlayer from '.';
+import YoutubePlayer from './index';
 
 jest.mock('react-player', () => jest.fn(() => null));
 jest.mock('~/providers/PlaylistProvider', () => ({

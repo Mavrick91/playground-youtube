@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { usePlaylistControl } from '~/providers/PlaylistControlProvider';
 import { usePlaylist } from '~/providers/PlaylistProvider';
 import { toast } from 'react-toastify';
-import PlaylistVideoHeader, { ButtonType } from '.';
+import PlaylistVideoHeader, { ButtonType } from './index';
 
 jest.mock('react-toastify', () => ({
   toast: jest.fn(),

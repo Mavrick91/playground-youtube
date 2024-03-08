@@ -1,6 +1,6 @@
-import CommentForm from '../CommentForm';
-import CommentList from '../CommentList';
-import UpdateOrderComments from '../UpdateOrderComments';
+import CommentForm from '../../../../components/CommentForm';
+import CommentList from '../../../../components/CommentList';
+import UpdateOrderComments from '../../../../components/UpdateOrderComments';
 
 type Props = {
   commentCount: string;
