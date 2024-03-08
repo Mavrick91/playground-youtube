@@ -3,8 +3,6 @@ import { getActivitiesDetails, GetActivitiesDetailsReturn } from '~/services/act
 import getQueryClient from '~/getQueryClient';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import ChannelVideos from '~/app/channel/_components/TabComponents/Videos/ChannelVideos';
-import { Suspense } from 'react';
-import VideoLoading from '~/app/channel/_components/TabComponents/Videos/loading';
 
 type Props = {
   channelId: string;
@@ -23,9 +21,7 @@ async function VideoPage({ channelId }: Props) {
   return (
     <MaxWidthWrapper className="mb-32">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<VideoLoading />}>
-          <ChannelVideos channelId={channelId} />
-        </Suspense>
+        <ChannelVideos channelId={channelId} />
       </HydrationBoundary>
     </MaxWidthWrapper>
   );
