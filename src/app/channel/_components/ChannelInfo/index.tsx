@@ -18,7 +18,7 @@ export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoP
 
   return (
     <div className="pt-4 flex items-center">
-      <div className="relative h-[160px] aspect-square mr-6">
+      <div className="relative h-24 lg:h-40 aspect-square mr-6">
         <ClientImage
           src={channel?.snippet?.thumbnails?.high?.url || ''}
           alt="channel banner"
@@ -26,8 +26,8 @@ export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoP
           fill
         />
       </div>
-      <div className="flex flex-col gap-2 w-1/2 ">
-        <div className="font-bold text-[42px] mb-1">{channel?.snippet?.title}</div>
+      <div className="flex flex-col gap-2 w-full lg:w-1/2 ">
+        <div className="font-bold text-2xl lg:text-4xl mb-1">{channel?.snippet?.title}</div>
         <div className="text-gray-600 text-sm mb-1">
           <span>{channel?.snippet?.customUrl}</span> ‧{' '}
           <span>{formatNumber(channel?.statistics?.subscriberCount as string)} Subscriber ‧ </span>

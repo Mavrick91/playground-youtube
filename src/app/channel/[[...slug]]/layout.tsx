@@ -19,7 +19,7 @@ export default async function ChannelLayout({ children, params }: { children: Re
   const videoSubscription = await getVideoSubscriptionStatus(channel!.id!);
 
   return (
-    <section className="mb-52">
+    <section>
       <div className="overflow-auto h-screen">
         <MaxWidthWrapper>
           <ChannelBanner url={channel?.brandingSettings?.image?.bannerExternalUrl} />

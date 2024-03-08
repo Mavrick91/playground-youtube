@@ -18,7 +18,7 @@ export default async function PlaylistCard({ playlist }: Props) {
   return (
     <div>
       <Link href={`/watch?v=${playlistItems.items?.[0].contentDetails?.videoId}&list=${playlist.id}`}>
-        <div className="w-full h-[128px] relative">
+        <div className="w-full aspect-video relative">
           <div className="w-full h-full overflow-hidden relative !-top-3 scale-90 rounded-lg">
             <ClientImage
               fill

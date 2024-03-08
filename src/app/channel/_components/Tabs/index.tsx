@@ -54,6 +54,8 @@ export default function Tabs({ channelId, activeTab }: Props) {
                   'text-opacity-50': activeTab !== tab.id,
                 })}
                 key={tab.title}
+                scroll={false}
+                prefetch
               >
                 {tab.title}
                 {activeTab === tab.id && (

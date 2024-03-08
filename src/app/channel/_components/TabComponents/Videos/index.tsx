@@ -31,9 +31,9 @@ async function VideoPage({ channelId }: Props) {
 
   return (
     <MaxWidthWrapper className="mb-32">
-      <div className="grid grid-cols-12 gap-y-11 gap-x-4 mt-11">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-y-4 lg:gap-y-11 gap-x-4 mt-11">
         {videosWithStatistics.items?.map(video => (
-          <div key={video.id} className="col-span-3">
+          <div key={video.id} className="col-span-1 lg:col-span-3">
             <VideoItem
               videoTitle={video.snippet?.title}
               duration={parseISO8601Duration(video.contentDetails?.duration || '')}
