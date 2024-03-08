@@ -2,9 +2,9 @@
 
 import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
-import { getYouTubeClient } from './oauthService';
 import { getVideoDetailsWithChannels } from '~/services/videoService';
 import { VideoWithChannel } from '~/types/searchVideos';
+import { getYouTubeClient } from './oauthService';
 
 export async function getActivities(params: youtube_v3.Params$Resource$Activities$List) {
   const youtubeClient = await getYouTubeClient();
@@ -33,7 +33,7 @@ export async function getActivitiesDetails(
     maxResults: 50,
     ...params,
   });
-  console.log('😀😀', { channelActivities });
+
   const videoIds = Array.from(
     new Set(channelActivities.items?.map(getVideoIdFromItemContentDetails).filter(Boolean))
   ) as string[];
