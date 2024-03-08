@@ -1,10 +1,13 @@
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import { getActivities } from '~/services/activityService';
-import VideoItem from '~/components/VideoItem';
-import { getVideoDetailsWithChannels } from '~/services/videoService';
-import { parseISO8601Duration } from '~/lib/utils';
+import { getActivities, getActivitiesDetails, GetActivitiesDetailsReturn } from '~/services/activityService';
 import { youtube_v3 } from 'googleapis';
-import ContentNoItems from '~/components/ContentNoItems';
+import getQueryClient from '~/getQueryClient';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import ChannelVideos from '~/app/channel/_components/TabComponents/Videos/ChannelVideos';
+import { Suspense } from 'react';
+import VideoLoading from '~/app/channel/_components/TabComponents/Videos/loading';
+import { getVideoDetailsWithChannels } from '~/services/videoService';
+import { VideoListResponseWithChannel } from '~/types/searchVideos';
 
 type Props = {
   channelId: string;
@@ -16,36 +19,22 @@ function getVideoIdFromItemContentDetails(item: youtube_v3.Schema$Activity) {
 }
 
 async function VideoPage({ channelId }: Props) {
-  const channelActivities = await getActivities({
-    channelId,
-    maxResults: 10,
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['channelActivities', channelId],
+    queryFn: async ({ pageParam = '' }) => getActivitiesDetails({ channelId, maxResults: 50, pageToken: pageParam }),
+    getNextPageParam: (lastPage: GetActivitiesDetailsReturn) => lastPage.nextPageToken ?? undefined,
+    initialPageParam: '',
   });
-
-  const videoIds = Array.from(
-    new Set(channelActivities.items?.map(getVideoIdFromItemContentDetails).filter(Boolean))
-  ) as string[];
-
-  if (!videoIds.length) return <ContentNoItems />;
-
-  const videosWithStatistics = await getVideoDetailsWithChannels(videoIds);
 
   return (
     <MaxWidthWrapper className="mb-32">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-y-4 lg:gap-y-11 gap-x-4 mt-11">
-        {videosWithStatistics.items?.map(video => (
-          <div key={video.id} className="col-span-1 lg:col-span-3">
-            <VideoItem
-              videoTitle={video.snippet?.title}
-              duration={parseISO8601Duration(video.contentDetails?.duration || '')}
-              publishedAt={video.snippet?.publishedAt}
-              thumbnail={video.snippet?.thumbnails?.medium}
-              channelThumbnail={null}
-              viewCount={video.statistics?.viewCount}
-              id={video.id}
-            />
-          </div>
-        ))}
-      </div>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<VideoLoading />}>
+          <ChannelVideos channelId={channelId} />
+        </Suspense>
+      </HydrationBoundary>
     </MaxWidthWrapper>
   );
 }

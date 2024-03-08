@@ -35,7 +35,14 @@ export default function VideoItem({
   return (
     <div>
       <Link href={`/watch?v=${videoId}`} className="relative w-full aspect-video block">
-        <Image fill className="rounded-lg" src={thumbnail.url} alt="thumbails" quality={100} />
+        <Image
+          sizes="(min-width: 1204px) 298px 127px, (min-width: 768px) 298px 165px, 355px 200px"
+          fill
+          className="rounded-lg"
+          src={thumbnail.url}
+          alt="thumbails"
+          quality={100}
+        />
         <div className="absolute bottom-2 right-5 text-white bg-black/60 text-xs py-px px-1 rounded-md font-bold">
           {duration}
         </div>

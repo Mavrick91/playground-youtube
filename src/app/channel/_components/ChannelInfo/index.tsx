@@ -24,6 +24,7 @@ export default function ChannelInfo({ channel, videoSubscription }: ChannelInfoP
           alt="channel banner"
           className="w-full rounded-full"
           fill
+          sizes="(min-width: 1204px) 160px 160px, 96px 96px"
         />
       </div>
       <div className="flex flex-col gap-2 w-full lg:w-1/2 ">

@@ -3,6 +3,8 @@
 import { GaxiosResponse } from 'gaxios';
 import { youtube_v3 } from 'googleapis';
 import { getYouTubeClient } from './oauthService';
+import { getVideoDetailsWithChannels } from '~/services/videoService';
+import { VideoWithChannel } from '~/types/searchVideos';
 
 export async function getActivities(params: youtube_v3.Params$Resource$Activities$List) {
   const youtubeClient = await getYouTubeClient();
@@ -12,4 +14,34 @@ export async function getActivities(params: youtube_v3.Params$Resource$Activitie
     ...params,
   });
   return response.data;
+}
+
+function getVideoIdFromItemContentDetails(item: youtube_v3.Schema$Activity) {
+  if (item.contentDetails?.upload?.videoId) return item.contentDetails.upload.videoId;
+  return item.contentDetails?.playlistItem?.resourceId?.videoId;
+}
+
+export type GetActivitiesDetailsReturn = {
+  nextPageToken?: string | null;
+  videoDetails: VideoWithChannel[];
+};
+
+export async function getActivitiesDetails(
+  params: youtube_v3.Params$Resource$Activities$List
+): Promise<GetActivitiesDetailsReturn> {
+  const channelActivities = await getActivities({
+    maxResults: 50,
+    ...params,
+  });
+  console.log('😀😀', { channelActivities });
+  const videoIds = Array.from(
+    new Set(channelActivities.items?.map(getVideoIdFromItemContentDetails).filter(Boolean))
+  ) as string[];
+
+  const videoDetails = await getVideoDetailsWithChannels(videoIds);
+
+  return {
+    nextPageToken: channelActivities.nextPageToken,
+    videoDetails: videoDetails.items,
+  };
 }

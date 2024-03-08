@@ -4,8 +4,9 @@ import MaxWidthWrapper from '~/components/MaxWidthWrapper';
 import SubscriptionsGrid, { ApiParams } from '~/app/subscriptions/_components/SubscriptionsGrid';
 import { SUBSCRIPTIONS_ORDER_OPTIONS } from '~/constants/order';
 import FilterSubscriptions from '~/app/subscriptions/_components/FilterSubscriptions';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { youtube_v3 } from 'googleapis';
+import getQueryClient from '~/getQueryClient';
 
 function buildApiParams(searchParams: Record<string, string>): ApiParams {
   const validOrders = SUBSCRIPTIONS_ORDER_OPTIONS.map(option => option.value);
@@ -31,7 +32,7 @@ function buildApiParams(searchParams: Record<string, string>): ApiParams {
 }
 
 async function subscriptionsPage({ searchParams }: { searchParams: Record<string, string> }) {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const apiParams = buildApiParams(searchParams);
   const queryKey = ['subscriptions', ...Object.entries(searchParams).flat()];
 
