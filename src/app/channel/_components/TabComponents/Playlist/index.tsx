@@ -1,34 +1,24 @@
 import MaxWidthWrapper from '~/components/MaxWidthWrapper';
-import { getPlaylist } from '~/services/playlistService';
-import PlaylistCard from '~/components/PlaylistCard';
-import ContentNoItems from '../../../../../components/ContentNoItems';
+import { getPlaylist, PlaylistResponse } from '~/services/playlistService';
+import getQueryClient from '~/getQueryClient';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import ChannelPlaylists from './ChannelPlaylists';
 
 async function PlaylistPage({ channelId }: { channelId: string }) {
-  const playlists = await getPlaylist({
-    channelId,
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['playlist', channelId],
+    queryFn: async () => getPlaylist({ channelId }),
+    getNextPageParam: (lastPage: PlaylistResponse) => lastPage.nextPageToken ?? undefined,
+    initialPageParam: '',
   });
-
-  const hasItems = playlists.items?.some(playlist => (playlist.contentDetails?.itemCount || 0) > 0);
-
-  if (!playlists.items?.length || !hasItems) {
-    return <ContentNoItems />;
-  }
 
   return (
     <MaxWidthWrapper className="mb-32">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-1 gap-y-4 lg:gap-y-11 mt-11">
-        {playlists.items?.map(playlist => {
-          const playlistItemsCount = playlist.contentDetails?.itemCount || 0;
-
-          if (!playlistItemsCount) return null;
-
-          return (
-            <div key={playlist.id} className="col-span-1 lg:col-span-2">
-              <PlaylistCard playlist={playlist} />
-            </div>
-          );
-        })}
-      </div>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ChannelPlaylists channelId={channelId} />
+      </HydrationBoundary>
     </MaxWidthWrapper>
   );
 }

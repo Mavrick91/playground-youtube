@@ -1,23 +1,19 @@
-import { youtube_v3 } from 'googleapis';
 import ClientImage from '~/components/ClientImage';
 import { AlignLeft, Play } from 'lucide-react';
 import Link from 'next/link';
-import { getPlaylistItems } from '~/services/playlistService';
 import React from 'react';
+import { Playlist } from '~/services/playlistService';
 
 type Props = {
-  playlist: youtube_v3.Schema$Playlist;
+  playlist: Playlist;
 };
 
 export default async function PlaylistCard({ playlist }: Props) {
-  const playlistItems = await getPlaylistItems({
-    playlistId: playlist.id || '',
-  });
   const playlistItemsCount = playlist.contentDetails?.itemCount || 0;
 
   return (
     <div>
-      <Link href={`/watch?v=${playlistItems.items?.[0].contentDetails?.videoId}&list=${playlist.id}`}>
+      <Link href={`/watch?v=${playlist.firstVideo?.contentDetails?.videoId}&list=${playlist.id}`}>
         <div className="w-full aspect-video relative">
           <div className="w-full h-full overflow-hidden relative !-top-3 scale-90 rounded-lg">
             <ClientImage
