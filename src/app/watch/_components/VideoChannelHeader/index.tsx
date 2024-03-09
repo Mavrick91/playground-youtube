@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { formatNumber } from '~/lib/utils';
 import { deleteYoutubeSubscription, subscribeYoutubeChannel } from '~/services/channelService';
 import { rateYoutubeVideo } from '~/services/videoService';
-import ClientImage from '../ClientImage';
+import ClientImage from '~/components/ClientImage';
+import ChannelSubscribeButton from '~/components/shared/ChannelSubscribeButton';
 import ChannelInteractionButtons from './ChannelInteractionButtons';
-import ChannelSubscribeButton from '../shared/ChannelSubscribeButton';
 
 type Props = {
   video: youtube_v3.Schema$Video;
