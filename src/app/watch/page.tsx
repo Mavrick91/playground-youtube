@@ -26,9 +26,29 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
   ]);
 
   return (
-    <div className="flex py-6 mb-16">
-      <div className="lg:pr-6 w-full lg:w-9/12">
-        <YoutubePlayer video={video} />
+    <div className="flex flex-col py-6 mb-16">
+      <div className="flex flex-col lg:flex-row">
+        <div className="lg:w-9/12 lg:pr-6">
+          <YoutubePlayer video={video} />
+        </div>
+        {playlistId && (
+          <div className="my-5 lg:my-0 lg:w-3/12">
+            <ErrorBoundary
+              callback={async () => {
+                'use server';
+
+                return navigate(`/watch?v=${searchParams.v}`);
+              }}
+            >
+              <Suspense fallback={<LoadingPlaylistVideoList />}>
+                <PlaylistVideoList playlistId={playlistId} />
+              </Suspense>
+            </ErrorBoundary>
+          </div>
+        )}
+      </div>
+
+      <div className="lg:w-9/12 lg:pr-6">
         <VideoChannelHeader
           video={video}
           channel={channel}
@@ -45,21 +65,6 @@ export default async function WatchPage({ searchParams }: { searchParams: { v: s
           <CommentSection commentCount={video?.statistics?.commentCount || ''} videoId={videoId} />
         </OrderCommentsProvider>
       </div>
-      {playlistId && (
-        <div className="lg:w-3/12">
-          <ErrorBoundary
-            callback={async () => {
-              'use server';
-
-              return navigate(`/watch?v=${searchParams.v}`);
-            }}
-          >
-            <Suspense fallback={<LoadingPlaylistVideoList />}>
-              <PlaylistVideoList playlistId={playlistId} />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      )}
     </div>
   );
 }

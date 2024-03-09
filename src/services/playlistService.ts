@@ -4,7 +4,7 @@ import { getYouTubeClient } from '~/services/oauthService';
 import { youtube_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 
-const getPlaylistItems = async (params: youtube_v3.Params$Resource$Playlistitems$List) => {
+export const getPlaylistItems = async (params: youtube_v3.Params$Resource$Playlistitems$List) => {
   const youtubeClient = await getYouTubeClient();
 
   const response: GaxiosResponse<youtube_v3.Schema$PlaylistItemListResponse> = await youtubeClient.playlistItems.list({
